@@ -54,8 +54,6 @@ public class GameLoop {
         // Add to loop
         gameLoop.getKeyFrames().clear();
         gameLoop.getKeyFrames().add(mainFrame);
-
-
     }
 
     private void setupGameEventsFilter() {
@@ -146,6 +144,7 @@ public class GameLoop {
 
                 if (collision) {
                     // TODO Do something (raise an event)
+                    System.out.println("Collision detected");
                 }
             }
         }

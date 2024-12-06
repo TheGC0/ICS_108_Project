@@ -12,6 +12,9 @@ public record LineCollider(Line line) implements Collidable {
         if (otherCollidable instanceof CircleCollider otherCircleCollider) {
             return CollisionsDetector.detectCollisionCircleLine(otherCircleCollider.circle(), line);
         }
+        if (otherCollidable instanceof PolygonCollider otherPolygonCollider) {
+            return otherPolygonCollider.detectCollision(this);
+        }
         throw new UnsupportedOperationException("Collision not supported");
     }
 }

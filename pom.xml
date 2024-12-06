@@ -61,7 +61,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>org.ics.flying_stars/org.ics.flying_stars.HelloWorldTest</mainClass>
+                            <mainClass>org.ics.flying_stars/org.ics.flying_stars.tests.HelloWorldTest</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

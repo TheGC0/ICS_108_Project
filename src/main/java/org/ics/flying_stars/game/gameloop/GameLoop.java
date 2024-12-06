@@ -42,7 +42,7 @@ public class GameLoop {
         setupLoop();
 
         // Set up game event filter
-        setupGameEventsFilter();
+//        setupGameEventsFilter();
     }
 
     private void setupLoop() {
@@ -99,14 +99,15 @@ public class GameLoop {
     private void handle(ActionEvent event) {
         drawFrame();
         detectCollisions();
-        fireEvents();
+//        fireEvents();
     }
 
     private void fireEvents() {
         // Re-fire all events in gameEvents while emptying queue
         while (!gameEvents.isEmpty()) {
             Event gameEvent = gameEvents.removeFirst();
-            
+            System.out.println(gameEvent);
+
             // Trigger event
             Node gameEventTarget = (Node) gameEvent.getTarget();
             gameEventTarget.fireEvent(gameEvent);

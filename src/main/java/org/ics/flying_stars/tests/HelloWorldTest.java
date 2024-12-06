@@ -1,4 +1,4 @@
-package org.ics.flying_stars;
+package org.ics.flying_stars.tests;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

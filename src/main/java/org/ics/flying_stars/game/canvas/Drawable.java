@@ -1,4 +1,8 @@
 package org.ics.flying_stars.game.canvas;
 
-public abstract class Drawable {
+import javafx.scene.canvas.GraphicsContext;
+
+public interface Drawable {
+
+    void draw(GraphicsContext context);
 }

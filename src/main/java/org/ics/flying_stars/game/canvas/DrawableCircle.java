@@ -16,16 +16,16 @@ public class DrawableCircle extends Circle implements Drawable {
     public void draw(GraphicsContext context) {
         if (fill) {
             context.fillOval(
-                    circle.getX() - circle.getRadius(),
-                    circle.getY() - circle.getRadius(),
-                    circle.getRadius() * 2,
-                    circle.getRadius() * 2);
+                    getX() - getRadius(),
+                    getY() - getRadius(),
+                    getRadius() * 2,
+                    getRadius() * 2);
         } else {
             context.strokeOval(
-                    circle.getX() - circle.getRadius(),
-                    circle.getY() - circle.getRadius(),
-                    circle.getRadius() * 2,
-                    circle.getRadius() * 2);
+                    getX() - getRadius(),
+                    getY() - getRadius(),
+                    getRadius() * 2,
+                    getRadius() * 2);
         }
     }
 }

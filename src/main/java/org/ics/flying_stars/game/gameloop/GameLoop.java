@@ -87,6 +87,10 @@ public class GameLoop {
         gameLoop.stop();
     }
 
+    public Animation.Status status() {
+        return gameLoop.getStatus();
+    }
+
     public ArrayList<Collidable> getCollidables() {
         return collidables;
     }

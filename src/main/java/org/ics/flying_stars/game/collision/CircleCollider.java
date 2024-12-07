@@ -1,6 +1,6 @@
 package org.ics.flying_stars.game.collision;
 
-import org.ics.flying_stars.game.canvas.Sprite;
+import org.ics.flying_stars.game.sprites.Sprite;
 import org.ics.flying_stars.game.geometry.Circle;
 
 public record CircleCollider(Circle circle) implements Collidable {

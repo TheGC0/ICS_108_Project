@@ -10,7 +10,7 @@ public class Polygon {
             throw new UnsupportedOperationException("Polygon cannot have less than 3 points");
         }
         vertices = points;
-        edges = new Line[points.length - 1];
+        edges = new Line[points.length];
 
         // Create edges
         createEdges();

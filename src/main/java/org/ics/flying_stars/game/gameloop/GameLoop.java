@@ -17,7 +17,16 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 
-public class GameLoop {
+/**
+ * The GameLoop class
+ * <p>
+ * This class takes a Canvas and handles drawing and collision detecting
+ * <p>
+ * To add an object to draw, add the object to the drawables arraylist
+ * <p>
+ * To add an object to detect collisions for, add the object to the collidables arraylist
+ */
+public final class GameLoop {
     private final Canvas gameCanvas;
     private final ArrayList<Collidable> collidables;
     private final ArrayList<Drawable> drawables;
@@ -26,6 +35,10 @@ public class GameLoop {
 
     private int frames;
 
+    /**
+     * @param framesPerSecond The number of frames to draw each second (This is also for the collision detecting loop)
+     * @param canvas The canvas to draw on
+     */
     public GameLoop(int framesPerSecond, Canvas canvas) {
         // Set frames and graphics context
         gameCanvas = canvas;
@@ -45,11 +58,14 @@ public class GameLoop {
 //        setupGameEventsFilter();
     }
 
+    /**
+     * Set up the game loop
+     */
     private void setupLoop() {
         // Create main frame to loop over
         KeyFrame mainFrame = new KeyFrame(
                 Duration.seconds(1.0 / frames),
-                this::handle
+                this::handle // Assign a function to handle each frame
         );
         // Add to loop
         gameLoop.getKeyFrames().clear();
@@ -75,31 +91,55 @@ public class GameLoop {
         );
     }
 
+    /**
+     * Start the game loop
+     */
     public void start() {
         gameLoop.play();
     }
 
+    /**
+     * Pause the game loop
+     */
     public void pause() {
         gameLoop.pause();
     }
 
+    /**
+     * Stop the game loop
+     */
     public void stop() {
         gameLoop.stop();
     }
 
+    /**
+     * Returns the status of the game loop (PAUSED, RUNNING, STOPPED)
+     * @return The status of the game loop
+     */
     public Animation.Status status() {
         return gameLoop.getStatus();
     }
 
+    /**
+     * Returns the arraylist of collidables to add or remove from
+     * @return The collidables arraylist
+     */
     public ArrayList<Collidable> getCollidables() {
         return collidables;
     }
 
+    /**
+     * Returns the arraylist of drawables to add or remove from
+     * @return The drawables arraylist
+     */
     public ArrayList<Drawable> getDrawables() {
         return drawables;
     }
 
 
+    /**
+     * Handle this frame
+     */
     private void handle(ActionEvent event) {
         drawFrame();
         detectCollisions();
@@ -118,6 +158,9 @@ public class GameLoop {
         }
     }
 
+    /**
+     * Clear the canvas
+     */
     private void clear() {
         // Get canvas size
         double width = gameCanvas.getWidth();
@@ -127,6 +170,9 @@ public class GameLoop {
         gameCanvas.getGraphicsContext2D().clearRect(0, 0, width, height);
     }
 
+    /**
+     * Draw all drawables onto the canvas
+     */
     private void drawFrame() {
         // Clear canvas
         clear();
@@ -137,6 +183,9 @@ public class GameLoop {
         }
     }
 
+    /**
+     * Detect collisions for all collidables
+     */
     private void detectCollisions() {
         // Loop over every collidable and compare it to every other collidable
         for (int i=0; i < collidables.size(); i++) {

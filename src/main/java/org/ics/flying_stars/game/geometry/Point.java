@@ -1,5 +1,8 @@
 package org.ics.flying_stars.game.geometry;
 
+/**
+ * A class that stores the information of a 2D point
+ */
 public class Point {
     private int x;
     private int y;
@@ -30,6 +33,11 @@ public class Point {
         this.y = y;
     }
 
+    /**
+     * Calculates and returns the distance from another point
+     * @param otherPoint The other point to calculate distance from
+     * @return The distance between this point and the other point
+     */
     public double distanceFrom(Point otherPoint) {
         // Distance formula
         int deltaX = otherPoint.x - x;

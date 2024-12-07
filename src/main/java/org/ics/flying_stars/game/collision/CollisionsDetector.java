@@ -3,7 +3,16 @@ package org.ics.flying_stars.game.collision;
 import org.ics.flying_stars.game.geometry.Circle;
 import org.ics.flying_stars.game.geometry.Line;
 
+/**
+ * A mathematical helper class that detects collisions between basic geometry objects
+ */
 public class CollisionsDetector {
+    /**
+     * Detects if there is a collision between the 2 given circles
+     * @param circle The circle
+     * @param otherCircle The other circle
+     * @return true if a collision is detected
+     */
     public static boolean detectCollision2Circles(Circle circle, Circle otherCircle) {
         // A mathematical check to detect circle collision (I do understand this :) )
         double distance = circle.getCenter().distanceFrom(otherCircle.getCenter());
@@ -12,6 +21,12 @@ public class CollisionsDetector {
         return distance <= radiiSum;
     }
 
+    /**
+     * Detects if there is a collision between the 2 given lines (segments)
+     * @param line The line
+     * @param otherLine The other line
+     * @return true if a collision is detected
+     */
     public static boolean detectCollision2Lines(Line line, Line otherLine) {
         // A mathematical method to detect collision between 2 lines (I do understand this :) )
 
@@ -52,6 +67,12 @@ public class CollisionsDetector {
         return onSegmentOne && onSegmentTwo;
     }
 
+    /**
+     * Detects if there is a collision between the given circle and line
+     * @param circle The circle
+     * @param line The line (segment)
+     * @return true if a collision is detected
+     */
     public static boolean detectCollisionCircleLine(Circle circle, Line line) {
         // A mathematical method to detect collision between circle and line (I don't understand this :/)
         // Used long due to overflow issues

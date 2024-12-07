@@ -54,21 +54,18 @@ public class CollisionsDetector {
 
     public static boolean detectCollisionCircleLine(Circle circle, Line line) {
         // A mathematical method to detect collision between circle and line (I don't understand this :/)
-        int deltaX = line.endPoint().getX() - line.startPoint().getX();
-        int deltaY = line.endPoint().getY() - line.startPoint().getY();
+        // Used long due to overflow issues
+        long deltaX = line.endPoint().getX() - line.startPoint().getX();
+        long deltaY = line.endPoint().getY() - line.startPoint().getY();
 
-        int deltaXCenter = line.startPoint().getX() - circle.getX();
-        int deltaYCenter = line.startPoint().getY() - circle.getY();
+        long deltaXCenter = line.startPoint().getX() - circle.getX();
+        long deltaYCenter = line.startPoint().getY() - circle.getY();
 
-        int a = deltaX * deltaX + deltaY * deltaY;
-        int b = 2 * (deltaX * deltaXCenter + deltaY * deltaYCenter);
-        int c = (circle.getX() * circle.getX() + circle.getY() * circle.getY()) +
-                (line.startPoint().getX() * line.startPoint().getX()) +
-                (line.startPoint().getY() * line.startPoint().getY()) -
-                2 * (circle.getX() * line.startPoint().getX() + circle.getY() * line.startPoint().getY()) -
-                (circle.getRadius() * circle.getRadius());
+        long a = deltaX * deltaX + deltaY * deltaY;
+        long b = 2 * (deltaX * deltaXCenter + deltaY * deltaYCenter);
+        long c =  deltaXCenter * deltaXCenter + deltaYCenter * deltaYCenter - (long) circle.getRadius() * circle.getRadius();;
 
-        int determinant = b * b - 4 * a * c;
+        long determinant = b * b - 4 * a * c;
         if (determinant < 0) {
             return false; // No intersection
         }
@@ -78,7 +75,6 @@ public class CollisionsDetector {
         double t1 = (-b - sqrtDet) / (2 * a);
 
         return (t0 >= 0 && t0 <= 1) || (t1 >= 0 && t1 <= 1);
-
     }
 
 }

@@ -12,8 +12,4 @@ public class SettingsUI extends AbstractUI {
 
     }
 
-    @Override
-    public void addButton(java.awt.Button button) {
-
-    }
 }

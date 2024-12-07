@@ -7,11 +7,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
 public class LosingScreenUI extends AbstractUI{
-    @Override
-    public void addButton(java.awt.Button button) {
-
-    }
-
     public LosingScreenUI(String title, String imagePath) {
         super(title, imagePath);
     }

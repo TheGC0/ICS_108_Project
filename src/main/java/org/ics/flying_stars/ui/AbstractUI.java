@@ -56,6 +56,4 @@ public abstract class AbstractUI {
 
     }
 
-
-    public abstract void addButton(java.awt.Button button);
 }

@@ -12,10 +12,5 @@ public class PauseMenuUI extends AbstractUI{
 
     }
 
-    @Override
-    public void addButton(java.awt.Button button) {
-
-    }
-
 
 }

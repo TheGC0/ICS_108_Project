@@ -31,4 +31,5 @@ public final class PolygonCollider implements Collidable {
         }
         return false;
     }
+
 }

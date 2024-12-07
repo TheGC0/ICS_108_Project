@@ -2,8 +2,16 @@ package org.ics.flying_stars.game.canvas;
 
 import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.game.geometry.Circle;
+import org.ics.flying_stars.game.geometry.Point;
 
-public record DrawableCircle(Circle circle, boolean fill) implements Drawable {
+public class DrawableCircle extends Circle implements Drawable {
+    private final boolean fill;
+
+    public DrawableCircle(int radius, Point center, boolean fill) {
+        super(radius, center);
+        this.fill = fill;
+    }
+
     @Override
     public void draw(GraphicsContext context) {
         if (fill) {

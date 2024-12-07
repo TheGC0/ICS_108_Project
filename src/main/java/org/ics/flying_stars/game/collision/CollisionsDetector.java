@@ -69,7 +69,16 @@ public class CollisionsDetector {
                 (circle.getRadius() * circle.getRadius());
 
         int determinant = b * b - 4 * a * c;
-        return determinant >= 0;
+        if (determinant < 0) {
+            return false; // No intersection
+        }
+
+        double sqrtDet = Math.sqrt(determinant);
+        double t0 = (-b + sqrtDet) / (2 * a);
+        double t1 = (-b - sqrtDet) / (2 * a);
+
+        return (t0 >= 0 && t0 <= 1) || (t1 >= 0 && t1 <= 1);
+
     }
 
 }

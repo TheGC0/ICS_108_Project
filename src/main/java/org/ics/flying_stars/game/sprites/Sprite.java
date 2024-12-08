@@ -4,7 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.game.canvas.Drawable;
 import org.ics.flying_stars.game.collision.Collidable;
 
-public abstract class Sprite implements Drawable, Collidable {
+public abstract class Sprite implements Drawable, Collidable, Movable {
     private final Collidable collidable;
     private final Drawable drawable;
 

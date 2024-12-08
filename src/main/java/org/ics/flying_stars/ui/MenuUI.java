@@ -14,7 +14,7 @@ public class MenuUI extends AbstractUI{
     public MenuUI() {
         super("Flying Stars");
 
-        // setting the buttons for losing screen ui
+        // setting the buttons for menu ui
         Button play = new Button("play");
         Button settings = new Button("Settings");
         Button exit = new Button("Exit");

@@ -21,7 +21,7 @@ public class Circle {
         return center;
     }
 
-    public int getX() {
+    public double getX() {
         return center.getX();
     }
 
@@ -29,7 +29,7 @@ public class Circle {
         center.setX(x);
     }
 
-    public int getY() {
+    public double getY() {
         return center.getY();
     }
 

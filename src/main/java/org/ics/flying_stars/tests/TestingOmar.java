@@ -16,25 +16,57 @@ import org.ics.flying_stars.game.collision.CircleCollider;
 import org.ics.flying_stars.game.collision.LineCollider;
 import org.ics.flying_stars.game.collision.PolygonCollider;
 import org.ics.flying_stars.game.gameloop.GameLoop;
+import org.ics.flying_stars.game.geometry.Circle;
 import org.ics.flying_stars.game.geometry.Point;
+import org.ics.flying_stars.game.geometry.Vector2D;
+import org.ics.flying_stars.game.sprites.Sprite;
 
 public class TestingOmar extends Application {
+
+    public static class CircleSprite extends Sprite {
+        private final DrawableCircle circle;
+        private Vector2D velocity = new Vector2D(0, 0);
+        private Point mousePosition;
+        public CircleSprite(DrawableCircle circle) {
+            super(circle, new CircleCollider(circle));
+            this.circle = circle;
+        }
+
+        @Override
+        public void move(int physicsFrames) {
+            Vector2D vector = circle.getCenter().getUnitVectorFrom(mousePosition);
+            double scale = mousePosition.distanceFrom(circle.getCenter()) / physicsFrames * 5;
+            vector.scale(scale);
+            setVelocity(vector);
+            circle.getCenter().setXY(velocity.getX() + circle.getX(), (velocity.getY() + circle.getY()));
+        }
+        public void setVelocity(Vector2D velocity) {
+            this.velocity = velocity;
+        }
+
+        public void setMousePosition(Point mousePosition) {
+            this.mousePosition = mousePosition;
+        }
+    }
+
     @Override
     public void start(Stage stage) {
         Canvas canvas = new Canvas();
-        canvas.setWidth(300);
-        canvas.setHeight(300);
+        canvas.setWidth(1000);
+        canvas.setHeight(1000);
         Pane pane = new Pane();
         pane.setMinSize(300, 300);
         pane.getChildren().add(canvas);
 
         GameLoop gameLoop = new GameLoop(600, canvas);
 
-        DrawableCircle playerCircle = new DrawableCircle(10, new Point(100,100), true);
-        CircleCollider playerCollider = new CircleCollider(playerCircle);
 
-        gameLoop.getDrawables().add(playerCircle);
-        gameLoop.getCollidables().add(playerCollider);
+        DrawableCircle playerCircle = new DrawableCircle(10, new Point(100,100), true);
+        CircleSprite playerSprite = new CircleSprite(playerCircle);
+
+        gameLoop.getDrawables().add(playerSprite);
+        gameLoop.getCollidables().add(playerSprite);
+        gameLoop.getMovables().add(playerSprite);
 
         DrawableLine wallLine = new DrawableLine(new Point(50, 50), new Point(100, 100));
         LineCollider wallCollider = new LineCollider(wallLine);
@@ -62,12 +94,14 @@ public class TestingOmar extends Application {
         gameLoop.getCollidables().add(starCollider);
 
         stage.setScene(new Scene(pane));
-        stage.setWidth(300);
-        stage.setHeight(300);
+        stage.setWidth(1000);
+        stage.setHeight(1000);
         stage.show();
 
-        pane.addEventHandler(MouseEvent.MOUSE_MOVED, event -> {
-            playerCircle.getCenter().setXY((int) event.getX(), (int) event.getY());
+        pane.addEventHandler(MouseEvent.ANY, event -> {
+
+            Point mousePoint = new Point(event.getX(), event.getY());
+            playerSprite.setMousePosition(mousePoint);
         });
 
         // Test pausing

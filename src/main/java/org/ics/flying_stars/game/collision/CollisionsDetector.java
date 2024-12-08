@@ -31,15 +31,15 @@ public class CollisionsDetector {
         // A mathematical method to detect collision between 2 lines (I do understand this :) )
 
         // Find slopes
-        int deltaX1 = line.endPoint().getX() - line.startPoint().getX();
-        int deltaY1 = line.endPoint().getY() - line.startPoint().getY();
+        double deltaX1 = line.endPoint().getX() - line.startPoint().getX();
+        double deltaY1 = line.endPoint().getY() - line.startPoint().getY();
 
         double m1 = (1.0 * deltaY1) / deltaX1;
 
-        int deltaX2 = otherLine.endPoint().getX() - otherLine.startPoint().getX();
-        int deltaY2 = otherLine.endPoint().getY() - otherLine.startPoint().getY();
+        double deltaX2 = otherLine.endPoint().getX() - otherLine.startPoint().getX();
+        double deltaY2 = otherLine.endPoint().getY() - otherLine.startPoint().getY();
 
-        double m2 = (1.0 * deltaY2) / deltaX2;
+        double m2 = (deltaY2) / deltaX2;
 
         if (m1 == m2) {
             return false;
@@ -76,17 +76,17 @@ public class CollisionsDetector {
     public static boolean detectCollisionCircleLine(Circle circle, Line line) {
         // A mathematical method to detect collision between circle and line (I don't understand this :/)
         // Used long due to overflow issues
-        long deltaX = line.endPoint().getX() - line.startPoint().getX();
-        long deltaY = line.endPoint().getY() - line.startPoint().getY();
+        double deltaX = line.endPoint().getX() - line.startPoint().getX();
+        double deltaY = line.endPoint().getY() - line.startPoint().getY();
 
-        long deltaXCenter = line.startPoint().getX() - circle.getX();
-        long deltaYCenter = line.startPoint().getY() - circle.getY();
+        double deltaXCenter = line.startPoint().getX() - circle.getX();
+        double deltaYCenter = line.startPoint().getY() - circle.getY();
 
-        long a = deltaX * deltaX + deltaY * deltaY;
-        long b = 2 * (deltaX * deltaXCenter + deltaY * deltaYCenter);
-        long c =  deltaXCenter * deltaXCenter + deltaYCenter * deltaYCenter - (long) circle.getRadius() * circle.getRadius();;
+        double a = deltaX * deltaX + deltaY * deltaY;
+        double b = 2 * (deltaX * deltaXCenter + deltaY * deltaYCenter);
+        double c =  deltaXCenter * deltaXCenter + deltaYCenter * deltaYCenter - circle.getRadius() * circle.getRadius();;
 
-        long determinant = b * b - 4 * a * c;
+        double determinant = b * b - 4 * a * c;
         if (determinant < 0) {
             return false; // No intersection
         }

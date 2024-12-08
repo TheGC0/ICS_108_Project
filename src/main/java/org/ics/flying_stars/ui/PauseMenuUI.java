@@ -13,7 +13,7 @@ public class PauseMenuUI extends AbstractUI{
     public PauseMenuUI() {
         super("Pause");
 
-        // setting the buttons for losing screen ui
+        // setting the buttons for pause menu ui
         Button resume = new Button("Resume");
         Button settings = new Button("Settings");
         Button restart = new Button("Restart");

@@ -24,6 +24,7 @@ import java.util.ArrayList;
  * To add an object to detect collisions for, add the object to the collidables arraylist
  */
 public final class GameLoop {
+    private final int PHYSICS_LOOP_FRAMES = 60;
 
     private final Canvas gameCanvas;
     private final ArrayList<Collidable> collidables;
@@ -78,7 +79,6 @@ public final class GameLoop {
      */
     private void setupPhysicsLoop() {
         // Create main physics frame to loop over
-        int PHYSICS_LOOP_FRAMES = 60;
         KeyFrame physicsFrame = new KeyFrame(
                 Duration.seconds(1.0 / PHYSICS_LOOP_FRAMES),
                 this::handlePhysicsFrame // Assign a function to handle each frame
@@ -93,6 +93,7 @@ public final class GameLoop {
      */
     public void start() {
         gameLoop.play();
+        physicsLoop.play();
     }
 
     /**
@@ -100,6 +101,7 @@ public final class GameLoop {
      */
     public void pause() {
         gameLoop.pause();
+        physicsLoop.pause();
     }
 
     /**
@@ -107,6 +109,7 @@ public final class GameLoop {
      */
     public void stop() {
         gameLoop.stop();
+        physicsLoop.stop();
     }
 
     /**
@@ -131,6 +134,14 @@ public final class GameLoop {
      */
     public ArrayList<Drawable> getDrawables() {
         return drawables;
+    }
+
+    /**
+     * Returns the arraylist of movables to add or remove from
+     * @return The movables arraylist
+     */
+    public ArrayList<Movable> getMovables() {
+        return movables;
     }
 
     public void setFramesPerSecond(int newFrames) {
@@ -169,10 +180,21 @@ public final class GameLoop {
     }
 
     /**
-     * Handle this drawing frame
+     * Handle this physics frame
      */
     private void handlePhysicsFrame(ActionEvent event) {
+        moveObjects();
         detectCollisions();
+    }
+
+    /**
+     * Move all movables
+     */
+    private void moveObjects() {
+        // Move all movables
+        for (Movable movable: movables) {
+            movable.move(PHYSICS_LOOP_FRAMES);
+        }
     }
 
     /**

@@ -1,43 +1,44 @@
 package org.ics.flying_stars.ui;
 
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
 
 import static javafx.application.Application.launch;
 
 public class LosingScreenUI extends AbstractUI{
     private final Button tryingButton;
+    private final Button settingsButton;
+    private final Button exitButton;
 
     public LosingScreenUI() {
-        super();
-        GridPane gridPane = new GridPane();
+        super("You Lost!!");
 
-        Label losingMessage = new Label("You lost!");
-        losingMessage.setStyle("-fx-text-fill: red;");
+
 
         Button TryAgain = new Button("Try Again");
         Button Settings = new Button("Settings");
         Button Exit = new Button("Exit");
 
-        gridPane.setPadding(new Insets(100,250,100,250));
-        gridPane.setHgap(50);
-        gridPane.setVgap(50);
+        rootGridPane.add(TryAgain, 1, 1);
+        rootGridPane.add(Settings, 1, 2);
+        rootGridPane.add(Exit, 1, 3);
 
-        gridPane.add(losingMessage, 0, 1);
-        gridPane.add(TryAgain, 1, 1);
-        gridPane.add(Settings, 2, 1);
-        gridPane.add(Exit, 3, 1);
-
-        root = gridPane;
         tryingButton = TryAgain;
-    }
+        settingsButton = Settings;
+        exitButton = Exit;
 
-    public static void main(String[] args) { launch(args); }
+    }
 
     public Button tryingButton() {
         return tryingButton;
     }
+    public Button settingsButton() {
+        return settingsButton;
+    }
+    public Button exitButton() {
+        return exitButton;
+    }
+
+
 }

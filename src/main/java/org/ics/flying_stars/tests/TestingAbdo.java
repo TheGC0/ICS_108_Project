@@ -8,7 +8,7 @@ import org.ics.flying_stars.ui.MenuUI;
 import org.ics.flying_stars.ui.PauseMenuUI;
 import org.ics.flying_stars.ui.SettingsUI;
 
-
+// testing
 public class TestingAbdo extends Application {
 
     @Override
@@ -21,12 +21,8 @@ public class TestingAbdo extends Application {
         stage.show();
 
 
-        menu.settingsButton().setOnAction(event -> {
-            System.out.println("Settings");
-        });
-        menu.exitButton().setOnAction(event -> {
-            stage.close();
-        });
+        menu.settingsButton().setOnAction(event -> System.out.println("Settings"));
+        menu.exitButton().setOnAction(event -> stage.close());
         menu.playButton().setOnAction(event -> {
             PauseMenuUI pause = new PauseMenuUI();
             scene.setRoot(pause.getRoot());

@@ -11,7 +11,6 @@ public class SettingsUI extends AbstractUI {
 
         //TODO: ALI
 
-        //rootGridPane.add()
     }
 
 }

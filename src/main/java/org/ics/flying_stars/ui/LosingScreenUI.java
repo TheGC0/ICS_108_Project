@@ -1,43 +1,45 @@
 package org.ics.flying_stars.ui;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 import static javafx.application.Application.launch;
 
 public class LosingScreenUI extends AbstractUI{
+    // making buttons
     private final Button tryingButton;
     private final Button settingsButton;
-    private final Button exitButton;
+    private final Button backToMainMenuButton;
 
     public LosingScreenUI() {
         super("You Lost!!");
 
 
+        // setting the buttons for losing screen ui
+        Button tryAgain = new Button("Try Again");
+        Button settings = new Button("Settings");
+        Button backToMainMenu = new Button("Exit");
 
-        Button TryAgain = new Button("Try Again");
-        Button Settings = new Button("Settings");
-        Button Exit = new Button("Exit");
+        // Setting the buttons locations
+        rootGridPane.add(tryAgain, 1, 1);
+        rootGridPane.add(settings, 1, 2);
+        rootGridPane.add(backToMainMenu, 1, 3);
 
-        rootGridPane.add(TryAgain, 1, 1);
-        rootGridPane.add(Settings, 1, 2);
-        rootGridPane.add(Exit, 1, 3);
-
-        tryingButton = TryAgain;
-        settingsButton = Settings;
-        exitButton = Exit;
+        // Initializing the buttons
+        tryingButton = tryAgain;
+        settingsButton = settings;
+        backToMainMenuButton = backToMainMenu;
 
     }
 
+    // buttons setters
     public Button tryingButton() {
         return tryingButton;
     }
     public Button settingsButton() {
         return settingsButton;
     }
-    public Button exitButton() {
-        return exitButton;
+    public Button backToMainMenuButton() {
+        return backToMainMenuButton;
     }
 
 

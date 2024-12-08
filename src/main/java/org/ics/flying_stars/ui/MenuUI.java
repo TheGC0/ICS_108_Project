@@ -1,16 +1,15 @@
 package org.ics.flying_stars.ui;
 
-import javafx.scene.control.Button;
+import javafx.scene.layout.Pane;
 
 public class MenuUI extends AbstractUI{
-
-    public MenuUI(String title, String imagePath){
-        super(title, imagePath);
+    @Override
+    public Pane getRoot() {
+        return null;
     }
 
-    @Override
-    public void addButton(Button button) {
-
+    public MenuUI() {
+        super();
     }
 
 

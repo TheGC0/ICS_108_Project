@@ -7,15 +7,12 @@ import org.ics.flying_stars.game.canvas.Drawable;
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
-import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
+import org.ics.flying_stars.game.sprites.Movable;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Deque;
 
 /**
  * The GameLoop class
@@ -27,11 +24,14 @@ import java.util.Deque;
  * To add an object to detect collisions for, add the object to the collidables arraylist
  */
 public final class GameLoop {
+    private final int PHYSICS_LOOP_FRAMES = 60;
+
     private final Canvas gameCanvas;
     private final ArrayList<Collidable> collidables;
     private final ArrayList<Drawable> drawables;
+    private final ArrayList<Movable> movables;
     private final Timeline gameLoop;
-    private final Deque<Event> gameEvents;
+    private final Timeline physicsLoop;
 
     private int frames;
 
@@ -45,50 +45,47 @@ public final class GameLoop {
         frames = framesPerSecond;
 
         // Initialize default values
+        movables = new ArrayList<>();
         drawables = new ArrayList<>();
         collidables = new ArrayList<>();
-        gameEvents = new ArrayDeque<>();
 
-        // Set up loop
+        // Set up drawing and physics loop
         gameLoop = new Timeline();
         gameLoop.setCycleCount(Timeline.INDEFINITE);
-        setupLoop();
+        setupDrawLoop();
 
-        // Set up game event filter
-//        setupGameEventsFilter();
+        physicsLoop = new Timeline();
+        physicsLoop.setCycleCount(Timeline.INDEFINITE);
+        setupPhysicsLoop();
     }
 
     /**
-     * Set up the game loop
+     * Set up the game draw loop
      */
-    private void setupLoop() {
-        // Create main frame to loop over
-        KeyFrame mainFrame = new KeyFrame(
+    private void setupDrawLoop() {
+        // Create main drawing frame to loop over
+        KeyFrame drawFrame = new KeyFrame(
                 Duration.seconds(1.0 / frames),
-                this::handle // Assign a function to handle each frame
+                this::handleDrawFrame // Assign a function to handle each frame
         );
-        // Add to loop
+        // Add to drawing loop
         gameLoop.getKeyFrames().clear();
-        gameLoop.getKeyFrames().add(mainFrame);
+        gameLoop.getKeyFrames().add(drawFrame);
+
     }
 
-    private void setupGameEventsFilter() {
-        // Catch all events, clone them, and then consume them.
-        // The cloned events will be re-fired the next frame
-        gameCanvas.addEventFilter(
-                Event.ANY,
-                event -> {
-                    // Only catch events if game loop is running
-                    if (gameLoop.getStatus() != Animation.Status.RUNNING) {
-                        return;
-                    }
-                    // Only catch events with a target node
-                    if (event.getTarget() instanceof Node) {
-                        gameEvents.addLast((Event) event.clone());
-                        event.consume();
-                    }
-                }
+    /**
+     * Set up the physics loop
+     */
+    private void setupPhysicsLoop() {
+        // Create main physics frame to loop over
+        KeyFrame physicsFrame = new KeyFrame(
+                Duration.seconds(1.0 / PHYSICS_LOOP_FRAMES),
+                this::handlePhysicsFrame // Assign a function to handle each frame
         );
+        // Add to physics loop
+        physicsLoop.getKeyFrames().clear();
+        physicsLoop.getKeyFrames().add(physicsFrame);
     }
 
     /**
@@ -96,6 +93,7 @@ public final class GameLoop {
      */
     public void start() {
         gameLoop.play();
+        physicsLoop.play();
     }
 
     /**
@@ -103,6 +101,7 @@ public final class GameLoop {
      */
     public void pause() {
         gameLoop.pause();
+        physicsLoop.pause();
     }
 
     /**
@@ -110,6 +109,7 @@ public final class GameLoop {
      */
     public void stop() {
         gameLoop.stop();
+        physicsLoop.stop();
     }
 
     /**
@@ -136,26 +136,25 @@ public final class GameLoop {
         return drawables;
     }
 
-
     /**
-     * Handle this frame
+     * Returns the arraylist of movables to add or remove from
+     * @return The movables arraylist
      */
-    private void handle(ActionEvent event) {
-        drawFrame();
-        detectCollisions();
-//        fireEvents();
+    public ArrayList<Movable> getMovables() {
+        return movables;
     }
 
-    private void fireEvents() {
-        // Re-fire all events in gameEvents while emptying queue
-        while (!gameEvents.isEmpty()) {
-            Event gameEvent = gameEvents.removeFirst();
-            System.out.println(gameEvent);
+    public void setFramesPerSecond(int newFrames) {
+        frames = newFrames;
+        setupDrawLoop();
+    }
 
-            // Trigger event
-            Node gameEventTarget = (Node) gameEvent.getTarget();
-            gameEventTarget.fireEvent(gameEvent);
-        }
+    /**
+     * Handle this drawing frame
+     */
+    private void handleDrawFrame(ActionEvent event) {
+        clear();
+        drawFrame();
     }
 
     /**
@@ -174,12 +173,27 @@ public final class GameLoop {
      * Draw all drawables onto the canvas
      */
     private void drawFrame() {
-        // Clear canvas
-        clear();
-
         // Draw all drawables
         for (Drawable drawable: drawables) {
             drawable.draw(gameCanvas.getGraphicsContext2D());
+        }
+    }
+
+    /**
+     * Handle this physics frame
+     */
+    private void handlePhysicsFrame(ActionEvent event) {
+        moveObjects();
+        detectCollisions();
+    }
+
+    /**
+     * Move all movables
+     */
+    private void moveObjects() {
+        // Move all movables
+        for (Movable movable: movables) {
+            movable.move(PHYSICS_LOOP_FRAMES);
         }
     }
 

@@ -1,13 +1,12 @@
 package org.ics.flying_stars.ui;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 public class PauseMenuUI extends AbstractUI{
     // making buttons
     private final Button resumeButton;
     private final Button restartButton;
-    private final Button exitButton;
+    private final Button backToMainMenuButton;
     private final Button settingsButton;
 
     public PauseMenuUI() {
@@ -17,19 +16,19 @@ public class PauseMenuUI extends AbstractUI{
         Button resume = new Button("Resume");
         Button settings = new Button("Settings");
         Button restart = new Button("Restart");
-        Button exit = new Button("Exit");
+        Button backToMainMenu = new Button("Back to main menu");
 
         // Setting the buttons locations
         rootGridPane.add(resume, 1, 1);
         rootGridPane.add(settings, 1, 2);
         rootGridPane.add(restart, 1, 3);
-        rootGridPane.add(exit, 1, 4);
+        rootGridPane.add(backToMainMenu, 1, 4);
 
         // Initializing the buttons
         resumeButton = resume;
         settingsButton = settings;
         restartButton = restart;
-        exitButton = exit;
+        backToMainMenuButton = backToMainMenu;
     }
 
     // buttons setters
@@ -39,8 +38,8 @@ public class PauseMenuUI extends AbstractUI{
     public Button restartButton() {
         return restartButton;
     }
-    public Button exitButton() {
-        return exitButton;
+    public Button backToMainMenuButton() {
+        return backToMainMenuButton;
     }
     public Button settingsButton(){
         return settingsButton;

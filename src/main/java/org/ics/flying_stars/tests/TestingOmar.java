@@ -32,7 +32,7 @@ public class TestingOmar extends Application {
         @Override
         public void move(int physicsFrames) {
             Vector2D vector = circle.getCenter().getUnitVectorFrom(mousePosition);
-            double scale = mousePosition.distanceFrom(circle.getCenter()) / physicsFrames * 5;
+            double scale = mousePosition.distanceFrom(circle.getCenter()) / physicsFrames * 10;
             vector.scale(scale);
             setVelocity(vector);
             circle.getCenter().setXY(velocity.getX() + circle.getX(), (velocity.getY() + circle.getY()));

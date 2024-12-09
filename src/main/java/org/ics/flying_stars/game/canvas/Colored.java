@@ -1,7 +1,7 @@
 package org.ics.flying_stars.game.canvas;
 
 public interface Colored {
-    void setColor(AColor color);
+    void setColor(Colour color);
 
-    AColor getColor();
+    Colour getColor();
 }

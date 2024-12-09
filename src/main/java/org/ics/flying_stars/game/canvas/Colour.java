@@ -2,7 +2,7 @@ package org.ics.flying_stars.game.canvas;
 
 import javafx.scene.paint.Color;
 
-public enum AColor {
+public enum Colour {
     BLUE(Color.BLUE),
     GREEN(Color.GREEN),
     RED(Color.RED),
@@ -16,7 +16,7 @@ public enum AColor {
 
     final Color color;
 
-    AColor(Color color){
+    Colour(Color color){
         this.color = color;
     }
 

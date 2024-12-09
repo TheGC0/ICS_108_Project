@@ -16,7 +16,7 @@ public class Polygon {
         createEdges();
     }
 
-    private void createEdges() {
+    protected void createEdges() {
         Point startPoint = vertices[0];
         Point endPoint = vertices[vertices.length - 1];
         // Create edge that connects first and last points

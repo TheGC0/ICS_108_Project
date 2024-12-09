@@ -1,6 +1,7 @@
 package org.ics.flying_stars.game.engine.collision.colliders;
 
 import org.ics.flying_stars.game.engine.collision.Collidable;
+import org.ics.flying_stars.game.engine.collision.CollisionTranscript;
 import org.ics.flying_stars.game.engine.collision.CollisionsDetector;
 import org.ics.flying_stars.game.engine.geometry.Line;
 
@@ -31,8 +32,14 @@ public class LineCollider extends Collider {
     public boolean detectElementaryCollision(CircleCollider otherCircleCollider) {
         boolean collision = CollisionsDetector.detectCollisionCircleLine(otherCircleCollider.circle(), line);
         if (collision) {
-            handleCollision(otherCircleCollider);
-            otherCircleCollider.handleCollision(this);
+            CollisionTranscript transcript1 = new CollisionTranscript(this);
+            CollisionTranscript transcript2 = new CollisionTranscript(otherCircleCollider);
+
+            transcript1.setLinkedTranscript(transcript2);
+            transcript2.setLinkedTranscript(transcript1);
+
+            handleCollision(transcript1);
+            otherCircleCollider.handleCollision(transcript2);
         }
         return collision;
     }
@@ -41,8 +48,14 @@ public class LineCollider extends Collider {
     public boolean detectElementaryCollision(LineCollider otherLineCollider) {
         boolean collision = CollisionsDetector.detectCollision2Lines(line, otherLineCollider.line);
         if (collision) {
-            handleCollision(otherLineCollider);
-            otherLineCollider.handleCollision(this);
+            CollisionTranscript transcript1 = new CollisionTranscript(this);
+            CollisionTranscript transcript2 = new CollisionTranscript(otherLineCollider);
+
+            transcript1.setLinkedTranscript(transcript2);
+            transcript2.setLinkedTranscript(transcript1);
+
+            handleCollision(transcript1);
+            otherLineCollider.handleCollision(transcript2);
         }
         return collision;
     }

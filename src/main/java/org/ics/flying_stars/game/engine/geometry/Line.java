@@ -1,4 +1,4 @@
-package org.ics.flying_stars.game.geometry;
+package org.ics.flying_stars.game.engine.geometry;
 
 public class Line {
     private final Point startPoint;

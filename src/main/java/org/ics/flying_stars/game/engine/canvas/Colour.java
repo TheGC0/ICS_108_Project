@@ -1,4 +1,4 @@
-package org.ics.flying_stars.game.canvas;
+package org.ics.flying_stars.game.engine.canvas;
 
 import javafx.scene.paint.Color;
 

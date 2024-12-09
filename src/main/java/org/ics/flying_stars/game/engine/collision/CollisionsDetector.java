@@ -1,7 +1,7 @@
-package org.ics.flying_stars.game.collision;
+package org.ics.flying_stars.game.engine.collision;
 
-import org.ics.flying_stars.game.geometry.Circle;
-import org.ics.flying_stars.game.geometry.Line;
+import org.ics.flying_stars.game.engine.geometry.Circle;
+import org.ics.flying_stars.game.engine.geometry.Line;
 
 /**
  * A mathematical helper class that detects collisions between basic geometry objects
@@ -34,7 +34,7 @@ public class CollisionsDetector {
         double deltaX1 = line.endPoint().getX() - line.startPoint().getX();
         double deltaY1 = line.endPoint().getY() - line.startPoint().getY();
 
-        double m1 = (1.0 * deltaY1) / deltaX1;
+        double m1 = (deltaY1) / deltaX1;
 
         double deltaX2 = otherLine.endPoint().getX() - otherLine.startPoint().getX();
         double deltaY2 = otherLine.endPoint().getY() - otherLine.startPoint().getY();
@@ -84,7 +84,7 @@ public class CollisionsDetector {
 
         double a = deltaX * deltaX + deltaY * deltaY;
         double b = 2 * (deltaX * deltaXCenter + deltaY * deltaYCenter);
-        double c =  deltaXCenter * deltaXCenter + deltaYCenter * deltaYCenter - circle.getRadius() * circle.getRadius();;
+        double c =  deltaXCenter * deltaXCenter + deltaYCenter * deltaYCenter - circle.getRadius() * circle.getRadius();
 
         double determinant = b * b - 4 * a * c;
         if (determinant < 0) {

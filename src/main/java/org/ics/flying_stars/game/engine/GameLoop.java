@@ -1,8 +1,8 @@
-package org.ics.flying_stars.game.gameloop;
+package org.ics.flying_stars.game.engine;
 
 
-import org.ics.flying_stars.game.collision.Collidable;
-import org.ics.flying_stars.game.canvas.Drawable;
+import org.ics.flying_stars.game.engine.collision.Collidable;
+import org.ics.flying_stars.game.engine.canvas.Drawable;
 
 import javafx.animation.Animation;
 import javafx.animation.Timeline;
@@ -10,7 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
-import org.ics.flying_stars.game.sprites.Movable;
+import org.ics.flying_stars.game.engine.sprites.Movable;
 
 import java.util.ArrayList;
 

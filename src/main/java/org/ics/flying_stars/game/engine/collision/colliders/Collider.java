@@ -1,4 +1,7 @@
-package org.ics.flying_stars.game.collision;
+package org.ics.flying_stars.game.engine.collision.colliders;
+
+import org.ics.flying_stars.game.engine.collision.Collidable;
+import org.ics.flying_stars.game.engine.collision.CollisionHandler;
 
 import java.util.ArrayList;
 

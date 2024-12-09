@@ -1,11 +1,12 @@
-package org.ics.flying_stars.game.collision;
+package org.ics.flying_stars.game.engine.collision.colliders;
 
-import org.ics.flying_stars.game.geometry.Polygon;
+import org.ics.flying_stars.game.engine.collision.Collidable;
+import org.ics.flying_stars.game.engine.geometry.Polygon;
 
 /**
  * This class encapsulates a Polygon and detects collisions for it
  */
-public final class PolygonCollider extends Collider {
+public class PolygonCollider extends Collider {
     private final Polygon polygon;
     private final LineCollider[] lineColliders;
 
@@ -19,6 +20,9 @@ public final class PolygonCollider extends Collider {
 
         // Create a line collider for each edge
         createLineColliders();
+
+        // Connect each line collider handler to this handler
+        connectLineColliderHandlers();
     }
 
     /**
@@ -33,6 +37,12 @@ public final class PolygonCollider extends Collider {
         }
     }
 
+    private void connectLineColliderHandlers() {
+        for (LineCollider collider: lineColliders) {
+            collider.addCollisionHandler(this::handleCollision);
+        }
+    }
+
     /**
      * @return The encapsulated polygon
      */
@@ -43,7 +53,7 @@ public final class PolygonCollider extends Collider {
     private <C extends Collidable> boolean detectCollisionForAllLines(C otherCollidable) {
         boolean generalCollision = false;
         for (LineCollider collider: lineColliders) {
-            if (otherCollidable.detectBaseCollision(collider)) {
+            if (otherCollidable.detectElementaryCollision(collider)) {
                 generalCollision = true;
             }
         }
@@ -56,13 +66,12 @@ public final class PolygonCollider extends Collider {
     }
 
     @Override
-    public boolean detectBaseCollision(CircleCollider otherCircleCollider) {
+    public boolean detectElementaryCollision(CircleCollider otherCircleCollider) {
         return detectCollisionForAllLines(otherCircleCollider);
     }
 
     @Override
-    public boolean detectBaseCollision(LineCollider otherLineCollider) {
+    public boolean detectElementaryCollision(LineCollider otherLineCollider) {
         return detectCollisionForAllLines(otherLineCollider);
     }
-
 }

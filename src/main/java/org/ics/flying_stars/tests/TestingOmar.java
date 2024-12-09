@@ -9,14 +9,17 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.ics.flying_stars.game.canvas.DrawableCircle;
-import org.ics.flying_stars.game.canvas.DrawableLine;
-import org.ics.flying_stars.game.canvas.DrawablePolygon;
-import org.ics.flying_stars.game.collision.*;
-import org.ics.flying_stars.game.gameloop.GameLoop;
-import org.ics.flying_stars.game.geometry.Point;
-import org.ics.flying_stars.game.geometry.Vector2D;
-import org.ics.flying_stars.game.sprites.Sprite;
+import org.ics.flying_stars.game.engine.canvas.samples.DrawableCircle;
+import org.ics.flying_stars.game.engine.canvas.samples.DrawableLine;
+import org.ics.flying_stars.game.engine.canvas.samples.DrawablePolygon;
+import org.ics.flying_stars.game.engine.collision.*;
+import org.ics.flying_stars.game.engine.collision.colliders.CircleCollider;
+import org.ics.flying_stars.game.engine.collision.colliders.LineCollider;
+import org.ics.flying_stars.game.engine.collision.colliders.PolygonCollider;
+import org.ics.flying_stars.game.engine.GameLoop;
+import org.ics.flying_stars.game.engine.geometry.Point;
+import org.ics.flying_stars.game.engine.geometry.Vector2D;
+import org.ics.flying_stars.game.engine.sprites.Sprite;
 
 public class TestingOmar extends Application {
 

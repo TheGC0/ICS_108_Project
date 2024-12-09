@@ -1,9 +1,10 @@
-package org.ics.flying_stars.game.canvas;
+package org.ics.flying_stars.game.engine.canvas.samples;
 
 import javafx.scene.canvas.GraphicsContext;
-import org.ics.flying_stars.game.geometry.Line;
-import org.ics.flying_stars.game.geometry.Point;
-import org.ics.flying_stars.game.geometry.Polygon;
+import org.ics.flying_stars.game.engine.canvas.Drawable;
+import org.ics.flying_stars.game.engine.geometry.Line;
+import org.ics.flying_stars.game.engine.geometry.Point;
+import org.ics.flying_stars.game.engine.geometry.Polygon;
 
 public class DrawablePolygon extends Polygon implements Drawable {
     public DrawablePolygon(Point[] points) {

@@ -1,5 +1,8 @@
-package org.ics.flying_stars.game.collision;
+package org.ics.flying_stars.game.engine.collision;
 
+
+import org.ics.flying_stars.game.engine.collision.colliders.CircleCollider;
+import org.ics.flying_stars.game.engine.collision.colliders.LineCollider;
 
 /**
  * An interface for objects that support and detect collision
@@ -13,9 +16,9 @@ public interface Collidable {
      */
     boolean detectCollision(Collidable otherCollidable);
 
-    boolean detectBaseCollision(CircleCollider otherCircleCollider);
+    boolean detectElementaryCollision(CircleCollider otherCircleCollider);
 
-    boolean detectBaseCollision(LineCollider otherLineCollider);
+    boolean detectElementaryCollision(LineCollider otherLineCollider);
 
     void addCollisionHandler(CollisionHandler handler);
 

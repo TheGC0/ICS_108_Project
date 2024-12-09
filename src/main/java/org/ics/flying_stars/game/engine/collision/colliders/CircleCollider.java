@@ -1,11 +1,13 @@
-package org.ics.flying_stars.game.collision;
+package org.ics.flying_stars.game.engine.collision.colliders;
 
-import org.ics.flying_stars.game.geometry.Circle;
+import org.ics.flying_stars.game.engine.collision.Collidable;
+import org.ics.flying_stars.game.engine.collision.CollisionsDetector;
+import org.ics.flying_stars.game.engine.geometry.Circle;
 
 /**
  * This class encapsulates a Circle and detects collisions for it
  */
-public final class CircleCollider extends Collider {
+public class CircleCollider extends Collider {
     private final Circle circle;
 
     /**
@@ -22,11 +24,11 @@ public final class CircleCollider extends Collider {
 
     @Override
     public boolean detectCollision(Collidable otherCollidable) {
-        return otherCollidable.detectBaseCollision(this);
+        return otherCollidable.detectElementaryCollision(this);
     }
 
     @Override
-    public boolean detectBaseCollision(CircleCollider otherCircleCollider) {
+    public boolean detectElementaryCollision(CircleCollider otherCircleCollider) {
         boolean collision = CollisionsDetector.detectCollision2Circles(circle, otherCircleCollider.circle);
         if (collision) {
             handleCollision(otherCircleCollider);
@@ -36,7 +38,7 @@ public final class CircleCollider extends Collider {
     }
 
     @Override
-    public boolean detectBaseCollision(LineCollider otherLineCollider) {
+    public boolean detectElementaryCollision(LineCollider otherLineCollider) {
         boolean collision = CollisionsDetector.detectCollisionCircleLine(circle, otherLineCollider.line());
         if (collision) {
             handleCollision(otherLineCollider);

@@ -1,4 +1,4 @@
-package org.ics.flying_stars.game.geometry;
+package org.ics.flying_stars.game.engine.geometry;
 
 /**
  * A class that stores the information of a 2D point

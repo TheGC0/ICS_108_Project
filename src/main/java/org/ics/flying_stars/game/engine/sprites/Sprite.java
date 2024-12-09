@@ -7,13 +7,15 @@ import org.ics.flying_stars.game.engine.collision.colliders.CircleCollider;
 import org.ics.flying_stars.game.engine.collision.colliders.Collider;
 import org.ics.flying_stars.game.engine.collision.colliders.LineCollider;
 
-public abstract class Sprite implements Drawable, Collidable, Movable {
-    private final Collider collider;
-    private final Drawable drawable;
+import java.util.ArrayList;
 
-    public Sprite(Drawable drawable, Collider collider) {
-        this.collider = collider;
-        this.drawable = drawable;
+public abstract class Sprite implements Drawable, Collidable, Movable {
+    private final ArrayList<CollisionHandler> collisionHandlers;
+    protected Collider collider;
+    protected Drawable drawable;
+
+    public Sprite() {
+        collisionHandlers = new ArrayList<>();
     }
 
     @Override
@@ -34,6 +36,19 @@ public abstract class Sprite implements Drawable, Collidable, Movable {
     @Override
     public boolean detectElementaryCollision(LineCollider otherLineCollider) {
         return collider.detectElementaryCollision(otherLineCollider);
+    }
+
+    @Override
+    public void addCollisionHandler(CollisionHandler handler) {
+        collisionHandlers.add(handler);
+    }
+
+    @Override
+    public void handleCollision(CollisionTranscript collisionTranscript) {
+        collisionTranscript.setHead(this);
+        for (CollisionHandler collisionHandler: collisionHandlers) {
+            collisionHandler.handle(collisionTranscript);
+        }
     }
 
 

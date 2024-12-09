@@ -17,7 +17,7 @@ public class LosingScreenUI extends AbstractUI{
         // setting the buttons for losing screen ui
         Button tryAgain = new Button("Try Again");
         Button settings = new Button("Settings");
-        Button backToMainMenu = new Button("Exit");
+        Button backToMainMenu = new Button("Back to main menu");
 
         // Setting the buttons locations
         rootGridPane.add(tryAgain, 1, 1);
@@ -31,7 +31,7 @@ public class LosingScreenUI extends AbstractUI{
 
     }
 
-    // buttons setters
+    // buttons getters
     public Button tryingButton() {
         return tryingButton;
     }

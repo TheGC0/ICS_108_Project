@@ -30,7 +30,7 @@ public class MenuUI extends AbstractUI{
         exitButton = exit;
     }
 
-    // buttons setters
+    // buttons getters
     public Button playButton() {
         return playButton;
     }

@@ -13,11 +13,9 @@ public interface Collidable {
      */
     boolean detectCollision(Collidable otherCollidable);
 
-    boolean detectCollision(CircleCollider otherCircleCollider);
+    boolean detectBaseCollision(CircleCollider otherCircleCollider);
 
-    boolean detectCollision(LineCollider otherLineCollider);
-
-    boolean detectCollision(PolygonCollider otherPolygonCollider);
+    boolean detectBaseCollision(LineCollider otherLineCollider);
 
     void addCollisionHandler(CollisionHandler handler);
 

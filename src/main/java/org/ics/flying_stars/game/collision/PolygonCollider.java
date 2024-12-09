@@ -41,31 +41,28 @@ public final class PolygonCollider extends Collider {
     }
 
     private <C extends Collidable> boolean detectCollisionForAllLines(C otherCollidable) {
+        boolean generalCollision = false;
         for (LineCollider collider: lineColliders) {
-            if (collider.detectCollision(otherCollidable)) {
-                return true;
+            if (otherCollidable.detectBaseCollision(collider)) {
+                generalCollision = true;
             }
         }
-        return false;
+        return generalCollision;
     }
 
     @Override
     public boolean detectCollision(Collidable otherCollidable) {
-        return otherCollidable.detectCollision(this);
+        return detectCollisionForAllLines(otherCollidable);
     }
 
     @Override
-    public boolean detectCollision(CircleCollider otherCircleCollider) {
+    public boolean detectBaseCollision(CircleCollider otherCircleCollider) {
         return detectCollisionForAllLines(otherCircleCollider);
     }
 
     @Override
-    public boolean detectCollision(LineCollider otherLineCollider) {
+    public boolean detectBaseCollision(LineCollider otherLineCollider) {
         return detectCollisionForAllLines(otherLineCollider);
     }
 
-    @Override
-    public boolean detectCollision(PolygonCollider otherPolygonCollider) {
-        return detectCollisionForAllLines(otherPolygonCollider);
-    }
 }

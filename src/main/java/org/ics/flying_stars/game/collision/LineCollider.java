@@ -22,21 +22,27 @@ public final class LineCollider extends Collider {
 
     @Override
     public boolean detectCollision(Collidable otherCollidable) {
-        return otherCollidable.detectCollision(this);
+        return otherCollidable.detectBaseCollision(this);
     }
 
     @Override
-    public boolean detectCollision(CircleCollider otherCircleCollider) {
-        return CollisionsDetector.detectCollisionCircleLine(otherCircleCollider.circle(), line);
+    public boolean detectBaseCollision(CircleCollider otherCircleCollider) {
+        boolean collision = CollisionsDetector.detectCollisionCircleLine(otherCircleCollider.circle(), line);
+        if (collision) {
+            handleCollision(otherCircleCollider);
+            otherCircleCollider.handleCollision(this);
+        }
+        return collision;
     }
 
     @Override
-    public boolean detectCollision(LineCollider otherLineCollider) {
-        return CollisionsDetector.detectCollision2Lines(line, otherLineCollider.line);
+    public boolean detectBaseCollision(LineCollider otherLineCollider) {
+        boolean collision = CollisionsDetector.detectCollision2Lines(line, otherLineCollider.line);
+        if (collision) {
+            handleCollision(otherLineCollider);
+            otherLineCollider.handleCollision(this);
+        }
+        return collision;
     }
 
-    @Override
-    public boolean detectCollision(PolygonCollider otherPolygonCollider) {
-        return otherPolygonCollider.detectCollision(this);
-    }
 }

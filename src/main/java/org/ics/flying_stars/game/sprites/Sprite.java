@@ -24,18 +24,14 @@ public abstract class Sprite implements Drawable, Collidable, Movable {
     }
 
     @Override
-    public boolean detectCollision(CircleCollider otherCircleCollider) {
-        return collider.detectCollision(otherCircleCollider);
+    public boolean detectBaseCollision(CircleCollider otherCircleCollider) {
+        return collider.detectBaseCollision(otherCircleCollider);
     }
 
     @Override
-    public boolean detectCollision(LineCollider otherLineCollider) {
-        return collider.detectCollision(otherLineCollider);
+    public boolean detectBaseCollision(LineCollider otherLineCollider) {
+        return collider.detectBaseCollision(otherLineCollider);
     }
 
-    @Override
-    public boolean detectCollision(PolygonCollider otherPolygonCollider) {
-        return collider.detectCollision(otherPolygonCollider);
-    }
 
 }

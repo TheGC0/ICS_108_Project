@@ -143,8 +143,9 @@ public class TestingOmar extends Application {
                 double y = 1 * Math.sin(t);
                 double y2 = 50 * Math.sin(t);
 
+                double i= 0.5 ;
                 for (Point point: star.getVertices()) {
-                    point.setXY((int) (point.getX() - x), (int) (point.getY() - y));
+                    point.setXY(point.getX() + i, point.getY() + i);
                 }
 //                star.getVertices()[0].setXY((int) x, (int) y);
 

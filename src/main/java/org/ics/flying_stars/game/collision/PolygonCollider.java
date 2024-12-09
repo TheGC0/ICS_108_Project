@@ -5,7 +5,7 @@ import org.ics.flying_stars.game.geometry.Polygon;
 /**
  * This class encapsulates a Polygon and detects collisions for it
  */
-public final class PolygonCollider implements Collidable {
+public final class PolygonCollider extends Collider {
     private final Polygon polygon;
     private final LineCollider[] lineColliders;
 
@@ -13,6 +13,7 @@ public final class PolygonCollider implements Collidable {
      * @param polygon The Polygon object to encapsulate and detect collisions for
      */
     public PolygonCollider(Polygon polygon) {
+        super();
         this.polygon = polygon;
         this.lineColliders = new LineCollider[polygon.getEdges().length];
 
@@ -39,8 +40,7 @@ public final class PolygonCollider implements Collidable {
         return polygon;
     }
 
-    @Override
-    public boolean detectCollision(Collidable otherCollidable) {
+    private <C extends Collidable> boolean detectCollisionForAllLines(C otherCollidable) {
         for (LineCollider collider: lineColliders) {
             if (collider.detectCollision(otherCollidable)) {
                 return true;
@@ -49,4 +49,23 @@ public final class PolygonCollider implements Collidable {
         return false;
     }
 
+    @Override
+    public boolean detectCollision(Collidable otherCollidable) {
+        return otherCollidable.detectCollision(this);
+    }
+
+    @Override
+    public boolean detectCollision(CircleCollider otherCircleCollider) {
+        return detectCollisionForAllLines(otherCircleCollider);
+    }
+
+    @Override
+    public boolean detectCollision(LineCollider otherLineCollider) {
+        return detectCollisionForAllLines(otherLineCollider);
+    }
+
+    @Override
+    public boolean detectCollision(PolygonCollider otherPolygonCollider) {
+        return detectCollisionForAllLines(otherPolygonCollider);
+    }
 }

@@ -12,22 +12,19 @@ import javafx.stage.Stage;
 import org.ics.flying_stars.game.canvas.DrawableCircle;
 import org.ics.flying_stars.game.canvas.DrawableLine;
 import org.ics.flying_stars.game.canvas.DrawablePolygon;
-import org.ics.flying_stars.game.collision.CircleCollider;
-import org.ics.flying_stars.game.collision.LineCollider;
-import org.ics.flying_stars.game.collision.PolygonCollider;
+import org.ics.flying_stars.game.collision.*;
 import org.ics.flying_stars.game.gameloop.GameLoop;
-import org.ics.flying_stars.game.geometry.Circle;
 import org.ics.flying_stars.game.geometry.Point;
 import org.ics.flying_stars.game.geometry.Vector2D;
 import org.ics.flying_stars.game.sprites.Sprite;
 
 public class TestingOmar extends Application {
 
-    public static class CircleSprite extends Sprite {
+    public static class Player extends Sprite {
         private final DrawableCircle circle;
         private Vector2D velocity = new Vector2D(0, 0);
         private Point mousePosition;
-        public CircleSprite(DrawableCircle circle) {
+        public Player(DrawableCircle circle) {
             super(circle, new CircleCollider(circle));
             this.circle = circle;
         }
@@ -47,22 +44,32 @@ public class TestingOmar extends Application {
         public void setMousePosition(Point mousePosition) {
             this.mousePosition = mousePosition;
         }
+
+        @Override
+        public void addCollisionHandler(CollisionHandler handler) {
+
+        }
+
+        @Override
+        public void handleCollision(Collidable otherCollidable) {
+
+        }
     }
 
     @Override
     public void start(Stage stage) {
         Canvas canvas = new Canvas();
-        canvas.setWidth(1000);
-        canvas.setHeight(1000);
+        canvas.setWidth(500);
+        canvas.setHeight(500);
         Pane pane = new Pane();
         pane.setMinSize(300, 300);
         pane.getChildren().add(canvas);
 
-        GameLoop gameLoop = new GameLoop(600, canvas);
+        GameLoop gameLoop = new GameLoop(60, canvas);
 
 
         DrawableCircle playerCircle = new DrawableCircle(10, new Point(100,100), true);
-        CircleSprite playerSprite = new CircleSprite(playerCircle);
+        Player playerSprite = new Player(playerCircle);
 
         gameLoop.getDrawables().add(playerSprite);
         gameLoop.getCollidables().add(playerSprite);
@@ -94,8 +101,8 @@ public class TestingOmar extends Application {
         gameLoop.getCollidables().add(starCollider);
 
         stage.setScene(new Scene(pane));
-        stage.setWidth(1000);
-        stage.setHeight(1000);
+        stage.setWidth(500);
+        stage.setHeight(500);
         stage.show();
 
         pane.addEventHandler(MouseEvent.ANY, event -> {

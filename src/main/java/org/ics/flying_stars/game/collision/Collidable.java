@@ -7,8 +7,20 @@ package org.ics.flying_stars.game.collision;
 public interface Collidable {
     /**
      * Detect collision with other collidable
+     *
      * @param otherCollidable The other collidable to detect collision with
      * @return true if this collidable collides with the other collidable and false otherwise
      */
     boolean detectCollision(Collidable otherCollidable);
+
+    boolean detectCollision(CircleCollider otherCircleCollider);
+
+    boolean detectCollision(LineCollider otherLineCollider);
+
+    boolean detectCollision(PolygonCollider otherPolygonCollider);
+
+    void addCollisionHandler(CollisionHandler handler);
+
+    void handleCollision(Collidable otherCollidable);
+
 }

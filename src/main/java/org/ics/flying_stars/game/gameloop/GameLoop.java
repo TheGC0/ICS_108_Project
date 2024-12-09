@@ -211,7 +211,10 @@ public final class GameLoop {
                 boolean collision = collidable.detectCollision(otherCollidable);
 
                 if (collision) {
-                    // TODO Do something (raise an event)
+                    // Let each collidable handle the collision from the other collidable
+                    collidable.handleCollision(otherCollidable);
+                    otherCollidable.handleCollision(collidable);
+                    // Debugging print
                     System.out.println("Collision detected");
                 }
             }

@@ -1,31 +1,42 @@
 package org.ics.flying_stars.game.collision;
 
-import org.ics.flying_stars.game.sprites.Sprite;
 import org.ics.flying_stars.game.geometry.Circle;
 
 /**
  * This class encapsulates a Circle and detects collisions for it
- * @param circle The Circle object to encapsulate and detect collisions for
  */
-public record CircleCollider(Circle circle) implements Collidable {
+public final class CircleCollider extends Collider {
+    private final Circle circle;
+
+    /**
+     * @param circle The Circle object to encapsulate and detect collisions for
+     */
+    public CircleCollider(Circle circle) {
+        super();
+        this.circle = circle;
+    }
+
+    public Circle circle() {
+        return circle;
+    }
 
     @Override
     public boolean detectCollision(Collidable otherCollidable) {
-        // Determine type of other collidable
-        if (otherCollidable instanceof CircleCollider otherCircleCollider) {
-            return CollisionsDetector.detectCollision2Circles(circle, otherCircleCollider.circle);
-        }
-        if (otherCollidable instanceof LineCollider otherLineCollider) {
-            return CollisionsDetector.detectCollisionCircleLine(circle, otherLineCollider.line());
-        }
-        if (otherCollidable instanceof PolygonCollider otherPolygonCollider) {
-            return otherPolygonCollider.detectCollision(this);
-        }
-        if (otherCollidable instanceof Sprite otherSprite) {
-            return otherSprite.detectCollision(this);
-        }
-        // Unsupported other collidable
-        throw new UnsupportedOperationException("Collision not supported");
+        return otherCollidable.detectCollision(this);
     }
 
+    @Override
+    public boolean detectCollision(CircleCollider otherCircleCollider) {
+        return CollisionsDetector.detectCollision2Circles(circle, otherCircleCollider.circle);
+    }
+
+    @Override
+    public boolean detectCollision(LineCollider otherLineCollider) {
+        return CollisionsDetector.detectCollisionCircleLine(circle, otherLineCollider.line());
+    }
+
+    @Override
+    public boolean detectCollision(PolygonCollider otherPolygonCollider) {
+        return otherPolygonCollider.detectCollision(this);
+    }
 }

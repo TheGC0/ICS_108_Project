@@ -31,7 +31,7 @@ public class LosingScreenUI extends AbstractUI{
 
     }
 
-    // buttons setters
+    // buttons getters
     public Button tryingButton() {
         return tryingButton;
     }

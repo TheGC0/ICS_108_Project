@@ -31,7 +31,7 @@ public class PauseMenuUI extends AbstractUI{
         backToMainMenuButton = backToMainMenu;
     }
 
-    // buttons setters
+    // buttons getters
     public Button resumeButton() {
         return resumeButton;
     }

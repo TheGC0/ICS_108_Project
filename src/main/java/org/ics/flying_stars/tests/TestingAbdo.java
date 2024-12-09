@@ -14,6 +14,8 @@ public class TestingAbdo extends Application {
     @Override
     public void start(Stage stage) {
         MenuUI menu = new MenuUI();
+        LosingScreenUI losing = new LosingScreenUI();
+        PauseMenuUI pause = new PauseMenuUI();
         Scene scene = new Scene(menu.getRoot(), 500, 600);
 
         stage.setScene(scene);
@@ -24,8 +26,20 @@ public class TestingAbdo extends Application {
         menu.settingsButton().setOnAction(event -> System.out.println("Settings"));
         menu.exitButton().setOnAction(event -> stage.close());
         menu.playButton().setOnAction(event -> {
-            PauseMenuUI pause = new PauseMenuUI();
+
             scene.setRoot(pause.getRoot());
+            pause.backToMainMenuButton().setOnAction(e -> {
+                scene.setRoot(menu.getRoot());
+            });
+            pause.resumeButton().setOnAction(e -> {
+                scene.setRoot(losing.getRoot());
+                losing.backToMainMenuButton().setOnAction(ev ->{
+                    scene.setRoot(menu.getRoot());
+                });
+            });
+            pause.restartButton().setOnAction(e -> {
+                scene.setRoot(losing.getRoot());
+            });
         });
 
     }

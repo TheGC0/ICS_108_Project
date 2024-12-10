@@ -1,17 +1,23 @@
 package org.ics.flying_stars.game;
 
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import org.ics.flying_stars.ui.UI;
 
-public class Score {
-    private Label hitsPercentage;
-    private Label averageReactionTime;
+public class Score implements UI {
+    private final Label hitsPercentage;
+    private final Label averageReactionTime;
+    private final VBox layout;
     private int totalHits = 0;
     private int hits = 0;
     private double time = 0;
 
     public Score() {
+        layout = new VBox();
         hitsPercentage = new Label();
         averageReactionTime = new Label();
+        layout.getChildren().addAll(hitsPercentage, averageReactionTime);
     }
 
     public void hit(double time) {
@@ -40,20 +46,8 @@ public class Score {
         averageReactionTime.setText("" + 0 + " seconds");
     }
 
-    public Label getHitsPercentage() {
-        return hitsPercentage;
+    @Override
+    public Parent getRoot() {
+        return layout;
     }
-
-    public void setHitsPercentage(Label hitsPercentage) {
-        this.hitsPercentage = hitsPercentage;
-    }
-
-    public Label getAverageReactionTime() {
-        return averageReactionTime;
-    }
-
-    public void setAverageReactionTime(Label averageReactionTime) {
-        this.averageReactionTime = averageReactionTime;
-    }
-
 }

@@ -16,9 +16,9 @@ public class TestingAli extends Application {
 
     @Override
     public void start(Stage stage) {
-        SettingsUI settings = new SettingsUI();
-        Scene scene = new Scene(settings.get_vbox(), 1280, 720);
-        stage.setScene(scene);
+//        SettingsUI settings = new SettingsUI();
+//        Scene scene = new Scene(settings.get_vbox(), 1280, 720);
+//        stage.setScene(scene);
         stage.show();
 
 //

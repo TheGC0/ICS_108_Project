@@ -1,29 +1,41 @@
 package org.ics.flying_stars.game;
 
+import javafx.scene.Parent;
 import javafx.scene.canvas.GraphicsContext;
-import org.ics.flying_stars.engine.canvas.*;
-import org.ics.flying_stars.engine.geometry.Vector2D;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import org.ics.flying_stars.ui.UI;
 
-public class HealthBar implements Drawable {
 
-    private ColoredCircle[] healthBar;
+public class HealthBar implements UI {
+
+    private final Circle[] healthBar;
+    private final HBox bar;
     public static int health;
 
     public HealthBar() {
+        health = 3;
+        bar = new HBox();
+        healthBar = new Circle[health];
+        for (int i = 0; i < health; i++) {
+            healthBar[i] = new Circle(10, Color.RED);
+        }
         startANewLife();
     }
 
     public void startANewLife() {
         health = 3;
-        healthBar = new ColoredCircle[health];
+        bar.getChildren().clear();
         for (int i = 0; i < health; i++) {
-            healthBar[i] = new ColoredCircle(10,new Vector2D(100 + 30 *(i + 1), 30), Colour.RED);
+            bar.getChildren().add(healthBar[i]);
         }
     }
 
     public void takeDamage() {
         if (health > 0) {
             health--;
+            bar.getChildren().remove(healthBar[health]);
         }
     }
 
@@ -32,11 +44,8 @@ public class HealthBar implements Drawable {
         return health;
     }
 
-
     @Override
-    public void draw(GraphicsContext context) {
-        for (int i = 0; i < health; i++) {
-            healthBar[i].draw(context);
-        }
+    public Parent getRoot() {
+        return bar;
     }
 }

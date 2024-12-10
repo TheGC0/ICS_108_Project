@@ -23,37 +23,16 @@ public class TestingOmar2 extends Application {
         Canvas canvas = new Canvas();
         canvas.setWidth(720);
         canvas.setHeight(720);
-        Pane pane = new Pane();
-        pane.setMinSize(300, 300);
-        pane.getChildren().add(canvas);
-        stage.setScene(new Scene(pane));
-        stage.setWidth(720 );
+//        pane.setBackground(Background.fill(Color.BLACK));
+
+        Game game = new Game(new Settings(), canvas);
+
+        stage.setScene(new Scene(game.getRoot()));
+        stage.setWidth(720);
         stage.setHeight(720);
-        pane.setBackground(Background.fill(Color.BLACK));
-
-        Game game = new Game(new Settings());
-
-
-        LosingScreenUI losingScreenUI = new LosingScreenUI();
-        Scene losingScene = new Scene(losingScreenUI.getRoot(), 720, 720);
-
-
-
-
-        game.start(canvas);
-
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-            if(game.getStatus() == Animation.Status.STOPPED){
-                stage.setScene(losingScene);
-                losingScreenUI.tryingButton().setOnAction(eventt -> {
-                    System.out.println("Button clicked");
-                });
-
-            }
-        }));
 
         stage.show();
-
+        game.start();
     }
 
     public static void main(String[] args) {

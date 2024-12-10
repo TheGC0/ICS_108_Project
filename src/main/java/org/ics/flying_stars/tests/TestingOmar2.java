@@ -33,18 +33,21 @@ public class TestingOmar2 extends Application {
 
         Game game = new Game(new Settings());
 
-        LosingScreenUI losingScreenUI = new LosingScreenUI();
 
-        losingScreenUI.tryingButton().setOnAction(eventt -> {
-            System.out.println("Button clicked");
-        });
+        LosingScreenUI losingScreenUI = new LosingScreenUI();
+        Scene losingScene = new Scene(losingScreenUI.getRoot(), 720, 720);
+
+
 
 
         game.start(canvas);
 
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             if(game.getStatus() == Animation.Status.STOPPED){
-                stage.setScene(losingScreenUI.getRoot().getScene());
+                stage.setScene(losingScene);
+                losingScreenUI.tryingButton().setOnAction(eventt -> {
+                    System.out.println("Button clicked");
+                });
 
             }
         }));

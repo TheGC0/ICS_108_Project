@@ -44,10 +44,9 @@ public class Game {
                 }
             }
         });
-        HealthBar healthBar = new HealthBar(canvas.getGraphicsContext2D());
-        for(ColoredCircle circle: healthBar.getHealthBar()){
-            gameLoop.getDrawables().add(circle);
-        }
+        HealthBar healthBar = new HealthBar();
+        gameLoop.getDrawables().add(healthBar);
+
         LosingScreenUI losingScreenUI = new LosingScreenUI();
 
         // Create player and connect to mouse
@@ -89,7 +88,7 @@ public class Game {
 
         // Create a star spawner
         StarFactory starFactory = new StarFactory(new Vector2D((double) 720 /2, (double) 720 /2));
-        Difficulty difficulty = Difficulty.HARD;
+        Difficulty difficulty = Difficulty.EXTREME;
         Timeline spawner = new Timeline(
                 new KeyFrame(Duration.seconds(difficulty.getDifficultyLevel()), event -> {
                     System.out.println("Spawning star");

@@ -2,6 +2,10 @@ package org.ics.flying_stars.engine.canvas;
 
 import javafx.scene.paint.Color;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 public enum Colour {
     BLUE(Color.BLUE),
     GREEN(Color.GREEN),
@@ -20,5 +24,9 @@ public enum Colour {
         this.color = color;
     }
 
+    public static Colour[] getShuffled(){
+        Collections.shuffle(Arrays.asList(Colour.values()));
+        return Colour.values();
+    }
 
 }

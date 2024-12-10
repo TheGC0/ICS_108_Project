@@ -4,27 +4,16 @@ import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.entities.Star;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 public class StarFactory implements Factory<Star> {
-    private Point[] vertices;
+    private Vector2D[] vertices;
 
     public StarFactory() {
-        vertices = new Point[10];
-        double currentAngle = 0;
-        double currentRadius = 100;
-        Point temp;
-
-        for(int i = 0; i < vertices.length; i++){
-            temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-            temp.setXY(temp.getX() + 200, temp.getY() + 200);
-            vertices[i] = temp;
-            currentAngle += (Math.PI / 5);
-            if(i % 2 == 0){
-                currentRadius -= 50;
-            }
-            else{
-                currentRadius += 50;
-            }
-        }
+        vertices = new Vector2D[10];
+        generateAStar();
 
 
 //        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
@@ -77,33 +66,43 @@ public class StarFactory implements Factory<Star> {
 //        vertices[9] = temp;
     }
 
-    public Point[] getVertices() {
+    public Vector2D[] getVertices() {
         return vertices;
     }
 
-    public void setVertices(Point[] vertices) {
+    public void setVertices(Vector2D[] vertices) {
         this.vertices = vertices;
     }
 
     @Override
     public Star create() {
-        Colour[] colors = new Colour[]{
-                Colour.RED,
-                Colour.BLACK,
-                Colour.GREEN,
-                Colour.RED,
-                Colour.RED,
-                Colour.BLUE,
-                Colour.RED,
-                Colour.RED,
-                Colour.BROWN,
-                Colour.RED};
+        Colour[] colors = Colour.getShuffled();
 
         // TODO Generate random colors
-        Point[] copiedVertices = new Point[10];
+
+        Vector2D[] copiedVertices = new Vector2D[10];
         for (int i=0; i<10; i++) {
-            copiedVertices[i] = new Point(vertices[i].getX(), vertices[i].getY());
+            copiedVertices[i] = new Vector2D(vertices[i].getX(), vertices[i].getY());
         }
         return new Star(colors, copiedVertices);
+    }
+    public void generateAStar(){
+        vertices = new Vector2D[10];
+        double currentAngle = 0;
+        double currentRadius = 100;
+        Vector2D temp;
+
+        for(int i = 0; i < vertices.length; i++){
+            temp = Vector2D.radialVector2D(currentRadius, currentAngle);
+            temp.setXY(temp.getX() + 200, temp.getY() + 200);
+            vertices[i] = temp;
+            currentAngle += (Math.PI / 5);
+            if(i % 2 == 0){
+                currentRadius -= 61.8034;
+            }
+            else{
+                currentRadius += 61.8034;
+            }
+        }
     }
 }

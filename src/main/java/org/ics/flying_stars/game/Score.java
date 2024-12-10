@@ -36,7 +36,8 @@ public class Score {
         totalHits = 0;
         hits = 0;
         time = 0;
-        update();
+        hitsPercentage.setText( "" + 0 + "%%" );
+        averageReactionTime.setText("" + 0 + " seconds");
     }
 
     public Label getHitsPercentage() {

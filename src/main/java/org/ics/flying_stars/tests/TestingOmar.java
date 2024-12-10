@@ -1,7 +1,6 @@
 package org.ics.flying_stars.tests;
 
 import javafx.animation.Animation;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -12,47 +11,16 @@ import javafx.stage.Stage;
 import org.ics.flying_stars.game.engine.canvas.Colour;
 import org.ics.flying_stars.game.engine.canvas.samples.DrawableCircle;
 import org.ics.flying_stars.game.engine.canvas.samples.DrawableLine;
-import org.ics.flying_stars.game.engine.canvas.samples.DrawablePolygon;
-import org.ics.flying_stars.game.engine.collision.*;
 import org.ics.flying_stars.game.engine.collision.colliders.CircleCollider;
 import org.ics.flying_stars.game.engine.collision.colliders.LineCollider;
-import org.ics.flying_stars.game.engine.collision.colliders.PolygonCollider;
 import org.ics.flying_stars.game.engine.GameLoop;
 import org.ics.flying_stars.game.engine.geometry.Point;
 import org.ics.flying_stars.game.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.engine.sprites.Sprite;
+import org.ics.flying_stars.game.entities.Player;
 import org.ics.flying_stars.game.entities.Star;
 
 public class TestingOmar extends Application {
-
-    public static class Player extends Sprite {
-        private final DrawableCircle circle;
-        private Vector2D velocity = new Vector2D(0, 0);
-        private Point mousePosition;
-
-        public Player(DrawableCircle circle) {
-            this.circle = circle;
-            this.drawable = circle;
-            this.collider = new CircleCollider(circle);
-        }
-
-        @Override
-        public void move(int physicsFrames) {
-            Vector2D vector = circle.getCenter().getUnitVectorFrom(mousePosition);
-            double scale = mousePosition.distanceFrom(circle.getCenter()) / physicsFrames * 10;
-            vector.scale(scale);
-            setVelocity(vector);
-            circle.getCenter().setXY(velocity.getX() + circle.getX(), (velocity.getY() + circle.getY()));
-        }
-
-        public void setVelocity(Vector2D velocity) {
-            this.velocity = velocity;
-        }
-
-        public void setMousePosition(Point mousePosition) {
-            this.mousePosition = mousePosition;
-        }
-    }
 
     @Override
     public void start(Stage stage) {
@@ -66,8 +34,7 @@ public class TestingOmar extends Application {
         GameLoop gameLoop = new GameLoop(60, canvas);
 
 
-        DrawableCircle playerCircle = new DrawableCircle(10, new Point(100,100), true);
-        Player playerSprite = new Player(playerCircle);
+        Player playerSprite = new Player(new Point(10,10), Colour.YELLOW);
 
         gameLoop.getDrawables().add(playerSprite);
         gameLoop.getCollidables().add(playerSprite);
@@ -79,6 +46,42 @@ public class TestingOmar extends Application {
         gameLoop.getDrawables().add(wallLine);
         gameLoop.getCollidables().add(wallCollider);
 
+        Star star = getStar();
+
+        gameLoop.getDrawables().add(star);
+        gameLoop.getCollidables().add(star);
+        gameLoop.getMovables().add(star);
+
+        stage.setScene(new Scene(pane));
+        stage.setWidth(500);
+        stage.setHeight(500);
+        stage.show();
+
+        pane.addEventHandler(MouseEvent.ANY, event -> {
+            playerSprite.setMousePos(event.getX(), event.getY());
+        });
+
+        // Test pausing
+        pane.getScene().addEventHandler(KeyEvent.KEY_TYPED, event -> {
+            System.out.println("key event");
+            System.out.println(event.getCharacter());
+            if (event.getCharacter().equals("p")) {
+                if (gameLoop.status() == Animation.Status.RUNNING) {
+                    gameLoop.pause();
+
+                } else if (gameLoop.status() == Animation.Status.PAUSED) {
+                    gameLoop.start();
+                }
+            }
+        });
+        gameLoop.start();
+
+        // Test wall movement
+        final long startNanoTime = System.nanoTime();
+
+    }
+
+    private static Star getStar() {
         Star star = new Star(new Colour[]{
                 Colour.RED,
                 Colour.BLACK,
@@ -123,40 +126,7 @@ public class TestingOmar extends Application {
 
                 }
         );
-
-        gameLoop.getDrawables().add(star);
-        gameLoop.getCollidables().add(star);
-        gameLoop.getMovables().add(star);
-
-        stage.setScene(new Scene(pane));
-        stage.setWidth(500);
-        stage.setHeight(500);
-        stage.show();
-
-        pane.addEventHandler(MouseEvent.ANY, event -> {
-
-            Point mousePoint = new Point(event.getX(), event.getY());
-            playerSprite.setMousePosition(mousePoint);
-        });
-
-        // Test pausing
-        pane.getScene().addEventHandler(KeyEvent.KEY_TYPED, event -> {
-            System.out.println("key event");
-            System.out.println(event.getCharacter());
-            if (event.getCharacter().equals("p")) {
-                if (gameLoop.status() == Animation.Status.RUNNING) {
-                    gameLoop.pause();
-
-                } else if (gameLoop.status() == Animation.Status.PAUSED) {
-                    gameLoop.start();
-                }
-            }
-        });
-        gameLoop.start();
-
-        // Test wall movement
-        final long startNanoTime = System.nanoTime();
-
+        return star;
     }
 
     public static void main(String[] args) {

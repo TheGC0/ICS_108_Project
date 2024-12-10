@@ -17,7 +17,7 @@ public class Player extends Sprite implements Colored {
 
 
     public Player(Point startPos, Colour color) {
-        this.circle = new ColoredCircle(SIZE, startPos, true, color);
+        this.circle = new ColoredCircle(SIZE, startPos, color);
         this.collider = new ColoredCircleCollider(circle, color);
         this.drawable = circle;
 

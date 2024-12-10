@@ -10,10 +10,9 @@ public class ColoredCircle extends DrawableCircle implements Colored {
     /**
      * @param radius The radius of the circle
      * @param center The center point
-     * @param fill   Whether the circle should be drawn filled or not
      */
-    public ColoredCircle(int radius, Point center, boolean fill, Colour color) {
-        super(radius, center, fill);
+    public ColoredCircle(int radius, Point center, Colour color) {
+        super(radius, center, true);
         this.color = color;
     }
 
@@ -29,7 +28,7 @@ public class ColoredCircle extends DrawableCircle implements Colored {
 
     @Override
     public void draw(GraphicsContext context) {
-        context.setStroke(color.color);
+        context.setFill(color.color);
         super.draw(context);
     }
 }

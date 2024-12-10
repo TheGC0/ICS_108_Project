@@ -31,6 +31,12 @@ public class Polygon {
 
     }
 
+    public void rotate(double radians) {
+        for (Vector2D vertex: vertices) {
+            vertex.rotate(radians);
+        }
+    }
+
     public Line[] getEdges() {
         return edges;
     }

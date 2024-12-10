@@ -9,13 +9,63 @@ public class Vector2D {
         this.y = y;
     }
 
+    public static Vector2D radialVector2D(double radius, double angle) {
+        return new Vector2D(Math.cos(angle) * radius, Math.sin(angle) * radius);
+    }
+
+    public double getX() {
+        return x;
+    }
+    public double getY() {
+        return y;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+    public void setY(double y) {
+        this.y = y;
+    }
+
     public void setXY(double x, double y) {
         setX(x);
         setY(y);
     }
 
-    public static Vector2D radialVector2D(double radius, double angle) {
-        return new Vector2D(Math.cos(angle) * radius, Math.sin(angle) * radius);
+    public void scale(double scale) {
+        x *= scale;
+        y *= scale;
+    }
+
+    public double getRadius() {
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+    public double getAngle() {
+        return Math.atan2(y, x);
+    }
+
+    public void add(Vector2D vector2D) {
+        x += vector2D.getX();
+        y += vector2D.getY();
+    }
+
+    public void subtract(Vector2D vector2D) {
+        x -= vector2D.getX();
+        y -= vector2D.getY();
+    }
+
+    public void rotate(double radians) {
+
+        double sin = Math.sin(radians);
+        double cos = Math.cos(radians);
+
+        x = x * cos - y * sin;
+        y = x * sin + y * cos;
+    }
+
+
+    public Vector2D unitVector() {
+        return radialVector2D(1, getAngle());
     }
 
     /**
@@ -34,34 +84,5 @@ public class Vector2D {
         return new Vector2D(otherPoint.x - x, otherPoint.y - y).unitVector();
     }
 
-    public double getX() {
-        return x;
-    }
-    public double getY() {
-        return y;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public void scale(double scale) {
-        x *= scale;
-        y *= scale;
-    }
-
-    public double getRadius() {
-        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
-    }
-    public double getAngle() {
-        return Math.atan2(y, x);
-    }
-
-    public Vector2D unitVector() {
-        return radialVector2D(1, getAngle());
-    }
 
 }

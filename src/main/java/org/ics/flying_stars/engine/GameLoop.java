@@ -34,6 +34,8 @@ public final class GameLoop {
     private final Timeline gameLoop;
     private final Timeline physicsLoop;
 
+    private final ArrayList<Timeline> attachedLoops;
+
     private int frames;
 
     /**
@@ -58,6 +60,7 @@ public final class GameLoop {
         physicsLoop = new Timeline();
         physicsLoop.setCycleCount(Timeline.INDEFINITE);
         setupPhysicsLoop();
+        attachedLoops = new ArrayList<>();
     }
 
     /**
@@ -95,6 +98,10 @@ public final class GameLoop {
     public void start() {
         gameLoop.play();
         physicsLoop.play();
+
+        for (Timeline loop: attachedLoops) {
+            loop.play();
+        }
     }
 
     /**
@@ -103,6 +110,11 @@ public final class GameLoop {
     public void pause() {
         gameLoop.pause();
         physicsLoop.pause();
+
+        for (Timeline loop: attachedLoops) {
+            loop.pause();
+        }
+
     }
 
     /**
@@ -111,6 +123,10 @@ public final class GameLoop {
     public void stop() {
         gameLoop.stop();
         physicsLoop.stop();
+
+        for (Timeline loop: attachedLoops) {
+            loop.stop();
+        }
     }
 
     /**
@@ -224,5 +240,9 @@ public final class GameLoop {
                 collidable.detectCollision(otherCollidable);
             }
         }
+    }
+
+    public ArrayList<Timeline> getAttachedLoops() {
+        return attachedLoops;
     }
 }

@@ -12,16 +12,19 @@ public class Player extends Sprite implements Colored {
     public static final int SIZE = 10;
     private final Vector2D mousePosition;
     private final ColoredCircle circle;
+    private final ColoredCircleCollider coloredCircleCollider;
     private Colour colour;
 
 
     public Player(Vector2D startPos, Colour color) {
         this.circle = new ColoredCircle(SIZE, startPos, color);
-        setCollider(new ColoredCircleCollider(circle, color));
+        this.coloredCircleCollider = new ColoredCircleCollider(circle, color);
         this.drawable = circle;
 
         colour = color;
         mousePosition = new Vector2D(0,0);
+
+        setCollider(coloredCircleCollider);
     }
 
     public void setMousePos(double x, double y) {
@@ -39,6 +42,8 @@ public class Player extends Sprite implements Colored {
 
     @Override
     public void setColor(Colour color) {
+        coloredCircleCollider.setColor(color);
+        circle.setColor(color);
         colour = color;
     }
 

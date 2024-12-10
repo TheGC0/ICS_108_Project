@@ -1,7 +1,6 @@
-package org.ics.flying_stars.engine.canvas.samples;
+package org.ics.flying_stars.engine.canvas;
 
 import javafx.scene.canvas.GraphicsContext;
-import org.ics.flying_stars.engine.canvas.Drawable;
 import org.ics.flying_stars.engine.geometry.Line;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 
@@ -24,6 +23,7 @@ public class DrawableLine extends Line implements Drawable {
     @Override
     public void draw(GraphicsContext context) {
         // Draw the line
+        context.setLineWidth(2);
         context.strokeLine(startPoint().getX(), startPoint().getY(),
                 endPoint().getX(), endPoint().getY());
     }

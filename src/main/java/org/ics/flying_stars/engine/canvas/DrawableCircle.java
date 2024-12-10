@@ -1,7 +1,6 @@
-package org.ics.flying_stars.engine.canvas.samples;
+package org.ics.flying_stars.engine.canvas;
 
 import javafx.scene.canvas.GraphicsContext;
-import org.ics.flying_stars.engine.canvas.Drawable;
 import org.ics.flying_stars.engine.geometry.Circle;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 

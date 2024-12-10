@@ -3,6 +3,7 @@ package org.ics.flying_stars.engine.canvas.samples;
 import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.canvas.Drawable;
 import org.ics.flying_stars.engine.geometry.Circle;
+import org.ics.flying_stars.engine.geometry.Vector2D;
 
 /**
  * A circle that can be drawn on a canvas
@@ -15,7 +16,7 @@ public class DrawableCircle extends Circle implements Drawable {
      * @param center The center point
      * @param fill Whether the circle should be drawn filled or not
      */
-    public DrawableCircle(int radius, Point center, boolean fill) {
+    public DrawableCircle(int radius, Vector2D center, boolean fill) {
         super(radius, center);
         this.fill = fill;
     }

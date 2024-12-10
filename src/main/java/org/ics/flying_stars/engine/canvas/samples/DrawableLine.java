@@ -3,6 +3,7 @@ package org.ics.flying_stars.engine.canvas.samples;
 import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.canvas.Drawable;
 import org.ics.flying_stars.engine.geometry.Line;
+import org.ics.flying_stars.engine.geometry.Vector2D;
 
 /**
  * A line that can be drawn on a canvas
@@ -12,7 +13,7 @@ public class DrawableLine extends Line implements Drawable {
      * @param startPoint The starting point of the line
      * @param endPoint The ending point of the line
      */
-    public DrawableLine(Point startPoint, Point endPoint) {
+    public DrawableLine(Vector2D startPoint, Vector2D endPoint) {
         super(startPoint, endPoint);
     }
 

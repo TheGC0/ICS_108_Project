@@ -4,9 +4,10 @@ import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.canvas.Drawable;
 import org.ics.flying_stars.engine.geometry.Line;
 import org.ics.flying_stars.engine.geometry.Polygon;
+import org.ics.flying_stars.engine.geometry.Vector2D;
 
 public class DrawablePolygon extends Polygon implements Drawable {
-    public DrawablePolygon(Point[] points) {
+    public DrawablePolygon(Vector2D[] points) {
         super(points);
     }
 

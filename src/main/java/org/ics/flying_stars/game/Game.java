@@ -29,7 +29,7 @@ public class Game {
         GameLoop gameLoop = new GameLoop(60, canvas);
 
         // Create player and connect to mouse
-        Player player = new Player(new Point(200, 200), Colour.RED);
+        Player player = new Player(new Vector2D(200, 200), Colour.RED);
         gameLoop.addSprite(player);
         canvas.addEventHandler(MouseEvent.ANY, event -> player.setMousePos(event.getX(), event.getY()));
         player.addCollisionHandler(collisionTranscript -> {

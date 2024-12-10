@@ -5,6 +5,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public enum Colour {
     BLUE(Color.BLUE),
@@ -25,8 +26,9 @@ public enum Colour {
     }
 
     public static Colour[] getShuffled(){
-        Collections.shuffle(Arrays.asList(Colour.values()));
-        return Colour.values();
+        List<Colour> shuffledColors = Arrays.asList(Colour.values());
+        Collections.shuffle(shuffledColors);
+        return shuffledColors.toArray(new Colour[0]);
     }
 
 }

@@ -10,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.GameLoop;
+import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.entities.Player;
 import org.ics.flying_stars.game.entities.Star;
 import org.ics.flying_stars.game.factories.StarFactory;
@@ -49,7 +50,7 @@ public class TestingOmar extends Application {
                 starFactory.getVertices()
         );
 
-        Player playerSprite = new Player(new Point(10,10), Colour.YELLOW);
+        Player playerSprite = new Player(new Vector2D(10,10), Colour.YELLOW);
         playerSprite.addCollisionHandler(collisionTranscript -> {
 
         });

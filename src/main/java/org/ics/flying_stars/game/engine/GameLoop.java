@@ -11,6 +11,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.animation.KeyFrame;
 import javafx.util.Duration;
 import org.ics.flying_stars.game.engine.sprites.Movable;
+import org.ics.flying_stars.game.engine.sprites.Sprite;
 
 import java.util.ArrayList;
 
@@ -142,6 +143,18 @@ public final class GameLoop {
      */
     public ArrayList<Movable> getMovables() {
         return movables;
+    }
+
+    public void addSprite(Sprite sprite) {
+        drawables.add(sprite);
+        collidables.add(sprite);
+        movables.add(sprite);
+    }
+
+    public void removeSprite(Sprite sprite) {
+        drawables.remove(sprite);
+        collidables.remove(sprite);
+        movables.remove(sprite);
     }
 
     public void setFramesPerSecond(int newFrames) {

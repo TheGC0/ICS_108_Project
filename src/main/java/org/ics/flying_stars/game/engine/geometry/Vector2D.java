@@ -42,4 +42,8 @@ public class Vector2D {
     public Vector2D unitVector() {
         return radialVector2D(1, getAngle());
     }
+
+    public Point toPoint() {
+        return new Point(x, y);
+    }
 }

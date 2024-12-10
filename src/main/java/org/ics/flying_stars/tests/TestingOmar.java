@@ -22,6 +22,7 @@ import org.ics.flying_stars.game.engine.geometry.Point;
 import org.ics.flying_stars.game.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.engine.sprites.Sprite;
 import org.ics.flying_stars.game.entities.Star;
+import org.ics.flying_stars.game.factories.StarFactory;
 
 public class TestingOmar extends Application {
 
@@ -87,6 +88,8 @@ public class TestingOmar extends Application {
         gameLoop.getDrawables().add(wallLine);
         gameLoop.getCollidables().add(wallCollider);
 
+        StarFactory starFactory = new StarFactory();
+
         Star star = new Star(new Colour[]{
                 Colour.RED,
                 Colour.BLACK,
@@ -99,19 +102,7 @@ public class TestingOmar extends Application {
                 Colour.BROWN,
                 Colour.RED,
         },
-                new Point[]{
-                new Point(150, 150-60),
-                new Point(150+10, 150-30),
-                new Point(150+40, 150-30),
-                new Point(150+10, 150+10),
-                new Point(150+20, 150+40),
-                new Point(150, 150+10),
-                new Point(150-20, 150+40),
-                new Point(150-10, 150+10),
-                new Point(150-40, 150-30),
-                new Point(150-10, 150-30),
-        }
-        );
+                starFactory.getVertices());
 //        PolygonCollider starCollider = new PolygonCollider(star);
 
         star.setVelocities(
@@ -134,7 +125,7 @@ public class TestingOmar extends Application {
 
         gameLoop.getDrawables().add(star);
         gameLoop.getCollidables().add(star);
-        gameLoop.getMovables().add(star);
+//        gameLoop.getMovables().add(star);
 
         stage.setScene(new Scene(pane));
         stage.setWidth(500);

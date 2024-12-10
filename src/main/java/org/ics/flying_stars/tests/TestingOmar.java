@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.ics.flying_stars.game.engine.canvas.Colour;
 import org.ics.flying_stars.game.engine.canvas.samples.DrawableCircle;
 import org.ics.flying_stars.game.engine.canvas.samples.DrawableLine;
 import org.ics.flying_stars.game.engine.canvas.samples.DrawablePolygon;
@@ -20,6 +21,7 @@ import org.ics.flying_stars.game.engine.GameLoop;
 import org.ics.flying_stars.game.engine.geometry.Point;
 import org.ics.flying_stars.game.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.engine.sprites.Sprite;
+import org.ics.flying_stars.game.entities.Star;
 
 public class TestingOmar extends Application {
 
@@ -28,8 +30,9 @@ public class TestingOmar extends Application {
         private Vector2D velocity = new Vector2D(0, 0);
         private Point mousePosition;
         public Player(DrawableCircle circle) {
-            super(circle, new CircleCollider(circle));
             this.circle = circle;
+            this.drawable = circle;
+            this.collider = new CircleCollider(circle);
         }
 
         @Override
@@ -53,10 +56,10 @@ public class TestingOmar extends Application {
 
         }
 
-        @Override
-        public void handleCollision(Collidable otherCollidable) {
-
-        }
+//        @Override
+//        public void handleCollision(Collidable otherCollidable) {
+//
+//        }
     }
 
     @Override
@@ -84,7 +87,19 @@ public class TestingOmar extends Application {
         gameLoop.getDrawables().add(wallLine);
         gameLoop.getCollidables().add(wallCollider);
 
-        DrawablePolygon star = new DrawablePolygon(new Point[]{
+        Star star = new Star(new Colour[]{
+                Colour.RED,
+                Colour.BLACK,
+                Colour.GREEN,
+                Colour.RED,
+                Colour.RED,
+                Colour.BLUE,
+                Colour.RED,
+                Colour.RED,
+                Colour.BROWN,
+                Colour.RED,
+        },
+                new Point[]{
                 new Point(150, 150-60),
                 new Point(150+10, 150-30),
                 new Point(150+40, 150-30),
@@ -97,11 +112,29 @@ public class TestingOmar extends Application {
                 new Point(150-10, 150-30),
         }
         );
-        PolygonCollider starCollider = new PolygonCollider(star);
+//        PolygonCollider starCollider = new PolygonCollider(star);
 
+        star.setVelocities(
+                new Vector2D[]{
+                        new Vector2D(50, 50),
+                        new Vector2D(100, 100),
+                        new Vector2D(150, 150),
+                        new Vector2D(150+10, 150+40),
+                        new Vector2D(150+10, 150+10),
+                        new Vector2D(150+20, 150+40),
+                        new Vector2D(150+10, 150+10),
+                        new Vector2D(150+20, 150+40),
+                        new Vector2D(150+10, 150+10),
+                        new Vector2D(150+20, 150+40),
+                        new Vector2D(150+10, 150+10),
+                        new Vector2D(150+20, 150+40),
+
+                }
+        );
 
         gameLoop.getDrawables().add(star);
-        gameLoop.getCollidables().add(starCollider);
+        gameLoop.getCollidables().add(star);
+        gameLoop.getMovables().add(star);
 
         stage.setScene(new Scene(pane));
         stage.setWidth(500);
@@ -121,6 +154,7 @@ public class TestingOmar extends Application {
             if (event.getCharacter().equals("p")) {
                 if (gameLoop.status() == Animation.Status.RUNNING) {
                     gameLoop.pause();
+
                 } else if (gameLoop.status() == Animation.Status.PAUSED) {
                     gameLoop.start();
                 }
@@ -130,32 +164,6 @@ public class TestingOmar extends Application {
 
         // Test wall movement
         final long startNanoTime = System.nanoTime();
-        new AnimationTimer()
-
-        {
-
-            public void handle(long currentNanoTime)
-
-            {
-
-                double t = (currentNanoTime - startNanoTime) / 1000000000.0;
-
-                double x = 1 * Math.cos(t);
-                double x2 = 50 * Math.cos(t);
-
-                double y = 1 * Math.sin(t);
-                double y2 = 50 * Math.sin(t);
-
-                double i= 0.5 ;
-                for (Point point: star.getVertices()) {
-                    point.setXY(point.getX() + i, point.getY() + i);
-                }
-//                star.getVertices()[0].setXY((int) x, (int) y);
-
-
-            }
-
-        }.start();
 
     }
 

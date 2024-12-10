@@ -21,7 +21,7 @@ public class MultipleColoredPolygonCollider extends PolygonCollider{
         // Iterate over every edge
         for (int i=0; i < lineColliders.length; i++) {
             // Create and add a new line collider from the polygon edge
-            LineCollider lineCollider = new ColoredLineCollider(polygon.getEdges()[i], colours[i]);
+              LineCollider lineCollider = new ColoredLineCollider(polygon.getEdges()[i], colours[i]);
             lineColliders[i] = lineCollider;
         }
     }

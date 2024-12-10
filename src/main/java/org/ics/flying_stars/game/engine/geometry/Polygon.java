@@ -2,8 +2,8 @@ package org.ics.flying_stars.game.engine.geometry;
 
 
 public class Polygon {
-    private final Line[] edges;
-    private final Point[] vertices;
+    protected final Line[] edges;
+    protected final Point[] vertices;
 
     public Polygon(Point[] points) {
         if (points.length < 3) {

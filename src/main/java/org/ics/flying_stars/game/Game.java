@@ -9,6 +9,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 import org.ics.flying_stars.engine.GameLoop;
@@ -27,6 +28,8 @@ import org.ics.flying_stars.ui.AbstractUI;
 import org.ics.flying_stars.ui.LosingScreenUI;
 import org.ics.flying_stars.ui.PauseMenuUI;
 
+import java.util.HashMap;
+
 
 public class Game {
     private final Settings settings;
@@ -35,7 +38,9 @@ public class Game {
     private final PauseMenuUI pauseMenu;
     private final LosingScreenUI loseMenu;
     private final HealthBar healthBar;
+    private final Score score;
     private GameLoop gameLoop;
+    private final HashMap<FlyingStar, Double> starsTimer;
 
     private final Player player;
     private final PolygonCollider bounds;
@@ -44,6 +49,8 @@ public class Game {
         this.settings = settings;
         this.canvas = canvas;
 
+        starsTimer = new HashMap<>();
+        score = new Score();
         rootStackPane = new StackPane();
         pauseMenu = new PauseMenuUI();
         loseMenu = new LosingScreenUI();
@@ -71,8 +78,10 @@ public class Game {
         // Set backgrounds
 
         // Add canvas, score, and health bar
+        VBox vBox = new VBox();
+        vBox.getChildren().addAll(score.getRoot(),healthBar.getRoot());
         rootStackPane.setBackground(Background.fill(Color.BLACK));
-        rootStackPane.getChildren().addAll(healthBar.getRoot(), canvas);
+        rootStackPane.getChildren().addAll(vBox, canvas);
     }
 
     private void showMenu(AbstractUI menu) {
@@ -100,11 +109,13 @@ public class Game {
         if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingStar flyingStar) {
             Colour edgeColor = ((Colored) collisionTranscript.getLinkedTranscript().getOrigin()).getColor();
             if (player.getColor() == edgeColor) {
+                score.hit((double) System.currentTimeMillis() - starsTimer.get(flyingStar));
                 player.setColor(Colour.getShuffled()[0]);
                 gameLoop.removeSprite(flyingStar);
 
             } else {
                 healthBar.takeDamage();
+                score.miss((double) System.currentTimeMillis() - starsTimer.get(flyingStar));
                 gameLoop.removeSprite(flyingStar);
             }
 
@@ -119,6 +130,8 @@ public class Game {
     private void boundsCollisionHandler(CollisionTranscript collisionTranscript) {
         if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingStar flyingStar) {
             gameLoop.removeSprite(flyingStar);
+            score.miss((double) System.currentTimeMillis() - starsTimer.get(flyingStar));
+
         }
     }
 
@@ -128,6 +141,7 @@ public class Game {
         gameLoop = new GameLoop(60, canvas);
 
         healthBar.startANewLife();
+        score.reset();
         gameLoop.addSprite(player);
 
         gameLoop.getCollidables().add(bounds);
@@ -137,11 +151,12 @@ public class Game {
 
         // Create a star spawner
         StarFactory starFactory = new StarFactory(new Vector2D((double) 720 /2, (double) 720 /2));
-        Difficulty difficulty = Difficulty.HARD;
+        Difficulty difficulty = Difficulty.EASY;
         Timeline spawner = new Timeline(
                 new KeyFrame(Duration.seconds(difficulty.getDifficultyLevel()), event -> {
                     FlyingStar flyingStar = starFactory.create(Math.random() * Math.PI / 3, 100 * difficulty.getDifficultyLevel());
                     gameLoop.addSprite(flyingStar);
+                    starsTimer.put(flyingStar, (double) System.currentTimeMillis());
                 })
         );
 

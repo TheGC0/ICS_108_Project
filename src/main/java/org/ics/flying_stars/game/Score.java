@@ -17,6 +17,8 @@ public class Score implements UI {
         layout = new VBox();
         hitsPercentage = new Label();
         averageReactionTime = new Label();
+a        hitsPercentage.setStyle("-fx-text-fill: white;");
+        averageReactionTime.setStyle("-fx-text-fill: white;");
         layout.getChildren().addAll(hitsPercentage, averageReactionTime);
     }
 
@@ -34,16 +36,16 @@ public class Score implements UI {
     }
 
     public void update(){
-        hitsPercentage.setText( "" + (double) hits / (double) totalHits + "%%" );
-        averageReactionTime.setText("" + time / (double) totalHits + " seconds");
+        hitsPercentage.setText( "Hits Percentage: %.0f %%".formatted(100 * (double) hits / (double) totalHits) );
+        averageReactionTime.setText("Reaction Time: %.2f sec".formatted( time / (double) totalHits / 1000 ));
     }
 
     public void reset(){
         totalHits = 0;
         hits = 0;
         time = 0;
-        hitsPercentage.setText( "" + 0 + "%%" );
-        averageReactionTime.setText("" + 0 + " seconds");
+        hitsPercentage.setText( "Hits Percentage: " + 0 + "%%" );
+        averageReactionTime.setText("Reaction Time: " + 0 + " sec");
     }
 
     @Override

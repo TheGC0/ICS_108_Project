@@ -17,7 +17,7 @@ public class Score implements UI {
         layout = new VBox();
         hitsPercentage = new Label();
         averageReactionTime = new Label();
-a        hitsPercentage.setStyle("-fx-text-fill: white;");
+        hitsPercentage.setStyle("-fx-text-fill: white;");
         averageReactionTime.setStyle("-fx-text-fill: white;");
         layout.getChildren().addAll(hitsPercentage, averageReactionTime);
     }

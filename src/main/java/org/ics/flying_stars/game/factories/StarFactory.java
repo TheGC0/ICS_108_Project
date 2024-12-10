@@ -1,9 +1,11 @@
 package org.ics.flying_stars.game.factories;
 
+import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.engine.geometry.Vector2D;
+import org.ics.flying_stars.game.entities.Star;
 
-public class StarFactory {
+public class StarFactory implements Factory<Star> {
     private Point[] vertices;
 
     public StarFactory() {
@@ -82,5 +84,27 @@ public class StarFactory {
 
     public void setVertices(Point[] vertices) {
         this.vertices = vertices;
+    }
+
+    @Override
+    public Star create() {
+        Colour[] colors = new Colour[]{
+                Colour.RED,
+                Colour.BLACK,
+                Colour.GREEN,
+                Colour.RED,
+                Colour.RED,
+                Colour.BLUE,
+                Colour.RED,
+                Colour.RED,
+                Colour.BROWN,
+                Colour.RED};
+
+        // TODO Generate random colors
+        Point[] copiedVertices = new Point[10];
+        for (int i=0; i<10; i++) {
+            copiedVertices[i] = new Point(vertices[i].getX(), vertices[i].getY());
+        }
+        return new Star(colors, copiedVertices);
     }
 }

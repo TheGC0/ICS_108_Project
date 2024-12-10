@@ -23,7 +23,7 @@ public class Star extends Sprite{
         this.velocities = new Vector2D[points.length];
 
         Polygon polygon = new Polygon(points);
-        this.collider = new MultipleColoredPolygonCollider(polygon, colors);
+        setCollider(new MultipleColoredPolygonCollider(polygon, colors));
 
         for (int i = 0; i < polygon.getEdges().length; i++)
             lines[i] = new ColoredLine(polygon.getEdges()[i], colors[i]);

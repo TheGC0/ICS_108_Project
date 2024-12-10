@@ -13,7 +13,7 @@ public class MenuUI extends AbstractUI{
         super("Flying Stars");
 
         // setting the buttons for menu ui
-        Button play = new Button("play");
+        Button play = new Button("Play");
         Button settings = new Button("Settings");
         Button exit = new Button("Exit");
 

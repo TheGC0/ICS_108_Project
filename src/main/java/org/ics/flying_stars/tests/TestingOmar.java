@@ -40,7 +40,7 @@ public class TestingOmar extends Application {
 
         StarFactory starFactory = new StarFactory(new Vector2D(200,200));
         FlyingStar flyingStar = starFactory.create(Math.random() * Math.PI / 3, 10);
-        Player playerSprite = new Player(new Vector2D(10,10), Colour.OliveGreen);
+        Player playerSprite = new Player(new Vector2D(10,10), Colour.LIME);
         playerSprite.addCollisionHandler(collisionTranscript -> {
 
         });

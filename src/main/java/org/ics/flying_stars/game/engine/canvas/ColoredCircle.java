@@ -1,21 +1,20 @@
 package org.ics.flying_stars.game.engine.canvas;
 
 import javafx.scene.canvas.GraphicsContext;
-import org.ics.flying_stars.game.engine.canvas.samples.DrawableLine;
-import org.ics.flying_stars.game.engine.geometry.Line;
+import org.ics.flying_stars.game.engine.canvas.samples.DrawableCircle;
 import org.ics.flying_stars.game.engine.geometry.Point;
 
-public class ColorableLine extends DrawableLine implements Colored{
+public class ColoredCircle extends DrawableCircle implements Colored {
     private Colour color;
 
-
-    public ColorableLine(Point startPoint, Point endPoint, Colour color) {
-        super(startPoint, endPoint);
+    /**
+     * @param radius The radius of the circle
+     * @param center The center point
+     * @param fill   Whether the circle should be drawn filled or not
+     */
+    public ColoredCircle(int radius, Point center, boolean fill, Colour color) {
+        super(radius, center, fill);
         this.color = color;
-    }
-
-    public ColorableLine(Line line, Colour color) {
-        this(line.startPoint(), line.endPoint(), color);
     }
 
     @Override

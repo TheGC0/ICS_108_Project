@@ -29,6 +29,7 @@ public class TestingOmar extends Application {
         private final DrawableCircle circle;
         private Vector2D velocity = new Vector2D(0, 0);
         private Point mousePosition;
+
         public Player(DrawableCircle circle) {
             this.circle = circle;
             this.drawable = circle;
@@ -43,6 +44,7 @@ public class TestingOmar extends Application {
             setVelocity(vector);
             circle.getCenter().setXY(velocity.getX() + circle.getX(), (velocity.getY() + circle.getY()));
         }
+
         public void setVelocity(Vector2D velocity) {
             this.velocity = velocity;
         }
@@ -50,16 +52,6 @@ public class TestingOmar extends Application {
         public void setMousePosition(Point mousePosition) {
             this.mousePosition = mousePosition;
         }
-
-        @Override
-        public void addCollisionHandler(CollisionHandler handler) {
-
-        }
-
-//        @Override
-//        public void handleCollision(Collidable otherCollidable) {
-//
-//        }
     }
 
     @Override

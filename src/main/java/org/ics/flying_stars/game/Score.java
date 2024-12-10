@@ -17,16 +17,17 @@ public class Score {
     public void hit(double time) {
         hits++;
         this.time += time;
+        totalHits++;
         update();
     }
 
     public void miss(double time) {
         this.time += time;
+        totalHits++;
         update();
     }
 
     public void update(){
-        totalHits++;
         hitsPercentage.setText( "" + (double) hits / (double) totalHits + "%%" );
         averageReactionTime.setText("" + time / (double) totalHits + " seconds");
     }

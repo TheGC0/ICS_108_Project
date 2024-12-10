@@ -4,14 +4,13 @@ import org.ics.flying_stars.engine.canvas.Colored;
 import org.ics.flying_stars.engine.canvas.ColoredCircle;
 import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.collision.colliders.colored.ColoredCircleCollider;
-import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.engine.sprites.Sprite;
 
 public class Player extends Sprite implements Colored {
     public static final int SPEED_MULTIPLIER = 10;
     public static final int SIZE = 10;
-    private final Point mousePosition;
+    private final Vector2D mousePosition;
     private final ColoredCircle circle;
     private Colour colour;
 
@@ -22,7 +21,7 @@ public class Player extends Sprite implements Colored {
         this.drawable = circle;
 
         colour = color;
-        mousePosition = new Point(0,0);
+        mousePosition = new Vector2D(0,0);
     }
 
     public void setMousePos(double x, double y) {

@@ -3,7 +3,6 @@ package org.ics.flying_stars.engine.canvas.samples;
 import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.canvas.Drawable;
 import org.ics.flying_stars.engine.geometry.Line;
-import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.engine.geometry.Polygon;
 
 public class DrawablePolygon extends Polygon implements Drawable {

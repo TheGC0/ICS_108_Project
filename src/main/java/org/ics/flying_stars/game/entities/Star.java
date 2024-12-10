@@ -4,18 +4,17 @@ import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.canvas.ColoredLine;
 import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.collision.colliders.colored.MultipleColoredPolygonCollider;
-import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.engine.geometry.Polygon;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.engine.sprites.Sprite;
 
 public class Star extends Sprite{
-    private final Point[] vertices;
+    private final Vector2D[] vertices;
     private final ColoredLine[] lines;
     private Vector2D[] velocities;
     public Colour[] colors;
 
-    public Star(Colour[] colors,Point[] points) {
+    public Star(Colour[] colors,Vector2D[] points) {
 
         this.vertices = points;
         this.colors = colors;

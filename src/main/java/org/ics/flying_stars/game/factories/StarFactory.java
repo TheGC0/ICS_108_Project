@@ -1,7 +1,6 @@
 package org.ics.flying_stars.game.factories;
 
 import org.ics.flying_stars.engine.canvas.Colour;
-import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.entities.Star;
 

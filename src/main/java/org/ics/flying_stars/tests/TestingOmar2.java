@@ -1,20 +1,11 @@
 package org.ics.flying_stars.tests;
 
-import javafx.animation.Animation;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.ics.flying_stars.engine.GameLoop;
-import org.ics.flying_stars.engine.canvas.Colour;
-import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.game.Game;
-import org.ics.flying_stars.game.entities.Player;
-import org.ics.flying_stars.game.entities.Star;
-import org.ics.flying_stars.game.factories.StarFactory;
 import org.ics.flying_stars.settings.Settings;
 
 public class TestingOmar2 extends Application {

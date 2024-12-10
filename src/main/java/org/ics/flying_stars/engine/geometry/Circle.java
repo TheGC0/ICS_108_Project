@@ -1,10 +1,10 @@
 package org.ics.flying_stars.engine.geometry;
 
 public class Circle {
-    private final Point center;
+    private final Vector2D center;
     private int radius;
 
-    public Circle(int radius, Point center) {
+    public Circle(int radius, Vector2D center) {
         this.radius = radius;
         this.center = center;
     }
@@ -17,7 +17,7 @@ public class Circle {
         this.radius = radius;
     }
 
-    public Point getCenter() {
+    public Vector2D getCenter() {
         return center;
     }
 

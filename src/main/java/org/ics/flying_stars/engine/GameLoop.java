@@ -220,11 +220,8 @@ public final class GameLoop {
             // Loop over every other collidable
             for (int j=i+1; j < collidables.size(); j++) {
                 Collidable otherCollidable = collidables.get(j);
-
                 // Detect and handle collision
-                if (collidable.detectCollision(otherCollidable)) {
-//                    System.out.println("Collision DEBUG");
-                }
+                collidable.detectCollision(otherCollidable);
             }
         }
     }

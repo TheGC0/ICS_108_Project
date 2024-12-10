@@ -6,7 +6,6 @@ import javafx.stage.Stage;
 import org.ics.flying_stars.ui.LosingScreenUI;
 import org.ics.flying_stars.ui.MenuUI;
 import org.ics.flying_stars.ui.PauseMenuUI;
-import org.ics.flying_stars.ui.SettingsUI;
 
 // testing if the one piece is realll!!!!!!!!
 public class TestingAbdo extends Application {
@@ -28,18 +27,12 @@ public class TestingAbdo extends Application {
         menu.playButton().setOnAction(event -> {
 
             scene.setRoot(pause.getRoot());
-            pause.backToMainMenuButton().setOnAction(e -> {
-                scene.setRoot(menu.getRoot());
-            });
+            pause.backToMainMenuButton().setOnAction(e -> scene.setRoot(menu.getRoot()));
             pause.resumeButton().setOnAction(e -> {
                 scene.setRoot(losing.getRoot());
-                losing.backToMainMenuButton().setOnAction(ev ->{
-                    scene.setRoot(menu.getRoot());
-                });
+                losing.backToMainMenuButton().setOnAction(ev -> scene.setRoot(menu.getRoot()));
             });
-            pause.restartButton().setOnAction(e -> {
-                scene.setRoot(losing.getRoot());
-            });
+            pause.restartButton().setOnAction(e -> scene.setRoot(losing.getRoot()));
         });
 
     }

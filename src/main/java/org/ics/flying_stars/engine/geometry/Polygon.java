@@ -3,9 +3,9 @@ package org.ics.flying_stars.engine.geometry;
 
 public class Polygon {
     protected final Line[] edges;
-    protected final Point[] vertices;
+    protected final Vector2D[] vertices;
 
-    public Polygon(Point[] points) {
+    public Polygon(Vector2D[] points) {
         if (points.length < 3) {
             throw new UnsupportedOperationException("Polygon cannot have less than 3 points");
         }
@@ -17,8 +17,8 @@ public class Polygon {
     }
 
     protected void createEdges() {
-        Point startPoint = vertices[0];
-        Point endPoint = vertices[vertices.length - 1];
+        Vector2D startPoint = vertices[0];
+        Vector2D endPoint = vertices[vertices.length - 1];
         // Create edge that connects first and last points
         edges[0] = new Line(startPoint, endPoint);
 
@@ -35,7 +35,7 @@ public class Polygon {
         return edges;
     }
 
-    public Point[] getVertices() {
+    public Vector2D[] getVertices() {
         return vertices;
     }
 }

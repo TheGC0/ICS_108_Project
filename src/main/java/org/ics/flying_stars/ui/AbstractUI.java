@@ -8,7 +8,7 @@ import javafx.scene.layout.GridPane;
 
 public abstract class AbstractUI{
     // making the pane
-    protected GridPane rootGridPane;
+    protected final GridPane rootGridPane;
 
     // Constructor
     public AbstractUI(String mainTitle) {

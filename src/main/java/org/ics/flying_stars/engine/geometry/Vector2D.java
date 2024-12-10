@@ -9,8 +9,29 @@ public class Vector2D {
         this.y = y;
     }
 
+    public void setXY(double x, double y) {
+        setX(x);
+        setY(y);
+    }
+
     public static Vector2D radialVector2D(double radius, double angle) {
         return new Vector2D(Math.cos(angle) * radius, Math.sin(angle) * radius);
+    }
+
+    /**
+     * Calculates and returns the distance from another point
+     * @param otherPoint The other point to calculate distance from
+     * @return The distance between this point and the other point
+     */
+    public double distanceFrom(Vector2D otherPoint) {
+        // Distance formula
+        double deltaX = otherPoint.x - x;
+        double deltaY = otherPoint.y - y;
+        return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
+    }
+
+    public Vector2D getUnitVectorFrom(Vector2D otherPoint){
+        return new Vector2D(otherPoint.x - x, otherPoint.y - y).unitVector();
     }
 
     public double getX() {
@@ -43,7 +64,4 @@ public class Vector2D {
         return radialVector2D(1, getAngle());
     }
 
-    public Point toPoint() {
-        return new Point(x, y);
-    }
 }

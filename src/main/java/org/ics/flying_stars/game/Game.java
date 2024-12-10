@@ -9,7 +9,6 @@ import org.ics.flying_stars.engine.GameLoop;
 import org.ics.flying_stars.engine.canvas.Colored;
 import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.collision.colliders.PolygonCollider;
-import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.engine.geometry.Polygon;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.entities.Player;
@@ -32,9 +31,7 @@ public class Game {
         // Create player and connect to mouse
         Player player = new Player(new Point(200, 200), Colour.RED);
         gameLoop.addSprite(player);
-        canvas.addEventHandler(MouseEvent.ANY, event -> {
-            player.setMousePos(event.getX(), event.getY());
-        });
+        canvas.addEventHandler(MouseEvent.ANY, event -> player.setMousePos(event.getX(), event.getY()));
         player.addCollisionHandler(collisionTranscript -> {
             if (collisionTranscript.getLinkedTranscript().getHead() instanceof Star star) {
                 Colour edgeColor = ((Colored) collisionTranscript.getLinkedTranscript().getOrigin()).getColor();
@@ -48,11 +45,11 @@ public class Game {
 
         // Create bounds
         PolygonCollider bounds = new PolygonCollider(new Polygon(
-                new Point[] {
-                        new Point(0, 0),
-                        new Point(canvas.getWidth(), 0),
-                        new Point(canvas.getWidth(), canvas.getHeight()),
-                        new Point(0, canvas.getHeight()),
+                new Vector2D[] {
+                        new Vector2D(0, 0),
+                        new Vector2D(canvas.getWidth(), 0),
+                        new Vector2D(canvas.getWidth(), canvas.getHeight()),
+                        new Vector2D(0, canvas.getHeight()),
                 }
         ));
         gameLoop.getCollidables().add(bounds);

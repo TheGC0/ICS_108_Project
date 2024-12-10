@@ -3,7 +3,6 @@ package org.ics.flying_stars.engine.canvas;
 import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.canvas.samples.DrawableLine;
 import org.ics.flying_stars.engine.geometry.Line;
-import org.ics.flying_stars.engine.geometry.Point;
 
 public class ColoredLine extends DrawableLine implements Colored {
     private Colour color;

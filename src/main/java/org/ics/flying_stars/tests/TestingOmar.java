@@ -10,7 +10,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.GameLoop;
-import org.ics.flying_stars.engine.geometry.Point;
 import org.ics.flying_stars.game.entities.Player;
 import org.ics.flying_stars.game.entities.Star;
 import org.ics.flying_stars.game.factories.StarFactory;
@@ -52,10 +51,6 @@ public class TestingOmar extends Application {
 
         Player playerSprite = new Player(new Point(10,10), Colour.YELLOW);
         playerSprite.addCollisionHandler(collisionTranscript -> {
-//            System.out.println(collisionTranscript.getOrigin());
-//            System.out.println(collisionTranscript.getHead());
-//            System.out.println(collisionTranscript.getLinkedTranscript().getOrigin());
-//            System.out.println(collisionTranscript.getLinkedTranscript().getHead());
 
         });
 
@@ -64,10 +59,7 @@ public class TestingOmar extends Application {
         gameLoop.addSprite(star);
 
 
-        pane.addEventHandler(MouseEvent.ANY, event -> {
-
-            playerSprite.setMousePos(event.getX(), event.getY());
-        });
+        pane.addEventHandler(MouseEvent.ANY, event -> playerSprite.setMousePos(event.getX(), event.getY()));
 
         // Test pausing
         pane.getScene().addEventHandler(KeyEvent.KEY_TYPED, event -> {

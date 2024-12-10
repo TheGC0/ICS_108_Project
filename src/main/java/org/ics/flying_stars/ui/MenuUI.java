@@ -1,8 +1,6 @@
 package org.ics.flying_stars.ui;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 
 public class MenuUI extends AbstractUI{
     // making buttons

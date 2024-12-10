@@ -2,7 +2,6 @@ package org.ics.flying_stars.engine.canvas;
 
 import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.canvas.samples.DrawableCircle;
-import org.ics.flying_stars.engine.geometry.Point;
 
 public class ColoredCircle extends DrawableCircle implements Colored {
     private Colour color;

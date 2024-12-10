@@ -2,8 +2,6 @@ package org.ics.flying_stars.ui;
 
 import javafx.scene.control.Button;
 
-import static javafx.application.Application.launch;
-
 public class LosingScreenUI extends AbstractUI{
     // making buttons
     private final Button tryingButton;

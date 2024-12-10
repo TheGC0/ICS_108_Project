@@ -38,6 +38,9 @@ public class CircleCollider extends Collider {
             transcript1.setLinkedTranscript(transcript2);
             transcript2.setLinkedTranscript(transcript1);
 
+            buildCollisionTranscript(transcript1);
+            otherCircleCollider.buildCollisionTranscript(transcript2);
+
             handleCollision(transcript1);
             otherCircleCollider.handleCollision(transcript2);
         }
@@ -53,6 +56,9 @@ public class CircleCollider extends Collider {
 
             transcript1.setLinkedTranscript(transcript2);
             transcript2.setLinkedTranscript(transcript1);
+
+            buildCollisionTranscript(transcript1);
+            otherLineCollider.buildCollisionTranscript(transcript2);
 
             handleCollision(transcript1);
             otherLineCollider.handleCollision(transcript2);

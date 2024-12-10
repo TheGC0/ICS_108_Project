@@ -11,11 +11,19 @@ import java.util.ArrayList;
 
 public abstract class Sprite implements Drawable, Collidable, Movable {
     private final ArrayList<CollisionHandler> collisionHandlers;
+    private CollisionHandler collisionsTranscriptBuilder;
     protected Collider collider;
     protected Drawable drawable;
 
     public Sprite() {
         collisionHandlers = new ArrayList<>();
+    }
+
+    public void setCollider(Collider collider) {
+        this.collider = collider;
+        // Connect collider
+        collider.setCollisionTranscriptBuilder(this::buildCollisionTranscript);
+        collider.addCollisionHandler(this::handleCollision);
     }
 
     @Override
@@ -45,9 +53,21 @@ public abstract class Sprite implements Drawable, Collidable, Movable {
 
     @Override
     public void handleCollision(CollisionTranscript collisionTranscript) {
-        collisionTranscript.setHead(this);
         for (CollisionHandler collisionHandler: collisionHandlers) {
             collisionHandler.handle(collisionTranscript);
+        }
+    }
+
+    @Override
+    public void setCollisionTranscriptBuilder(CollisionHandler builder) {
+        collisionsTranscriptBuilder = builder;
+    }
+
+    @Override
+    public void buildCollisionTranscript(CollisionTranscript collisionTranscript) {
+        collisionTranscript.setHead(this);
+        if (collisionsTranscriptBuilder != null) {
+            collisionsTranscriptBuilder.handle(collisionTranscript);
         }
     }
 

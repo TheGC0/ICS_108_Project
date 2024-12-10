@@ -223,7 +223,7 @@ public final class GameLoop {
 
                 // Detect and handle collision
                 if (collidable.detectCollision(otherCollidable)) {
-                    System.out.println("Collision DEBUG");
+//                    System.out.println("Collision DEBUG");
                 }
             }
         }

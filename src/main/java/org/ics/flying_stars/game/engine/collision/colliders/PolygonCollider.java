@@ -45,6 +45,7 @@ public class PolygonCollider extends Collider {
     protected void connectLineColliderHandlers() {
         for (LineCollider collider: lineColliders) {
             collider.addCollisionHandler(this::handleCollision);
+            collider.setCollisionTranscriptBuilder(this::buildCollisionTranscript);
         }
     }
 

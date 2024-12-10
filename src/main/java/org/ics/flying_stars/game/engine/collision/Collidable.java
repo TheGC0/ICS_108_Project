@@ -24,4 +24,8 @@ public interface Collidable {
 
     void handleCollision(CollisionTranscript collisionTranscript);
 
+    void setCollisionTranscriptBuilder(CollisionHandler builder);
+
+    void buildCollisionTranscript(CollisionTranscript collisionTranscript);
+
 }

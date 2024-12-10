@@ -51,6 +51,14 @@ public class TestingOmar extends Application {
         );
 
         Player playerSprite = new Player(new Point(10,10), Colour.YELLOW);
+        playerSprite.addCollisionHandler(collisionTranscript -> {
+//            System.out.println(collisionTranscript.getOrigin());
+//            System.out.println(collisionTranscript.getHead());
+//            System.out.println(collisionTranscript.getLinkedTranscript().getOrigin());
+//            System.out.println(collisionTranscript.getLinkedTranscript().getHead());
+
+        });
+
 
         gameLoop.addSprite(playerSprite);
         gameLoop.addSprite(star);

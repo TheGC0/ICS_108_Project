@@ -7,8 +7,8 @@ import org.ics.flying_stars.game.engine.geometry.Polygon;
  * This class encapsulates a Polygon and detects collisions for it
  */
 public class PolygonCollider extends Collider {
-    protected final Polygon polygon;
-    protected final LineCollider[] lineColliders;
+    protected Polygon polygon;
+    protected LineCollider[] lineColliders;
 
     /**
      * @param polygon The Polygon object to encapsulate and detect collisions for
@@ -25,6 +25,11 @@ public class PolygonCollider extends Collider {
         connectLineColliderHandlers();
     }
 
+    // Only for use with subclasses
+    protected PolygonCollider() {
+        super();
+    }
+
     /**
      * Creates a line collider object for each edge in the polygon
      */
@@ -37,7 +42,7 @@ public class PolygonCollider extends Collider {
         }
     }
 
-    private void connectLineColliderHandlers() {
+    protected void connectLineColliderHandlers() {
         for (LineCollider collider: lineColliders) {
             collider.addCollisionHandler(this::handleCollision);
         }

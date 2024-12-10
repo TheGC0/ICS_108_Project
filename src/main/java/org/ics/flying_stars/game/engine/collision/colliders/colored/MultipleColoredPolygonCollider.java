@@ -5,15 +5,23 @@ import org.ics.flying_stars.game.engine.collision.colliders.LineCollider;
 import org.ics.flying_stars.game.engine.collision.colliders.PolygonCollider;
 import org.ics.flying_stars.game.engine.geometry.Polygon;
 
-public class MultipleColoredPolygonCollider extends PolygonCollider{
+public class MultipleColoredPolygonCollider extends PolygonCollider {
     private final Colour[] colours;
 
     /**
      * @param polygon The Polygon object to encapsulate and detect collisions for
      */
     public MultipleColoredPolygonCollider(Polygon polygon, Colour[] colours) {
-        super(polygon);
+        super();
         this.colours = colours;
+        this.polygon = polygon;
+        this.lineColliders = new LineCollider[polygon.getEdges().length];
+
+        // Create a line collider for each edge
+        createLineColliders();
+
+        // Connect each line collider handler to this handler
+        connectLineColliderHandlers();
     }
 
     @Override

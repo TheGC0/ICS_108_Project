@@ -39,7 +39,7 @@ public class Star extends Sprite{
     @Override
     public void move(int physicsFrames) {
         for(int i = 0; i < lines.length; i++) {
-            if (vertices[i] != null) {
+            if (velocities[i] != null) {
                 vertices[i].setX(vertices[i].getX() + velocities[i].getX() / physicsFrames);
                 vertices[i].setY(vertices[i].getY() + velocities[i].getY() / physicsFrames);
             }

@@ -1,7 +1,7 @@
 package org.ics.flying_stars.game.factories;
 
-import org.ics.flying_stars.game.engine.geometry.Point;
-import org.ics.flying_stars.game.engine.geometry.Vector2D;
+import org.ics.flying_stars.engine.geometry.Point;
+import org.ics.flying_stars.engine.geometry.Vector2D;
 
 public class StarFactory {
     private Point[] vertices;

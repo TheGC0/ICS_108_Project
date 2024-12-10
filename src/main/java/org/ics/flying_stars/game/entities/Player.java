@@ -1,12 +1,12 @@
 package org.ics.flying_stars.game.entities;
 
-import org.ics.flying_stars.game.engine.canvas.Colored;
-import org.ics.flying_stars.game.engine.canvas.ColoredCircle;
-import org.ics.flying_stars.game.engine.canvas.Colour;
-import org.ics.flying_stars.game.engine.collision.colliders.colored.ColoredCircleCollider;
-import org.ics.flying_stars.game.engine.geometry.Point;
-import org.ics.flying_stars.game.engine.geometry.Vector2D;
-import org.ics.flying_stars.game.engine.sprites.Sprite;
+import org.ics.flying_stars.engine.canvas.Colored;
+import org.ics.flying_stars.engine.canvas.ColoredCircle;
+import org.ics.flying_stars.engine.canvas.Colour;
+import org.ics.flying_stars.engine.collision.colliders.colored.ColoredCircleCollider;
+import org.ics.flying_stars.engine.geometry.Point;
+import org.ics.flying_stars.engine.geometry.Vector2D;
+import org.ics.flying_stars.engine.sprites.Sprite;
 
 public class Player extends Sprite implements Colored {
     public static final int SPEED_MULTIPLIER = 10;

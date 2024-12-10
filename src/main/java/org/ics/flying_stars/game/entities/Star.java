@@ -1,13 +1,13 @@
 package org.ics.flying_stars.game.entities;
 
 import javafx.scene.canvas.GraphicsContext;
-import org.ics.flying_stars.game.engine.canvas.ColoredLine;
-import org.ics.flying_stars.game.engine.canvas.Colour;
-import org.ics.flying_stars.game.engine.collision.colliders.colored.MultipleColoredPolygonCollider;
-import org.ics.flying_stars.game.engine.geometry.Point;
-import org.ics.flying_stars.game.engine.geometry.Polygon;
-import org.ics.flying_stars.game.engine.geometry.Vector2D;
-import org.ics.flying_stars.game.engine.sprites.Sprite;
+import org.ics.flying_stars.engine.canvas.ColoredLine;
+import org.ics.flying_stars.engine.canvas.Colour;
+import org.ics.flying_stars.engine.collision.colliders.colored.MultipleColoredPolygonCollider;
+import org.ics.flying_stars.engine.geometry.Point;
+import org.ics.flying_stars.engine.geometry.Polygon;
+import org.ics.flying_stars.engine.geometry.Vector2D;
+import org.ics.flying_stars.engine.sprites.Sprite;
 
 public class Star extends Sprite{
     private final Point[] vertices;

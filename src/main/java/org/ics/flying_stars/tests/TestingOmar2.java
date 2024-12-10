@@ -13,13 +13,13 @@ public class TestingOmar2 extends Application {
     @Override
     public void start(Stage stage) {
         Canvas canvas = new Canvas();
-        canvas.setWidth(1280);
+        canvas.setWidth(720);
         canvas.setHeight(720);
         Pane pane = new Pane();
         pane.setMinSize(300, 300);
         pane.getChildren().add(canvas);
         stage.setScene(new Scene(pane));
-        stage.setWidth(1280);
+        stage.setWidth(720);
         stage.setHeight(720);
 
         Game game = new Game(new Settings());

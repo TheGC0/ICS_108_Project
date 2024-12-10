@@ -34,7 +34,7 @@ public class TestingOmar extends Application {
 
 
 
-        StarFactory starFactory = new StarFactory();
+        StarFactory starFactory = new StarFactory(new Vector2D(200,200));
         Star star = new Star(new Colour[]{
                 Colour.RED,
                 Colour.BLACK,
@@ -50,7 +50,7 @@ public class TestingOmar extends Application {
                 starFactory.getVertices()
         );
 
-        Player playerSprite = new Player(new Vector2D(10,10), Colour.YELLOW);
+        Player playerSprite = new Player(new Vector2D(10,10), Colour.OliveGreen);
         playerSprite.addCollisionHandler(collisionTranscript -> {
 
         });

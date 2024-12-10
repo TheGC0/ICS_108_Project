@@ -61,20 +61,23 @@ public class Game {
         });
 
         // Create a star spawner
-        Factory<Star> starFactory = new StarFactory();
+        Factory<Star> starFactory = new StarFactory(new Vector2D((double) 720 /2, (double) 720 /2));
         Timeline spawner = new Timeline(
-                new KeyFrame(Duration.seconds(3), event -> {
+                new KeyFrame(Duration.seconds(2), event -> {
                     System.out.println("Spawning star");
                     Star star = starFactory.create();
+                    StarFactory factory = new StarFactory(new Vector2D((double) 720 /2, (double) 720 /2));
 
-                    Vector2D[] velocities = new Vector2D[10];
-                    Vector2D randomVelocity = new Vector2D(Math.random(), Math.random());
-                    randomVelocity.scale(90);
-                    for (int i=0; i<10; i++) {
-                        velocities[i] = randomVelocity;
-                    }
+                    star.setVelocities(factory.Velocities(30));
 
-                    star.setVelocities(velocities);
+//                    Vector2D[] velocities = new Vector2D[10];
+//                    Vector2D randomVelocity = new Vector2D(Math.random(), Math.random());
+//                    randomVelocity.scale(90);
+//                    for (int i=0; i<10; i++) {
+//                        velocities[i] = randomVelocity;
+//                    }
+//
+//                    star.setVelocities(velocities);
 
                     gameLoop.addSprite(star);
                 })

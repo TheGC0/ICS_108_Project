@@ -10,60 +10,14 @@ import java.util.List;
 
 public class StarFactory implements Factory<Star> {
     private Vector2D[] vertices;
+    private final Vector2D CENTER;
+    private final double PHI = 1.618033988749894;
 
-    public StarFactory() {
+    public StarFactory(Vector2D CENTER) {
         vertices = new Vector2D[10];
+        this.CENTER = CENTER;
         generateAStar();
 
-
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[0] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius -= 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[1] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius += 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[2] = temp;
-//
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius -= 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[3] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius += 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[4] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius -= 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[5] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius += 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[6] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius -= 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[7] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius += 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[8] = temp;
-//
-//        currentAngle += (Math.PI / 5);
-//        currentRadius -= 0.5;
-//        temp = Vector2D.radialVector2D(currentRadius, currentAngle).toPoint();
-//        vertices[9] = temp;
     }
 
     public Vector2D[] getVertices() {
@@ -78,7 +32,6 @@ public class StarFactory implements Factory<Star> {
     public Star create() {
         Colour[] colors = Colour.getShuffled();
 
-        // TODO Generate random colors
 
         Vector2D[] copiedVertices = new Vector2D[10];
         for (int i=0; i<10; i++) {
@@ -88,21 +41,38 @@ public class StarFactory implements Factory<Star> {
     }
     public void generateAStar(){
         vertices = new Vector2D[10];
-        double currentAngle = 0;
-        double currentRadius = 100;
+        double currentAngle = -Math.PI/2;
+        double currentRadius = 1;
         Vector2D temp;
 
         for(int i = 0; i < vertices.length; i++){
             temp = Vector2D.radialVector2D(currentRadius, currentAngle);
-            temp.setXY(temp.getX() + 200, temp.getY() + 200);
+            temp.setXY(temp.getX() + CENTER.getX(), temp.getY() + CENTER.getY());
             vertices[i] = temp;
             currentAngle += (Math.PI / 5);
             if(i % 2 == 0){
-                currentRadius -= 61.8034;
+                currentRadius -= 1 / PHI;
             }
             else{
-                currentRadius += 61.8034;
+                currentRadius += 1 / PHI;
             }
         }
+    }
+
+    public Vector2D[] Velocities(double velocityMagnitude) {
+        Vector2D[] velocities = new Vector2D[10];
+        Vector2D tempVertix;
+        double currentAngle = 0;
+        for (int i = 0; i < vertices.length; i++) {
+            tempVertix = vertices[i];
+            currentAngle = this.CENTER.getUnitVectorFrom(tempVertix).getAngle();
+            if(i % 2 == 0){
+                velocities[i] = Vector2D.radialVector2D(velocityMagnitude, currentAngle);
+            }
+            else{
+                velocities[i] = Vector2D.radialVector2D(velocityMagnitude / Math.pow(PHI, 2), currentAngle);
+            }
+        }
+        return velocities;
     }
 }

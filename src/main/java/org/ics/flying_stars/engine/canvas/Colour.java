@@ -2,7 +2,6 @@ package org.ics.flying_stars.engine.canvas;
 
 import javafx.scene.paint.Color;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -11,12 +10,12 @@ public enum Colour {
     BLUE(Color.BLUE),
     GREEN(Color.GREEN),
     RED(Color.RED),
-    YELLOW(Color.YELLOW),
+    OliveGreen(Color.DARKOLIVEGREEN),
     PURPLE(Color.PURPLE),
-    CYAN(Color.CYAN),
+    FUCHSIA(Color.FUCHSIA),
     BROWN(Color.BROWN),
     BLACK(Color.BLACK),
-    WHITE(Color.WHITE),
+    PERU(Color.PERU),
     GRAY(Color.GRAY),;
 
     final Color color;

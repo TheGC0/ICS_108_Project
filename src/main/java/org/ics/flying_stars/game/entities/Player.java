@@ -15,7 +15,7 @@ public class Player extends Sprite implements Colored {
     private Colour colour;
 
 
-    public Player(Point startPos, Colour color) {
+    public Player(Vector2D startPos, Colour color) {
         this.circle = new ColoredCircle(SIZE, startPos, color);
         setCollider(new ColoredCircleCollider(circle, color));
         this.drawable = circle;

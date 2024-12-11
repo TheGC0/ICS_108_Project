@@ -32,7 +32,7 @@ public class LosingScreenUI extends AbstractUI{
         backToMainMenuButton.setFont(new Font(50));
 
         VBox buttonsVbox = new VBox();
-        buttonsVbox.getChildren().addAll(tryingButton, settingsButton, backToMainMenuButton);
+        buttonsVbox.getChildren().addAll(tryingButton, backToMainMenuButton);
         rootVBox.getChildren().addAll(titleLabel, buttonsVbox);
         buttonsVbox.setAlignment(Pos.CENTER);
         buttonsVbox.setSpacing(15);

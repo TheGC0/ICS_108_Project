@@ -1,7 +1,7 @@
 package org.ics.flying_stars.settings;
 
 public class Settings {
-    private Difficulty difficulty;
+    private Difficulty difficulty = Difficulty.EASY;
     private Shape shape;
 
     public Settings() {

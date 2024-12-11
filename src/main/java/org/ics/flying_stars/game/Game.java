@@ -22,6 +22,7 @@ import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.entities.FlyingObstacle;
 import org.ics.flying_stars.game.entities.Player;
 import org.ics.flying_stars.game.factories.AbstractObstacleFactory;
+import org.ics.flying_stars.game.factories.RandomPolygonFactory;
 import org.ics.flying_stars.game.factories.SquareFactory;
 import org.ics.flying_stars.game.factories.StarFactory;
 import org.ics.flying_stars.settings.Difficulty;

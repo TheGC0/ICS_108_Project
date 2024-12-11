@@ -12,15 +12,15 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) {
         Canvas canvas = new Canvas();
-        canvas.setWidth(720);
-        canvas.setHeight(720);
+        canvas.setWidth(850);
+        canvas.setHeight(850);
 //        pane.setBackground(Background.fill(Color.BLACK));
 
         Game game = new Game(new Settings(), canvas);
 
         stage.setScene(new Scene(game.getRoot()));
-        stage.setWidth(720);
-        stage.setHeight(720);
+        stage.setWidth(850);
+        stage.setHeight(850);
 
         stage.show();
         game.start();

@@ -15,6 +15,7 @@ public class Player extends Sprite implements Colored {
     private final ColoredCircleCollider coloredCircleCollider;
     private Colour colour;
     private boolean isInvincible = false;
+    private double timeNeeded;
 
 
     public Player(Vector2D startPos, Colour color) {
@@ -38,7 +39,9 @@ public class Player extends Sprite implements Colored {
         double scale = mousePosition.distanceFrom(circle.getCenter()) / physicsFrames * SPEED_MULTIPLIER;
         velocity.scale(scale);
         circle.getCenter().setXY(velocity.getX() + circle.getX(), (velocity.getY() + circle.getY()));
-
+        if(isInvincible && timeNeeded < System.currentTimeMillis()) {
+            isInvincible = false;
+        }
     }
 
     @Override
@@ -46,6 +49,7 @@ public class Player extends Sprite implements Colored {
         coloredCircleCollider.setColor(color);
         circle.setColor(color);
         colour = color;
+
     }
 
     @Override
@@ -55,10 +59,12 @@ public class Player extends Sprite implements Colored {
 
     public boolean isInvincible() { return isInvincible; }
 
-    public void setInvincible(boolean invincible) { this.isInvincible = invincible; }
 
     public void getHit(){
         isInvincible = true;
+        double time = System.currentTimeMillis();
+        timeNeeded = time + 5000;
 
-    }
+        }
+
 }

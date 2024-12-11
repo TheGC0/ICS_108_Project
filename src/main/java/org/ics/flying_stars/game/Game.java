@@ -114,6 +114,7 @@ public class Game {
     }
 
     private void playerCollisionHandler(CollisionTranscript collisionTranscript) {
+        if(!player.isInvincible()){
         if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingObstacle flyingObstacle) {
             Colour edgeColor = ((Colored) collisionTranscript.getLinkedTranscript().getOrigin()).getColor();
             if (player.getColor() == edgeColor) {
@@ -126,6 +127,7 @@ public class Game {
             } else {
                 healthBar.takeDamage();
                 gameLoop.removeSprite(flyingObstacle);
+                player.getHit();
                 if(starsTimer.containsKey(flyingObstacle)) {
                     score.miss((double) System.currentTimeMillis() - starsTimer.get(flyingObstacle));
                     starsTimer.remove(flyingObstacle); }
@@ -136,7 +138,7 @@ public class Game {
                 gameLoop.stop();
                 showMenu(loseMenu);
             }
-        }
+        }}
     }
 
     private void boundsCollisionHandler(CollisionTranscript collisionTranscript) {

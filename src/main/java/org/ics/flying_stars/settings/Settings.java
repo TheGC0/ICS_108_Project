@@ -4,6 +4,11 @@ public class Settings {
     private Difficulty difficulty;
     private Shape shape;
 
+    public Settings() {
+        this.difficulty = Difficulty.MEDIUM;
+        this.shape = Shape.Star;
+    }
+
 
     public Difficulty getDifficulty() {
         return difficulty;

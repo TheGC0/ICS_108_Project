@@ -25,7 +25,7 @@ import org.ics.flying_stars.game.factories.AbstractObstacleFactory;
 import org.ics.flying_stars.game.factories.RandomPolygonFactory;
 import org.ics.flying_stars.game.factories.SquareFactory;
 import org.ics.flying_stars.game.factories.StarFactory;
-import org.ics.flying_stars.settings.Difficulty;
+import org.ics.flying_stars.game.factories.TriangleFactory;
 import org.ics.flying_stars.settings.Settings;
 import org.ics.flying_stars.ui.AbstractUI;
 import org.ics.flying_stars.ui.LosingScreenUI;
@@ -152,14 +152,13 @@ public class Game {
     }
 
     private Timeline createObstacleSpawner(AbstractObstacleFactory obstacleFactory) {
-        Difficulty difficulty = Difficulty.EXTREME;
+        double difficultyLevel = settings.getDifficulty().getDifficultyLevel();
         Timeline spawner = new Timeline(
-                new KeyFrame(Duration.seconds(difficulty.getDifficultyLevel()), event -> {
-                    FlyingObstacle flyingObstacle = obstacleFactory.create(Math.random() * Math.PI / 3, 75 * difficulty.getDifficultyLevel());
+                new KeyFrame(Duration.seconds(difficultyLevel), event -> {
+                    FlyingObstacle flyingObstacle = obstacleFactory.create(Math.random() * Math.PI / 3, 75 * difficultyLevel);
                     gameLoop.addSprite(flyingObstacle);
                     starsTimer.put(flyingObstacle, (double) System.currentTimeMillis());
-                })
-        );
+                }));
         spawner.setCycleCount(Timeline.INDEFINITE);
         return spawner;
     }
@@ -176,7 +175,16 @@ public class Game {
         gameLoop.getCollidables().add(bounds);
         bounds.addCollisionHandler(this::boundsCollisionHandler);
 
-        gameLoop.getAttachedLoops().add(createObstacleSpawner(new StarFactory(new Vector2D(canvas.getWidth()/2, canvas.getHeight()/2))));
+        AbstractObstacleFactory obstacleFactory;
+        Vector2D center = new Vector2D(canvas.getWidth()/2, canvas.getHeight()/2);
+        obstacleFactory = switch (settings.getShape()) {
+            case Square -> new SquareFactory(center);
+            case Triangle -> new TriangleFactory(center);
+            case Star, RandomPolygon -> new StarFactory(center);
+            case null -> new StarFactory(center);
+        };
+
+        gameLoop.getAttachedLoops().add(createObstacleSpawner(obstacleFactory));
         gameLoop.start();
 
     }

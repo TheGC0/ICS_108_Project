@@ -21,8 +21,8 @@ public class TestingOmar2 extends Application {
     @Override
     public void start(Stage stage) {
         Canvas canvas = new Canvas();
-        canvas.setWidth(720);
-        canvas.setHeight(720);
+        canvas.setWidth(850);
+        canvas.setHeight(850);
 //        pane.setBackground(Background.fill(Color.BLACK));
 
         Game game = new Game(new Settings(), canvas);

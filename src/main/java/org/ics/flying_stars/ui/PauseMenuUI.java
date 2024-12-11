@@ -1,6 +1,11 @@
 package org.ics.flying_stars.ui;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 
 public class PauseMenuUI extends AbstractUI{
     // making buttons
@@ -10,26 +15,34 @@ public class PauseMenuUI extends AbstractUI{
     private final Button settingsButton;
 
     public PauseMenuUI() {
-        super("Pause");
+        Label titleLabel = new Label("Game Is Paused");
+        titleLabel.setFont(new Font("Arial", 90));
+        titleLabel.setStyle("-fx-font-weight: bold");
 
         // setting the buttons for pause menu ui
-        Button resume = new Button("Resume");
-        Button settings = new Button("Settings");
-        Button restart = new Button("Restart");
-        Button backToMainMenu = new Button("Back to main menu");
+        resumeButton = new Button("Resume");
+        settingsButton = new Button("Settings");
+        restartButton = new Button("Restart");
+        backToMainMenuButton = new Button("Back To Menu");
 
-        // Setting the buttons locations
-        rootGridPane.add(resume, 1, 1);
-        rootGridPane.add(settings, 1, 2);
-        rootGridPane.add(restart, 1, 3);
-        rootGridPane.add(backToMainMenu, 1, 4);
+        resumeButton.setPadding(new Insets(15, 120, 15, 120));
+        settingsButton.setPadding(new Insets(15, 160, 15, 160));
+        restartButton.setPadding(new Insets(15, 120, 15, 120));
+        backToMainMenuButton.setPadding(new Insets(15, 100, 15, 100));
 
-        // Initializing the buttons
-        resumeButton = resume;
-        settingsButton = settings;
-        restartButton = restart;
-        backToMainMenuButton = backToMainMenu;
+        resumeButton.setFont(new Font(50));
+        settingsButton.setFont(new Font(50));
+        restartButton.setFont(new Font(50));
+        backToMainMenuButton.setFont(new Font(50));
+
+        VBox buttonsVbox = new VBox();
+        buttonsVbox.getChildren().addAll(resumeButton, settingsButton, restartButton, backToMainMenuButton);
+        rootVBox.getChildren().addAll(titleLabel, buttonsVbox);
+        buttonsVbox.setAlignment(Pos.CENTER);
+        buttonsVbox.setSpacing(15);
+        rootVBox.setSpacing(60);
     }
+
 
     // buttons getters
     public Button resumeButton() {

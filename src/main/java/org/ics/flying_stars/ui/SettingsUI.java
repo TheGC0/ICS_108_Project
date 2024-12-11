@@ -36,10 +36,18 @@ public class SettingsUI extends AbstractUI {
         Button difficultyMedium = new Button("Medium");
         Button difficultyEasy = new Button("Easy");
         Button shapeStar = new Button("Star");
-        Button shapeCircle = new Button("Circle");
         Button shapeTriangle = new Button("Triangle");
         Button shapeSquare = new Button("Square");
+        Button shapeRandom = new Button("Random Polygon");
+        Button menuButton = new Button("Back To Menu");
 
+        shapeStar.setFont(new Font(20));
+        shapeTriangle.setFont(new Font(20));
+        shapeSquare.setFont(new Font(20));
+        shapeRandom.setFont(new Font(20));
+        menuButton.setFont(new Font(25));
+
+        menuButton.setTextFill(Color.web("#000000"));
         difficultyExtreme.setTextFill(Color.web("#000000"));
         difficultyHard.setTextFill(Color.web("#ff1f00"));
         difficultyMedium.setTextFill(Color.web("#e5d400"));
@@ -48,7 +56,6 @@ public class SettingsUI extends AbstractUI {
         difficultyHard.setFont(new Font(20));
         difficultyMedium.setFont(new Font(20));
         difficultyEasy.setFont(new Font(20));
-
 
         Label titleLabel = new Label("Settings");
         Label difficultyLabel = new Label("Difficulty");
@@ -59,12 +66,12 @@ public class SettingsUI extends AbstractUI {
         shapeLabel.setFont(new Font(50));
 
         difficultyHbox.getChildren().addAll(difficultyEasy, difficultyMedium, difficultyHard, difficultyExtreme);
-        shapeHbox.getChildren().addAll(shapeStar, shapeTriangle, shapeCircle, shapeSquare);
+        shapeHbox.getChildren().addAll(shapeStar, shapeTriangle, shapeSquare, shapeRandom);
         difficultyVbox.getChildren().addAll(difficultyLabel, difficultyHbox);
         shapeVbox.getChildren().addAll(shapeLabel, shapeHbox);
-        MainVbox.getChildren().addAll(titleLabel, difficultyVbox, shapeVbox);
+        MainVbox.getChildren().addAll(titleLabel, difficultyVbox, shapeVbox, menuButton);
 
-        MainVbox.setSpacing(80);
+        MainVbox.setSpacing(65);
         difficultyHbox.setSpacing(20);
         difficultyVbox.setSpacing(40);
         shapeHbox.setSpacing(20);
@@ -82,5 +89,7 @@ public class SettingsUI extends AbstractUI {
     public VBox get_vbox(){
         return MainVbox;
     }
+
+
 
 }

@@ -13,8 +13,8 @@ import javafx.stage.Stage;
 import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.GameLoop;
 import org.ics.flying_stars.engine.geometry.Vector2D;
+import org.ics.flying_stars.game.entities.FlyingObstacle;
 import org.ics.flying_stars.game.entities.Player;
-import org.ics.flying_stars.game.entities.FlyingStar;
 import org.ics.flying_stars.game.factories.StarFactory;
 
 public class TestingOmar extends Application {
@@ -39,7 +39,7 @@ public class TestingOmar extends Application {
 
 
         StarFactory starFactory = new StarFactory(new Vector2D(200,200));
-        FlyingStar flyingStar = starFactory.create(Math.random() * Math.PI / 3, 10);
+        FlyingObstacle flyingStar = starFactory.create(Math.random() * Math.PI / 3, 10);
         Player playerSprite = new Player(new Vector2D(10,10), Colour.LIME);
         playerSprite.addCollisionHandler(collisionTranscript -> {
 

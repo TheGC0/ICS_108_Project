@@ -8,23 +8,23 @@ import org.ics.flying_stars.engine.geometry.Polygon;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.engine.sprites.Sprite;
 
-public class FlyingStar extends Sprite{
+public class FlyingObstacle extends Sprite {
     private final Vector2D[] vertices;
     private final ColoredLine[] lines;
     private Vector2D[] velocities;
     public Colour[] colors;
 
-    public FlyingStar(Colour[] colors, Vector2D[] points) {
+    public FlyingObstacle(Colour[] colors, Vector2D[] points) {
         this.vertices = points;
         this.colors = colors;
         this.lines = new ColoredLine[points.length];
         this.velocities = new Vector2D[points.length];
 
-        Polygon starPolygon = new Polygon(points);
-        setCollider(new MultipleColoredPolygonCollider(starPolygon , colors));
+        Polygon polygon = new Polygon(points);
+        setCollider(new MultipleColoredPolygonCollider(polygon , colors));
 
-        for (int i = 0; i < starPolygon.getEdges().length; i++)
-            lines[i] = new ColoredLine(starPolygon .getEdges()[i], colors[i]);
+        for (int i = 0; i < polygon.getEdges().length; i++)
+            lines[i] = new ColoredLine(polygon.getEdges()[i], colors[i]);
     }
 
     @Override
@@ -43,6 +43,12 @@ public class FlyingStar extends Sprite{
             }
         }
     }
+
+    public void setVelocities(Vector2D[] velocities) {
+        this.velocities = velocities;
+
+    }
+
     public Vector2D[] getVertices() {
         return vertices;
     }
@@ -50,8 +56,4 @@ public class FlyingStar extends Sprite{
         return velocities;
     }
 
-    public void setVelocities(Vector2D[] velocities) {
-        this.velocities = velocities;
-
-    }
 }

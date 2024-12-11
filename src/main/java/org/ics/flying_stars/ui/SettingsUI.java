@@ -96,4 +96,5 @@ public class SettingsUI extends AbstractUI {
     }
 
     public Button menuButton() {return backToMainMenuButton;}
+
 }

@@ -1,8 +1,13 @@
 package org.ics.flying_stars.settings;
 
 public class Settings {
-    private Difficulty difficulty;
+    private Difficulty difficulty = Difficulty.EASY;
     private Shape shape;
+
+    public Settings() {
+        this.difficulty = Difficulty.MEDIUM;
+        this.shape = Shape.Star;
+    }
 
 
     public Difficulty getDifficulty() {

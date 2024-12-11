@@ -3,6 +3,7 @@ package org.ics.flying_stars.game;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import org.ics.flying_stars.ui.UI;
 
 public class Score implements UI {
@@ -19,6 +20,8 @@ public class Score implements UI {
         averageReactionTime = new Label();
         hitsPercentage.setStyle("-fx-text-fill: white;");
         averageReactionTime.setStyle("-fx-text-fill: white;");
+        hitsPercentage.setFont(new Font(10));
+        averageReactionTime.setFont(new Font(10));
         layout.getChildren().addAll(hitsPercentage, averageReactionTime);
     }
 

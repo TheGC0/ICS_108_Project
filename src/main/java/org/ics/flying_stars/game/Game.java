@@ -19,8 +19,10 @@ import org.ics.flying_stars.engine.collision.CollisionTranscript;
 import org.ics.flying_stars.engine.collision.colliders.PolygonCollider;
 import org.ics.flying_stars.engine.geometry.Polygon;
 import org.ics.flying_stars.engine.geometry.Vector2D;
+import org.ics.flying_stars.game.entities.FlyingObstacle;
 import org.ics.flying_stars.game.entities.Player;
-import org.ics.flying_stars.game.entities.FlyingStar;
+import org.ics.flying_stars.game.factories.AbstractObstacleFactory;
+import org.ics.flying_stars.game.factories.SquareFactory;
 import org.ics.flying_stars.game.factories.StarFactory;
 import org.ics.flying_stars.settings.Difficulty;
 import org.ics.flying_stars.settings.Settings;
@@ -40,7 +42,7 @@ public class Game {
     private final HealthBar healthBar;
     private final Score score;
     private GameLoop gameLoop;
-    private final HashMap<FlyingStar, Double> starsTimer;
+    private final HashMap<FlyingObstacle, Double> starsTimer;
 
     private final Player player;
     private final PolygonCollider bounds;
@@ -106,17 +108,21 @@ public class Game {
     }
 
     private void playerCollisionHandler(CollisionTranscript collisionTranscript) {
-        if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingStar flyingStar) {
+        if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingObstacle flyingObstacle) {
             Colour edgeColor = ((Colored) collisionTranscript.getLinkedTranscript().getOrigin()).getColor();
             if (player.getColor() == edgeColor) {
-                score.hit((double) System.currentTimeMillis() - starsTimer.get(flyingStar));
+                gameLoop.removeSprite(flyingObstacle);
                 player.setColor(Colour.getShuffled()[0]);
-                gameLoop.removeSprite(flyingStar);
+                if(starsTimer.containsKey(flyingObstacle)) {
+                    score.hit((double) System.currentTimeMillis() - starsTimer.get(flyingObstacle));
+                    starsTimer.remove(flyingObstacle); }
 
             } else {
                 healthBar.takeDamage();
-                score.miss((double) System.currentTimeMillis() - starsTimer.get(flyingStar));
-                gameLoop.removeSprite(flyingStar);
+                gameLoop.removeSprite(flyingObstacle);
+                if(starsTimer.containsKey(flyingObstacle)) {
+                    score.miss((double) System.currentTimeMillis() - starsTimer.get(flyingObstacle));
+                    starsTimer.remove(flyingObstacle); }
             }
 
             // Check loss condition
@@ -128,10 +134,11 @@ public class Game {
     }
 
     private void boundsCollisionHandler(CollisionTranscript collisionTranscript) {
-        if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingStar flyingStar) {
-            gameLoop.removeSprite(flyingStar);
-            score.miss((double) System.currentTimeMillis() - starsTimer.get(flyingStar));
-
+        if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingObstacle flyingObstacle) {
+            gameLoop.removeSprite(flyingObstacle);
+            if(starsTimer.containsKey(flyingObstacle)) {
+                score.miss((double) System.currentTimeMillis() - starsTimer.get(flyingObstacle));
+                starsTimer.remove(flyingObstacle); }
         }
     }
 
@@ -150,13 +157,13 @@ public class Game {
 
 
         // Create a star spawner
-        StarFactory starFactory = new StarFactory(new Vector2D((double) 720 /2, (double) 720 /2));
-        Difficulty difficulty = Difficulty.EASY;
+        AbstractObstacleFactory starFactory = new SquareFactory(new Vector2D((double) 720 /2, (double) 720 /2));
+        Difficulty difficulty = Difficulty.EXTREME;
         Timeline spawner = new Timeline(
                 new KeyFrame(Duration.seconds(difficulty.getDifficultyLevel()), event -> {
-                    FlyingStar flyingStar = starFactory.create(Math.random() * Math.PI / 3, 100 * difficulty.getDifficultyLevel());
-                    gameLoop.addSprite(flyingStar);
-                    starsTimer.put(flyingStar, (double) System.currentTimeMillis());
+                    FlyingObstacle flyingObstacle = starFactory.create(Math.random() * Math.PI / 3, 75 * difficulty.getDifficultyLevel());
+                    gameLoop.addSprite(flyingObstacle);
+                    starsTimer.put(flyingObstacle, (double) System.currentTimeMillis());
                 })
         );
 

@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import org.ics.flying_stars.settings.Difficulty;
 import org.ics.flying_stars.settings.Settings;
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -19,12 +18,14 @@ import javafx.scene.Group;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.control.Slider;
-import org.ics.flying_stars.settings.Shape;
 
 public class SettingsUI extends AbstractUI {
-    private final Button backToMainMenuButton;
+    VBox MainVbox = new VBox();
 
-    public SettingsUI(Settings settings) {
+    public SettingsUI() {
+        super("Settings");
+
+
         HBox difficultyHbox = new HBox();
         HBox shapeHbox = new HBox();
         VBox difficultyVbox = new VBox();
@@ -37,16 +38,16 @@ public class SettingsUI extends AbstractUI {
         Button shapeStar = new Button("Star");
         Button shapeTriangle = new Button("Triangle");
         Button shapeSquare = new Button("Square");
-        Button shapeRandomPolygon = new Button("Random Polygon");
-        backToMainMenuButton = new Button("Back To Menu");
+        Button shapeRandom = new Button("Random Polygon");
+        Button menuButton = new Button("Back To Menu");
 
         shapeStar.setFont(new Font(20));
         shapeTriangle.setFont(new Font(20));
         shapeSquare.setFont(new Font(20));
-        shapeRandomPolygon.setFont(new Font(20));
-        backToMainMenuButton.setFont(new Font(25));
+        shapeRandom.setFont(new Font(20));
+        menuButton.setFont(new Font(25));
 
-        backToMainMenuButton.setTextFill(Color.web("#000000"));
+        menuButton.setTextFill(Color.web("#000000"));
         difficultyExtreme.setTextFill(Color.web("#000000"));
         difficultyHard.setTextFill(Color.web("#ff1f00"));
         difficultyMedium.setTextFill(Color.web("#e5d400"));
@@ -61,39 +62,34 @@ public class SettingsUI extends AbstractUI {
         Label shapeLabel = new Label("Shape");
 
         titleLabel.setFont(new Font("Arial", 80));
-        titleLabel.setStyle("-fx-font-weight: bold");
         difficultyLabel.setFont(new Font(50));
         shapeLabel.setFont(new Font(50));
 
         difficultyHbox.getChildren().addAll(difficultyEasy, difficultyMedium, difficultyHard, difficultyExtreme);
-        shapeHbox.getChildren().addAll(shapeStar, shapeTriangle, shapeSquare, shapeRandomPolygon);
+        shapeHbox.getChildren().addAll(shapeStar, shapeTriangle, shapeSquare, shapeRandom);
         difficultyVbox.getChildren().addAll(difficultyLabel, difficultyHbox);
         shapeVbox.getChildren().addAll(shapeLabel, shapeHbox);
-        rootVBox.getChildren().addAll(titleLabel, difficultyVbox, shapeVbox, backToMainMenuButton);
+        MainVbox.getChildren().addAll(titleLabel, difficultyVbox, shapeVbox, menuButton);
 
-        rootVBox.setSpacing(65);
+        MainVbox.setSpacing(65);
         difficultyHbox.setSpacing(20);
         difficultyVbox.setSpacing(40);
         shapeHbox.setSpacing(20);
         shapeVbox.setSpacing(40);
 
         // Set center alignment for the HBox
-        rootVBox.setAlignment(Pos.CENTER);
+        MainVbox.setAlignment(Pos.CENTER);
         difficultyHbox.setAlignment(Pos.CENTER);
         difficultyVbox.setAlignment(Pos.CENTER);
         shapeHbox.setAlignment(Pos.CENTER);
         shapeVbox.setAlignment(Pos.CENTER);
 
-        difficultyExtreme.setOnAction(actionEvent -> settings.setDifficulty(Difficulty.EXTREME));
-        difficultyHard.setOnAction(actionEvent -> settings.setDifficulty(Difficulty.HARD));
-        difficultyMedium.setOnAction(actionEvent -> settings.setDifficulty(Difficulty.MEDIUM));
-        difficultyEasy.setOnAction(actionEvent -> settings.setDifficulty(Difficulty.EASY));
-
-        shapeStar.setOnAction(actionEvent -> settings.setShape(Shape.Star));
-        shapeSquare.setOnAction(actionEvent -> settings.setShape(Shape.Square));
-        shapeTriangle.setOnAction(actionEvent -> settings.setShape(Shape.Triangle));
-        shapeRandomPolygon.setOnAction(actionEvent -> settings.setShape(Shape.RandomPolygon));
     }
 
-    public Button menuButton() {return backToMainMenuButton;}
+    public VBox get_vbox(){
+        return MainVbox;
+    }
+
+
+
 }

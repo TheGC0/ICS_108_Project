@@ -21,9 +21,7 @@ import org.ics.flying_stars.engine.geometry.Polygon;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.entities.FlyingObstacle;
 import org.ics.flying_stars.game.entities.Player;
-import org.ics.flying_stars.game.factories.AbstractObstacleFactory;
-import org.ics.flying_stars.game.factories.SquareFactory;
-import org.ics.flying_stars.game.factories.StarFactory;
+import org.ics.flying_stars.game.factories.*;
 import org.ics.flying_stars.settings.Difficulty;
 import org.ics.flying_stars.settings.Settings;
 import org.ics.flying_stars.ui.AbstractUI;
@@ -157,8 +155,8 @@ public class Game {
 
 
         // Create a star spawner
-        AbstractObstacleFactory starFactory = new SquareFactory(new Vector2D((double) 720 /2, (double) 720 /2));
-        Difficulty difficulty = Difficulty.EXTREME;
+        AbstractObstacleFactory starFactory = new TriangleFactory(new Vector2D((double) 720 /2, (double) 720 /2));
+        Difficulty difficulty = Difficulty.EASY;
         Timeline spawner = new Timeline(
                 new KeyFrame(Duration.seconds(difficulty.getDifficultyLevel()), event -> {
                     FlyingObstacle flyingObstacle = starFactory.create(Math.random() * Math.PI / 3, 75 * difficulty.getDifficultyLevel());

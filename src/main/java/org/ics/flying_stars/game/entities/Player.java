@@ -14,6 +14,7 @@ public class Player extends Sprite implements Colored {
     private final ColoredCircle circle;
     private final ColoredCircleCollider coloredCircleCollider;
     private Colour colour;
+    private boolean isInvincible = false;
 
 
     public Player(Vector2D startPos, Colour color) {
@@ -50,5 +51,14 @@ public class Player extends Sprite implements Colored {
     @Override
     public Colour getColor() {
         return colour;
+    }
+
+    public boolean isInvincible() { return isInvincible; }
+
+    public void setInvincible(boolean invincible) { this.isInvincible = invincible; }
+
+    public void getHit(){
+        isInvincible = true;
+
     }
 }

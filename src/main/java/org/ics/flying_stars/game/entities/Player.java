@@ -8,7 +8,7 @@ import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.engine.sprites.Sprite;
 
 public class Player extends Sprite implements Colored {
-    public static final int SPEED_MULTIPLIER = 10;
+    public static final int SPEED_MULTIPLIER = 15;
     public static final int SIZE = 10;
     private final Vector2D mousePosition;
     private final ColoredCircle circle;

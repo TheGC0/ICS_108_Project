@@ -25,6 +25,6 @@ public abstract class AbstractObstacleFactory {
     protected abstract Vector2D[] generateVertices(double angle);
 
     protected Vector2D[] generateVertexVelocities(Vector2D[] vertices, double velocityMagnitude) {
-        return (VelocityFactory.generateVertexVelocities(center, vertices, velocityMagnitude));
+        return (VelocityFactory.generateVertexVelocities(center, vertices, velocityMagnitude, vertices.length));
     }
 }

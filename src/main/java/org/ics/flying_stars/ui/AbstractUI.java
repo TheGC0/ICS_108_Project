@@ -1,32 +1,22 @@
 package org.ics.flying_stars.ui;
 
-import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 
 public abstract class AbstractUI{
     // making the pane
-    protected final GridPane rootGridPane;
+    protected final VBox rootVBox;
 
     // Constructor
-    public AbstractUI(String mainTitle) {
-
-        rootGridPane = new GridPane();
-
-        // Setting dimensions
-        rootGridPane.setPadding(new Insets(100,100,100,100));
-        rootGridPane.setHgap(50);
-        rootGridPane.setVgap(50);
-
-        // Setting the main message for the ui
-        Label message = new Label(mainTitle);
-        rootGridPane.add(message, 1, 0);
+    public AbstractUI() {
+        rootVBox = new VBox();
+        rootVBox.setAlignment(Pos.CENTER);
     }
 
     // To use the pane in the capsular
     public Parent getRoot() {
-        return rootGridPane;
+        return rootVBox;
     }
 }

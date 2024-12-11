@@ -10,7 +10,6 @@ public class PauseMenuUI extends AbstractUI{
     private final Button settingsButton;
 
     public PauseMenuUI() {
-        super("Pause");
 
         // setting the buttons for pause menu ui
         Button resume = new Button("Resume");
@@ -19,10 +18,6 @@ public class PauseMenuUI extends AbstractUI{
         Button backToMainMenu = new Button("Back to main menu");
 
         // Setting the buttons locations
-        rootGridPane.add(resume, 1, 1);
-        rootGridPane.add(settings, 1, 2);
-        rootGridPane.add(restart, 1, 3);
-        rootGridPane.add(backToMainMenu, 1, 4);
 
         // Initializing the buttons
         resumeButton = resume;

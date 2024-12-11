@@ -21,7 +21,9 @@ import org.ics.flying_stars.engine.geometry.Polygon;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.entities.FlyingObstacle;
 import org.ics.flying_stars.game.entities.Player;
-import org.ics.flying_stars.game.factories.*;
+import org.ics.flying_stars.game.factories.AbstractObstacleFactory;
+import org.ics.flying_stars.game.factories.SquareFactory;
+import org.ics.flying_stars.game.factories.StarFactory;
 import org.ics.flying_stars.settings.Difficulty;
 import org.ics.flying_stars.settings.Settings;
 import org.ics.flying_stars.ui.AbstractUI;
@@ -32,6 +34,7 @@ import java.util.HashMap;
 
 
 public class Game {
+    private static final int BOUNDS_OFFSET = 100;
     private final Settings settings;
     private final StackPane rootStackPane;
     private final Canvas canvas;
@@ -39,11 +42,12 @@ public class Game {
     private final LosingScreenUI loseMenu;
     private final HealthBar healthBar;
     private final Score score;
-    private GameLoop gameLoop;
     private final HashMap<FlyingObstacle, Double> starsTimer;
 
     private final Player player;
     private final PolygonCollider bounds;
+
+    private GameLoop gameLoop;
 
     public Game(Settings settings, Canvas canvas) {
         this.settings = settings;
@@ -59,14 +63,7 @@ public class Game {
         player.addCollisionHandler(this::playerCollisionHandler);
         canvas.addEventHandler(MouseEvent.ANY, event -> player.setMousePos(event.getX(), event.getY()));
 
-        bounds = new PolygonCollider(new Polygon(
-                new Vector2D[] {
-                        new Vector2D(-150, -150),
-                        new Vector2D(canvas.getWidth() + 150, -150),
-                        new Vector2D(canvas.getWidth() + 150, canvas.getHeight() + 150),
-                        new Vector2D(-150, canvas.getHeight() + 150),
-                }
-        ));
+        bounds = createBounds(canvas);
         // TODO Connect buttons of menus here
         loseMenu.tryingButton().setOnAction(event -> start());
         pauseMenu.restartButton().setOnAction(event -> start());
@@ -82,6 +79,17 @@ public class Game {
         vBox.getChildren().addAll(score.getRoot(),healthBar.getRoot());
         rootStackPane.setBackground(Background.fill(Color.BLACK));
         rootStackPane.getChildren().addAll(vBox, canvas);
+    }
+
+    private PolygonCollider createBounds(Canvas canvas) {
+        return new PolygonCollider(new Polygon(
+                new Vector2D[] {
+                        new Vector2D(-BOUNDS_OFFSET, -BOUNDS_OFFSET),
+                        new Vector2D(canvas.getWidth() + BOUNDS_OFFSET, -BOUNDS_OFFSET),
+                        new Vector2D(canvas.getWidth() + BOUNDS_OFFSET, canvas.getHeight() + BOUNDS_OFFSET),
+                        new Vector2D(-BOUNDS_OFFSET, canvas.getHeight() + BOUNDS_OFFSET),
+                }
+        ));
     }
 
     private void showMenu(AbstractUI menu) {
@@ -140,6 +148,19 @@ public class Game {
         }
     }
 
+    private Timeline createObstacleSpawner(AbstractObstacleFactory obstacleFactory) {
+        Difficulty difficulty = Difficulty.EXTREME;
+        Timeline spawner = new Timeline(
+                new KeyFrame(Duration.seconds(difficulty.getDifficultyLevel()), event -> {
+                    FlyingObstacle flyingObstacle = obstacleFactory.create(Math.random() * Math.PI / 3, 75 * difficulty.getDifficultyLevel());
+                    gameLoop.addSprite(flyingObstacle);
+                    starsTimer.put(flyingObstacle, (double) System.currentTimeMillis());
+                })
+        );
+        spawner.setCycleCount(Timeline.INDEFINITE);
+        return spawner;
+    }
+
     public void start() {
         removeMenu(loseMenu);
         removeMenu(pauseMenu);
@@ -152,22 +173,7 @@ public class Game {
         gameLoop.getCollidables().add(bounds);
         bounds.addCollisionHandler(this::boundsCollisionHandler);
 
-
-
-        // Create a star spawner
-        AbstractObstacleFactory starFactory = new TriangleFactory(new Vector2D((double) 720 /2, (double) 720 /2));
-        Difficulty difficulty = Difficulty.EASY;
-        Timeline spawner = new Timeline(
-                new KeyFrame(Duration.seconds(difficulty.getDifficultyLevel()), event -> {
-                    FlyingObstacle flyingObstacle = starFactory.create(Math.random() * Math.PI / 3, 75 * difficulty.getDifficultyLevel());
-                    gameLoop.addSprite(flyingObstacle);
-                    starsTimer.put(flyingObstacle, (double) System.currentTimeMillis());
-                })
-        );
-
-        spawner.setCycleCount(Timeline.INDEFINITE);
-
-        gameLoop.getAttachedLoops().add(spawner);
+        gameLoop.getAttachedLoops().add(createObstacleSpawner(new StarFactory(new Vector2D(canvas.getWidth()/2, canvas.getHeight()/2))));
         gameLoop.start();
 
     }

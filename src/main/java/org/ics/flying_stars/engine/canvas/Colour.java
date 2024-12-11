@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 
 public enum Colour {
-    BLUE(Color.DARKBLUE),
+    BLUE(Color.BLUE),
     GREEN(Color.DARKGREEN),
     RED(Color.RED),
     LIME(Color.LIME),

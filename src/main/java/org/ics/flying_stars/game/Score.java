@@ -20,8 +20,8 @@ public class Score implements UI {
         averageReactionTime = new Label();
         hitsPercentage.setStyle("-fx-text-fill: white;");
         averageReactionTime.setStyle("-fx-text-fill: white;");
-        hitsPercentage.setFont(new Font(10));
-        averageReactionTime.setFont(new Font(10));
+        hitsPercentage.setFont(new Font(30));
+        averageReactionTime.setFont(new Font(30));
         layout.getChildren().addAll(hitsPercentage, averageReactionTime);
     }
 

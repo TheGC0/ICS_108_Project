@@ -180,7 +180,8 @@ public class Game {
         obstacleFactory = switch (settings.getShape()) {
             case Square -> new SquareFactory(center);
             case Triangle -> new TriangleFactory(center);
-            case Star, RandomPolygon -> new StarFactory(center);
+            case RandomPolygon -> new RandomPolygonFactory(center);
+            case Star -> new StarFactory(center);
             case null -> new StarFactory(center);
         };
 

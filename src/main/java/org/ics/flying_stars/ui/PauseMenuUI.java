@@ -8,40 +8,50 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
 public class PauseMenuUI extends AbstractUI{
-    // making buttons
+    // Creating a private buttons to return them at the end
     private final Button resumeButton;
     private final Button restartButton;
     private final Button backToMainMenuButton;
     private final Button settingsButton;
 
     public PauseMenuUI() {
-        Label titleLabel = new Label("Game Is Paused ⏸");
-        titleLabel.setFont(new Font("Arial", 80));
-        titleLabel.setStyle("-fx-font-weight: bold");
+        // Create VBoxes to hold the items columns
+        VBox buttonsVbox = new VBox();
 
-
-        // setting the buttons for pause menu ui
+        // Creating the buttons for pause menu ui
         resumeButton = new Button("Resume ▶");
         settingsButton = new Button("Settings ⚙");
         restartButton = new Button("Restart 🔁");
         backToMainMenuButton = new Button("Back To Menu");
 
-        resumeButton.setPadding(new Insets(15, 120, 15, 120));
-        settingsButton.setPadding(new Insets(15, 160, 15, 160));
-        restartButton.setPadding(new Insets(15, 120, 15, 120));
-        backToMainMenuButton.setPadding(new Insets(15, 100, 15, 100));
-
+        // Increase the size of the font of the buttons
         resumeButton.setFont(new Font(50));
         settingsButton.setFont(new Font(50));
         restartButton.setFont(new Font(50));
         backToMainMenuButton.setFont(new Font(50));
 
-        VBox buttonsVbox = new VBox();
+        // Adding a padding to the buttons to increase the size of the frame
+        resumeButton.setPadding(new Insets(15, 120, 15, 120));
+        settingsButton.setPadding(new Insets(15, 160, 15, 160));
+        restartButton.setPadding(new Insets(15, 120, 15, 120));
+        backToMainMenuButton.setPadding(new Insets(15, 100, 15, 100));
+
+        // Creating a Label and increase its size and make it bold
+        Label titleLabel = new Label("Game Is Paused ⏸");
+        titleLabel.setFont(new Font("Arial", 80));
+        titleLabel.setStyle("-fx-font-weight: bold");
+
+        // Adding the labels and buttons to the containers (VBox)
         buttonsVbox.getChildren().addAll(resumeButton, restartButton, settingsButton, backToMainMenuButton);
         rootVBox.getChildren().addAll(titleLabel, buttonsVbox);
-        buttonsVbox.setAlignment(Pos.CENTER);
+
+        // Set space between the items with in the same container
         buttonsVbox.setSpacing(15);
         rootVBox.setSpacing(60);
+
+        // Set center alignment(position) for the VBox
+        buttonsVbox.setAlignment(Pos.CENTER);
+
     }
 
     // buttons getters
@@ -57,7 +67,5 @@ public class PauseMenuUI extends AbstractUI{
     public Button settingsButton(){
         return settingsButton;
     }
-
-
 
 }

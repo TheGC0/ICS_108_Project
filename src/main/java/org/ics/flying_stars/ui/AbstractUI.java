@@ -4,7 +4,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.layout.VBox;
 
-
 public abstract class AbstractUI{
     // making the pane
     protected final VBox rootVBox;

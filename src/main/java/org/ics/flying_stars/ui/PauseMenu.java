@@ -7,58 +7,65 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-public class LosingScreenUI extends AbstractUI{
+public class PauseMenu extends AbstractMenu {
     // Creating a private buttons to return them at the end
-    private final Button tryingButton;
-    private final Button settingsButton;
+    private final Button resumeButton;
+    private final Button restartButton;
     private final Button backToMainMenuButton;
+    private final Button settingsButton;
 
-    public LosingScreenUI() {
+    public PauseMenu() {
         // Create VBoxes to hold the items columns
         VBox buttonsVbox = new VBox();
 
-        // Creating the buttons for losing screen ui
-        tryingButton = new Button("Try Again 💪");
+        // Creating the buttons for pause menu ui
+        resumeButton = new Button("Resume ▶");
         settingsButton = new Button("Settings ⚙");
-        backToMainMenuButton= new Button("Back To Menu🏃‍♂️‍➡️");
+        restartButton = new Button("Restart 🔁");
+        backToMainMenuButton = new Button("Back To Menu");
 
         // Increase the size of the font of the buttons
-        tryingButton.setFont(new Font(50));
+        resumeButton.setFont(new Font(50));
         settingsButton.setFont(new Font(50));
+        restartButton.setFont(new Font(50));
         backToMainMenuButton.setFont(new Font(50));
 
         // Adding a padding to the buttons to increase the size of the frame
-        tryingButton.setPadding(new Insets(15, 120, 15, 120));
+        resumeButton.setPadding(new Insets(15, 120, 15, 120));
         settingsButton.setPadding(new Insets(15, 160, 15, 160));
+        restartButton.setPadding(new Insets(15, 120, 15, 120));
         backToMainMenuButton.setPadding(new Insets(15, 100, 15, 100));
 
         // Creating a Label and increase its size and make it bold
-        Label titleLabel = new Label("You Lost 💔");
-        titleLabel.setFont(new Font("Arial", 90));
+        Label titleLabel = new Label("Game Is Paused ⏸");
+        titleLabel.setFont(new Font("Arial", 80));
         titleLabel.setStyle("-fx-font-weight: bold");
 
         // Adding the labels and buttons to the containers (VBox)
-        buttonsVbox.getChildren().addAll(tryingButton, backToMainMenuButton);
+        buttonsVbox.getChildren().addAll(resumeButton, restartButton, settingsButton, backToMainMenuButton);
         rootVBox.getChildren().addAll(titleLabel, buttonsVbox);
-
-        // Set center alignment(position) for the VBox
-        buttonsVbox.setAlignment(Pos.CENTER);
 
         // Set space between the items with in the same container
         buttonsVbox.setSpacing(15);
         rootVBox.setSpacing(60);
 
+        // Set center alignment(position) for the VBox
+        buttonsVbox.setAlignment(Pos.CENTER);
+
     }
 
-    // Returning the back the buttons to ues them in the MainApp.java
-    public Button tryingButton() {
-        return tryingButton;
+    // buttons getters
+    public Button resumeButton() {
+        return resumeButton;
     }
-    public Button settingsButton() {
-        return settingsButton;
+    public Button restartButton() {
+        return restartButton;
     }
     public Button backToMainMenuButton() {
         return backToMainMenuButton;
+    }
+    public Button settingsButton(){
+        return settingsButton;
     }
 
 }

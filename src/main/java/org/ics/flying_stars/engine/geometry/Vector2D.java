@@ -1,5 +1,7 @@
 package org.ics.flying_stars.engine.geometry;
 
+
+// Class for a mathematical representation for a 2D vector
 public class Vector2D {
     private double x;
     private double y;
@@ -32,6 +34,7 @@ public class Vector2D {
         setY(y);
     }
 
+    // Scalar multiplication
     public void scale(double scale) {
         x *= scale;
         y *= scale;
@@ -44,16 +47,7 @@ public class Vector2D {
         return Math.atan2(y, x);
     }
 
-    public void add(Vector2D vector2D) {
-        x += vector2D.getX();
-        y += vector2D.getY();
-    }
-
-    public void subtract(Vector2D vector2D) {
-        x -= vector2D.getX();
-        y -= vector2D.getY();
-    }
-
+    // Rotate this vector
     public void rotate(double radians) {
 
         double sin = Math.sin(radians);
@@ -63,16 +57,12 @@ public class Vector2D {
         y = x * sin + y * cos;
     }
 
-
+    // Return a unit vector
     public Vector2D unitVector() {
         return radialVector2D(1, getAngle());
     }
 
-    /**
-     * Calculates and returns the distance from another point
-     * @param otherPoint The other point to calculate distance from
-     * @return The distance between this point and the other point
-     */
+    // Distance from another vector representing a point
     public double distanceFrom(Vector2D otherPoint) {
         // Distance formula
         double deltaX = otherPoint.x - x;
@@ -80,6 +70,7 @@ public class Vector2D {
         return Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaY, 2));
     }
 
+    // Get a unit vector pointing to another point
     public Vector2D getUnitVectorFrom(Vector2D otherPoint){
         return new Vector2D(otherPoint.x - x, otherPoint.y - y).unitVector();
     }

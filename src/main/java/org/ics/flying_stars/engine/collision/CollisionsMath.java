@@ -75,7 +75,7 @@ public class CollisionsMath {
      */
     public static boolean detectCollisionCircleLine(Circle circle, Line line) {
         // A mathematical method to detect collision between circle and line (I don't understand this :/)
-        // Used long due to overflow issues
+        // Used double due to overflow issues
         double deltaX = line.endPoint().getX() - line.startPoint().getX();
         double deltaY = line.endPoint().getY() - line.startPoint().getY();
 

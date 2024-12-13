@@ -11,7 +11,7 @@ public class TriangleFactory extends ObstacleFactory {
 
     // Generate triangle vertices from center
     @Override
-    protected Vector2D[] generateVertices(double angle) {;
+    protected Vector2D[] generateVertices(double angle) {
         Vector2D temp;
         Vector2D[] vertices = new Vector2D[3];
         for(int i = 0; i < vertices.length; i++){

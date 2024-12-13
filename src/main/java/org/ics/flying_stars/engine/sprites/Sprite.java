@@ -9,6 +9,10 @@ import org.ics.flying_stars.engine.collision.colliders.LineCollider;
 
 import java.util.ArrayList;
 
+
+/**
+ * Abstract class for sprites; game objects that can be moved and collided with
+ */
 public abstract class Sprite implements Drawable, Collidable, Movable {
     private final ArrayList<CollisionHandler> collisionHandlers;
     private CollisionHandler collisionsTranscriptBuilder;

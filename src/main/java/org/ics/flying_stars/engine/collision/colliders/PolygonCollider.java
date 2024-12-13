@@ -42,6 +42,7 @@ public class PolygonCollider extends Collider {
         }
     }
 
+    // Connect each line collider to build full collision transcripts and forward collisions to collision handlers
     protected void connectLineColliderHandlers() {
         for (LineCollider collider: lineColliders) {
             collider.addCollisionHandler(this::handleCollision);
@@ -56,6 +57,7 @@ public class PolygonCollider extends Collider {
         return polygon;
     }
 
+    // Helper method to detect a collision for each child line collider
     private <C extends Collidable> boolean detectCollisionForAllLines(C otherCollidable) {
         boolean generalCollision = false;
         for (LineCollider collider: lineColliders) {

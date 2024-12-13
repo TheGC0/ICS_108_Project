@@ -5,6 +5,7 @@ import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.collision.colliders.LineCollider;
 import org.ics.flying_stars.engine.geometry.Line;
 
+// Same as a normal collider except this is colored
 public class ColoredLineCollider extends LineCollider implements Colored {
     private Colour color;
     /**

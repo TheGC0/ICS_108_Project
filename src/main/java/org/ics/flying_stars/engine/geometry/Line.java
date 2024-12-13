@@ -1,5 +1,6 @@
 package org.ics.flying_stars.engine.geometry;
 
+// Line class that connects 2 points
 public class Line {
     private final Vector2D startPoint;
     private final Vector2D endPoint;
@@ -9,6 +10,7 @@ public class Line {
         this.endPoint = endPoint;
     }
 
+    // Getters
     public Vector2D startPoint() {
         return startPoint;
     }

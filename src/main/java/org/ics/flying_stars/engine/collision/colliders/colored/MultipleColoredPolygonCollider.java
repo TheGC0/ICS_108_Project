@@ -5,6 +5,7 @@ import org.ics.flying_stars.engine.collision.colliders.LineCollider;
 import org.ics.flying_stars.engine.collision.colliders.PolygonCollider;
 import org.ics.flying_stars.engine.geometry.Polygon;
 
+// Same as a normal collider except this has child colored line colliders
 public class MultipleColoredPolygonCollider extends PolygonCollider {
     private final Colour[] colours;
 
@@ -29,7 +30,7 @@ public class MultipleColoredPolygonCollider extends PolygonCollider {
         // Iterate over every edge
         for (int i=0; i < lineColliders.length; i++) {
             // Create and add a new line collider from the polygon edge
-              LineCollider lineCollider = new ColoredLineCollider(polygon.getEdges()[i], colours[i]);
+            LineCollider lineCollider = new ColoredLineCollider(polygon.getEdges()[i], colours[i]);
             lineColliders[i] = lineCollider;
         }
     }

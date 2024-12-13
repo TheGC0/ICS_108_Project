@@ -10,11 +10,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import org.ics.flying_stars.settings.Shape;
 
-public class SettingsUI extends AbstractUI {
+public class SettingsMenu extends AbstractMenu {
     // Creating button that goes back to the main menu
     private final Button backToMainMenuButton;
 
-    public SettingsUI(Settings settings) {
+    public SettingsMenu(Settings settings) {
         // Create HBoxes and VBoxes to hold the items either in row or columns
         HBox difficultyHbox = new HBox();
         HBox shapeHbox = new HBox();

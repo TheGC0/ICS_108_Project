@@ -1,5 +1,6 @@
 package org.ics.flying_stars.engine.geometry;
 
+// Circle class with a center and radius
 public class Circle {
     private final Vector2D center;
     private int radius;
@@ -9,6 +10,7 @@ public class Circle {
         this.center = center;
     }
 
+    // Setters and getters
     public int getRadius() {
         return radius;
     }

@@ -5,6 +5,7 @@ import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.collision.colliders.CircleCollider;
 import org.ics.flying_stars.engine.geometry.Circle;
 
+// Same as a normal collider except this is colored
 public class ColoredCircleCollider extends CircleCollider implements Colored {
     private Colour color;
 

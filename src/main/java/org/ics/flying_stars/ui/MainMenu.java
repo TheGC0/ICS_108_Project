@@ -9,13 +9,13 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class MenuUI extends AbstractUI{
+public class MainMenu extends AbstractMenu {
     // Creating a private buttons to return them at the end
     private final Button playButton;
     private final Button settingsButton;
     private final Button exitButton;
 
-    public MenuUI() {
+    public MainMenu() {
         // Create HBoxes and VBoxes to hold the items either in row or columns
         VBox buttonsVbox = new VBox();
         HBox titleHbox = new HBox();

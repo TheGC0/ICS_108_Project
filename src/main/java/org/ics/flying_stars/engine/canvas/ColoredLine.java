@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import org.ics.flying_stars.engine.geometry.Line;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 
+// Same as drawable line except for color customizability
 public class ColoredLine extends DrawableLine implements Colored {
     private Colour color;
 

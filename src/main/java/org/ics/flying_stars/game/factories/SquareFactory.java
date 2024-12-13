@@ -2,14 +2,16 @@ package org.ics.flying_stars.game.factories;
 
 import org.ics.flying_stars.engine.geometry.Vector2D;
 
-public class SquareFactory extends AbstractObstacleFactory {
+// Square object factories
+public class SquareFactory extends ObstacleFactory {
 
     public SquareFactory(Vector2D center) {
         super(center);
     }
 
+    // Generate square vertices from center
     @Override
-    protected Vector2D[] generateVertices(double angle) {;
+    protected Vector2D[] generateVertices(double angle) {
         Vector2D temp;
         Vector2D[] vertices = new Vector2D[4];
         for(int i = 0; i < vertices.length; i++){

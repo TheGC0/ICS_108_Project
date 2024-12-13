@@ -2,7 +2,7 @@ package org.ics.flying_stars.game.factories;
 
 import org.ics.flying_stars.engine.geometry.Vector2D;
 
-public class StarFactory extends AbstractObstacleFactory{
+public class StarFactory extends ObstacleFactory {
     public final double PHI = 1.618033988749894;
 
     public StarFactory(Vector2D center) {
@@ -32,7 +32,7 @@ public class StarFactory extends AbstractObstacleFactory{
 
     @Override
     protected Vector2D[] generateVertexVelocities(Vector2D[] vertices, double velocityMagnitude) {
-        Vector2D[] velocities = VelocityFactory.generateVertexVelocities(center, vertices, velocityMagnitude, 10);
+        Vector2D[] velocities = VelocityFactory.generateVertexVelocities(center, vertices, velocityMagnitude);
         for (int i = 0; i < velocities.length; i++) {
             if (i % 2 != 0) {
                 velocities[i].scale(1 / Math.pow(PHI, 2));

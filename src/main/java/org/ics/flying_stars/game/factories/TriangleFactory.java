@@ -2,12 +2,14 @@ package org.ics.flying_stars.game.factories;
 
 import org.ics.flying_stars.engine.geometry.Vector2D;
 
-public class TriangleFactory extends AbstractObstacleFactory {
+// Triangle object factories
+public class TriangleFactory extends ObstacleFactory {
 
     public TriangleFactory(Vector2D center) {
         super(center);
     }
 
+    // Generate triangle vertices from center
     @Override
     protected Vector2D[] generateVertices(double angle) {;
         Vector2D temp;

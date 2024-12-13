@@ -1,15 +1,7 @@
 package org.ics.flying_stars.tests;
 
 import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.ics.flying_stars.ui.LosingScreenUI;
-import org.ics.flying_stars.ui.MenuUI;
-import org.ics.flying_stars.ui.PauseMenuUI;
-import org.ics.flying_stars.ui.SettingsUI;
-
-import java.util.Objects;
 
 // testing is unreal!!!!!!!!
 public class TestingAli extends Application {

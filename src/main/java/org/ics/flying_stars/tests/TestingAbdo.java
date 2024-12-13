@@ -3,18 +3,18 @@ package org.ics.flying_stars.tests;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.ics.flying_stars.ui.LosingScreenUI;
-import org.ics.flying_stars.ui.MenuUI;
-import org.ics.flying_stars.ui.PauseMenuUI;
+import org.ics.flying_stars.ui.LosingScreenMenu;
+import org.ics.flying_stars.ui.MainMenu;
+import org.ics.flying_stars.ui.PauseMenu;
 
 // testing if the one piece is realll!!!!!!!!
 public class TestingAbdo extends Application {
 
     @Override
     public void start(Stage stage) {
-        MenuUI menu = new MenuUI();
-        LosingScreenUI losing = new LosingScreenUI();
-        PauseMenuUI pause = new PauseMenuUI();
+        MainMenu menu = new MainMenu();
+        LosingScreenMenu losing = new LosingScreenMenu();
+        PauseMenu pause = new PauseMenu();
         Scene scene = new Scene(menu.getRoot(), 500, 600);
 
         stage.setScene(scene);

@@ -14,13 +14,13 @@ public enum Colour {
     BLUE(Color.BLUE),
     GREEN(Color.DARKGREEN),
     RED(Color.RED),
-    LIME(Color.LIME),
+    LIGHTGREEN(Color.LIGHTGREEN),
     PURPLE(Color.PURPLE),
     CYAN(Color.CYAN),
     WHITE(Color.WHITE),
     YELLOW(Color.YELLOW),
     ORANGE(Color.ORANGE),
-    BURLYWOOD(Color.BURLYWOOD);
+    CHOCOLATE(Color.CHOCOLATE);
 
     final Color color;
     static Colour[] colors = new Colour[10];

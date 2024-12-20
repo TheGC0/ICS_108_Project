@@ -17,6 +17,11 @@ public abstract class ObstacleFactory {
         // Randomise edge colors
         Colour[] colors = Colour.getShuffled();
 
+        return create(angle, velocityMagnitude, colors);
+    }
+
+    // Create an obstacle given the colors
+    public FlyingObstacle create(double angle, double velocityMagnitude, Colour[] colors) {
         // Generate vertices
         Vector2D[] vertices = generateVertices(angle);
 
@@ -26,6 +31,8 @@ public abstract class ObstacleFactory {
 
         return flyingObstacle;
     }
+
+
 
     protected abstract Vector2D[] generateVertices(double angle);
 

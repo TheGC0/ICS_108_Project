@@ -97,12 +97,15 @@ public class NetworkGameServer extends Thread {
                 gameServerSocket.receive(playerJoinGame);
                 // Check if the received packet says JOIN
                 String joinString = new String(playerJoinGame.getData(), StandardCharsets.US_ASCII);
+                if (!joinString.equals("JOIN")) {
+                    continue;
+                }
 
                 // Register player address
                 playerAddresses.add(playerJoinGame.getSocketAddress());
 
-                // Send player id back as an ack
-                String playerID = "PLAYER" + playerCount();
+                // Send player num back as an ack
+                String playerID = "NUM" + playerCount();
                 byte[] bytes = playerID.getBytes(StandardCharsets.US_ASCII);
                 gameServerSocket.send(
                         new DatagramPacket(bytes, bytes.length, playerJoinGame.getSocketAddress())
@@ -121,7 +124,7 @@ public class NetworkGameServer extends Thread {
         byte[] bytes = string.getBytes(StandardCharsets.US_ASCII);
         for (SocketAddress playerAddress: playerAddresses) {
             gameServerSocket.send(
-                    new DatagramPacket(string.getBytes(), string.getBytes().length, playerAddress)
+                    new DatagramPacket(bytes, bytes.length, playerAddress)
             );
         }
     }
@@ -163,8 +166,10 @@ public class NetworkGameServer extends Thread {
         }, spawnPeriod, spawnPeriod);
     }
 
+    @Override
     public void run() {
         try {
+            waitForPlayerConnections();
             startGame();
         } catch (IOException e) {
             // TODO better handling

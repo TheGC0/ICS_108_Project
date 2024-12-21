@@ -36,4 +36,8 @@ public class JoinGameMenu extends AbstractMenu {
     public Button getBackToMainMenuButton() {
         return backToMainMenuButton;
     }
+
+    public Label getNetworkGameStatusLabel() {
+        return networkGameStatusLabel;
+    }
 }

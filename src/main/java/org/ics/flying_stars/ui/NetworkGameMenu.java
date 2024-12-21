@@ -105,6 +105,8 @@ public class NetworkGameMenu extends AbstractMenu {
         Timeline observeNetworkGameState = new Timeline(
                 new KeyFrame(Duration.seconds(1), event -> {
                     // Update join/host game state TODO
+
+
                     if (flag[0]) {
                         return;
                     }

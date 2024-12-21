@@ -3,6 +3,7 @@ package org.ics.flying_stars;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.TextInputDialog;
 import javafx.stage.Stage;
 import org.ics.flying_stars.game.Game;
 import org.ics.flying_stars.settings.Settings;
@@ -11,6 +12,7 @@ import org.ics.flying_stars.ui.NetworkGameMenu;
 import org.ics.flying_stars.ui.SettingsMenu;
 
 import java.net.SocketException;
+import java.util.Optional;
 
 public class MainApp extends Application {
 
@@ -97,9 +99,12 @@ public class MainApp extends Application {
         });
 
         networkGameUI.joinGameButton().setOnAction(event -> {
-            // TODO Get server address from popup
+            TextInputDialog textInputDialog = new TextInputDialog("");
+            Optional<String> result = textInputDialog.showAndWait();
+            String host = result.orElse("");
+
             try {
-                networkGameUI.joinGame("");
+                networkGameUI.joinGame(host);
             } catch (SocketException e) {
                 return;
             }

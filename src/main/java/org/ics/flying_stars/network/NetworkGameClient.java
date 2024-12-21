@@ -243,7 +243,7 @@ public class NetworkGameClient extends Thread {
         // Set state
         clientState = State.JOINED;
 
-        // Wait for game to start TODO
+        // Wait for game to start
         // Set wait  timeout to 30 secs
         try {
             clientSocket.setSoTimeout(30 * 1000);

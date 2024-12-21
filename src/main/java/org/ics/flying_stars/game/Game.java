@@ -46,12 +46,12 @@ public class Game implements UI {
     private final LosingScreenMenu loseMenu;
     private final HealthBar healthBar;
     private final Score score;
-    private final HashMap<FlyingObstacle, Double> obstacleCreationTimes;
+    protected final HashMap<FlyingObstacle, Double> obstacleCreationTimes;
 
-    private final Player player;
     private final PolygonCollider bounds;
+    protected final HashMap<Integer, Player> players;
 
-    private GameLoop gameLoop;
+    protected GameLoop gameLoop;
 
     public Game(Settings settings, Canvas canvas) {
         this.settings = settings;
@@ -71,14 +71,15 @@ public class Game implements UI {
         score = new Score();
         healthBar = new HealthBar();
 
-        // Create player at 200, 200 with an initial Color of red
-        player = new Player(new Vector2D(200, 200), Colour.RED);
+        // Initialize players
+        players = new HashMap<>();
 
-        // Connect the collision handler
-        player.addCollisionHandler(this::playerCollisionHandler);
+        // Create a main player at 200, 200 with an initial Color of red
+        Player mainPlayer = createPlayer(0);
 
-        // Connect mouse events to player (setting current mouse pos in player for the player to use in movement calculations)
-        canvas.addEventHandler(MouseEvent.ANY, event -> player.setMousePos(event.getX(), event.getY()));
+
+        // Connect mouse events to main player (setting current mouse pos in player for the player to use in movement calculations)
+        canvas.addEventHandler(MouseEvent.ANY, event -> mainPlayer.setMousePos(event.getX(), event.getY()));
 
         // Create the bounds for obstacles to detect and get removed
         bounds = createBounds(canvas);
@@ -99,6 +100,20 @@ public class Game implements UI {
         vBox.getChildren().addAll(score.getRoot(),healthBar.getRoot());
         rootStackPane.setBackground(Background.fill(Color.BLACK));
         rootStackPane.getChildren().addAll(vBox, canvas);
+    }
+
+    // Helper method to create a player
+    protected Player createPlayer(int playerNum) {
+        Player player = new Player(new Vector2D(200, 200), Colour.RED);
+
+        // Connect the collision handler
+        player.addCollisionHandler(this::playerCollisionHandler);
+
+        // Add to players
+        players.put(playerNum, player);
+
+        // Return
+        return player;
     }
 
     // Helper method to create bounds based on the canvas dimensions and BOUNDS_OFFSET
@@ -139,6 +154,7 @@ public class Game implements UI {
 
     // Method for the game to handle detected collisions from the Player object
     private void playerCollisionHandler(CollisionTranscript collisionTranscript) {
+        Player player = (Player) collisionTranscript.getHead();
         // Ignore collisions if player is invincible
         if(player.isInvincible()) {
             return;
@@ -202,7 +218,7 @@ public class Game implements UI {
     }
 
     // Helper method to create a Timeline (loop) to spawn obstacles using an obstacle factory
-    private Timeline createObstacleSpawner(ObstacleFactory obstacleFactory) {
+    protected Timeline createObstacleSpawner(ObstacleFactory obstacleFactory) {
         double difficultyLevel = settings.getDifficulty().getDifficultyLevel();
         Timeline spawner = new Timeline(
                 // Repeat depending on the difficulty level
@@ -250,9 +266,11 @@ public class Game implements UI {
         // Create a new game loop
         gameLoop = new GameLoop(60, canvas);
 
-        // Add the player and bounds
-        gameLoop.addSprite(player);
+        // Add players and bounds
         gameLoop.getCollidables().add(bounds);
+        for (Player player: players.values()) {
+            gameLoop.addSprite(player);
+        }
 
         // Get a flying obstacle factory based on the shape settings
         ObstacleFactory obstacleFactory = getObstacleFactory();

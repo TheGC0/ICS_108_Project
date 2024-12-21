@@ -59,7 +59,7 @@ public class NetworkGameServer extends Thread {
         FINISHED
     }
 
-    public final int PORT = 10000;
+    public static final int PORT = 10000;
     private State serverState;
     private final Settings settings;
     private final DatagramSocket gameServerSocket;
@@ -120,11 +120,11 @@ public class NetworkGameServer extends Thread {
 
     }
 
-    private void sendToAllPlayers(String string) throws IOException {
+    private void sendToAllPlayers(String string, int length) throws IOException {
         byte[] bytes = string.getBytes(StandardCharsets.US_ASCII);
         for (SocketAddress playerAddress: playerAddresses) {
             gameServerSocket.send(
-                    new DatagramPacket(bytes, bytes.length, playerAddress)
+                    new DatagramPacket(bytes, length, playerAddress)
             );
         }
     }
@@ -135,7 +135,7 @@ public class NetworkGameServer extends Thread {
 
         // Send a game started packet to every player connected
         String gameStarted = "GAME" + playerCount();
-        sendToAllPlayers(gameStarted);
+        sendToAllPlayers(gameStarted, 5);
 
         // Start the shape spawner according to settings and sender
         int spawnPeriod = (int) (1000 * settings.getDifficulty().getDifficultyLevel());
@@ -158,7 +158,7 @@ public class NetworkGameServer extends Thread {
                     }
 
                     // Send info to all players
-                    sendToAllPlayers(infoBuilder.toString());
+                    sendToAllPlayers(infoBuilder.toString(), 16);
 
                 } catch (IOException ignored) {
                 }
@@ -190,7 +190,7 @@ public class NetworkGameServer extends Thread {
                     gameFin = true;
                 }
                 // Relay info to all other players
-                sendToAllPlayers(playerInfo);
+                sendToAllPlayers(playerInfo, 16);
             } catch (IOException ignored) {
             }
         }

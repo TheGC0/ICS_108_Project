@@ -108,19 +108,19 @@ public class NetworkGameClient extends Thread {
         playerPositionsMap = new ConcurrentHashMap<>();
     }
 
-    private void sendToServer(String string) throws IOException {
+    private void sendToServer(String string, int length) throws IOException {
         byte[] bytes = string.getBytes(StandardCharsets.US_ASCII);
         clientSocket.send(
-                new DatagramPacket(bytes, bytes.length, serverAddress)
+                new DatagramPacket(bytes, length, serverAddress)
         );
     }
 
     private void sendPos() throws IOException {
-        sendToServer("POS%d%3.1f%3.1f".formatted(getPlayerNum(), getCurrentPos().getX(), getCurrentPos().getY()));
+        sendToServer("POS%d%3.1f%3.1f".formatted(getPlayerNum(), getCurrentPos().getX(), getCurrentPos().getY()), 16);
     }
 
     private void sendDead() throws IOException {
-        sendToServer("DEAD" + getPlayerNum());
+        sendToServer("DEAD" + getPlayerNum(), 16);
     }
 
     private boolean joinGame() throws IOException {
@@ -131,7 +131,7 @@ public class NetworkGameClient extends Thread {
         clientSocket.setSoTimeout(30 * 1000);
 
         // Send join
-        sendToServer("JOIN");
+        sendToServer("JOIN", 4);
 
         // Wait for player num
         DatagramPacket playerNumPacket = new DatagramPacket(new byte[4], 4);
@@ -149,6 +149,9 @@ public class NetworkGameClient extends Thread {
     private void handlePos(String posInfo) {
         // POS{0-9 player number}{mouse x in %3.1f format}{mouse y in %3.1f format}
         int playerNum = Integer.parseInt(posInfo.substring(3,4));
+        if (playerNum == getPlayerNum()) {
+            return;
+        }
         double mouseX = Double.parseDouble(posInfo.substring(4, 9));
         double mouseY = Double.parseDouble(posInfo.substring(9, 14));
 

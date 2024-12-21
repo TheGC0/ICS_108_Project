@@ -12,12 +12,14 @@ import org.ics.flying_stars.ui.NetworkGameMenu;
 import org.ics.flying_stars.ui.SettingsMenu;
 
 import java.net.SocketException;
+import java.util.Locale;
 import java.util.Optional;
 
 public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) {
+        Locale.setDefault(Locale.US);
         // Creating the canvas
         Canvas canvas = new Canvas();
         canvas.setWidth(850);

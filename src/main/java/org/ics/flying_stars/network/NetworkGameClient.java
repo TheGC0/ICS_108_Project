@@ -204,6 +204,7 @@ public class NetworkGameClient extends Thread {
 
     private void handleCol(String colInfo) {
         // COL{0-9  player number}{0-9 integer color ordinal}
+        System.out.println(colInfo);
         int playerNum = Integer.parseInt(colInfo.substring(3,4));
         if (playerNum == getPlayerNum()) {
             return;

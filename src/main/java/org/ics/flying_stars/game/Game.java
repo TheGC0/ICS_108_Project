@@ -44,12 +44,13 @@ public class Game implements UI {
     private final Canvas canvas;
     private final PauseMenu pauseMenu;
     private final LosingScreenMenu loseMenu;
-    private final HealthBar healthBar;
-    private final Score score;
     protected final HashMap<FlyingObstacle, Double> obstacleCreationTimes;
 
     private final PolygonCollider bounds;
+
     protected final HashMap<Integer, Player> players;
+    protected final HashMap<Player, HealthBar> playerHealthBars;
+    protected final HashMap<Player, Score> playerScores;
 
     protected GameLoop gameLoop;
 
@@ -67,9 +68,9 @@ public class Game implements UI {
         pauseMenu = new PauseMenu();  // Pause menu is unused!
         loseMenu = new LosingScreenMenu();
 
-        // Create score and health bar
-        score = new Score();
-        healthBar = new HealthBar();
+        // Create score and health bar maps
+        playerScores = new HashMap<>();
+        playerHealthBars = new HashMap<>();
 
         // Initialize players
         players = new HashMap<>();
@@ -77,9 +78,12 @@ public class Game implements UI {
         // Create a main player at 200, 200 with an initial Color of red
         Player mainPlayer = createPlayer(0);
 
-
         // Connect mouse events to main player (setting current mouse pos in player for the player to use in movement calculations)
         canvas.addEventHandler(MouseEvent.ANY, event -> mainPlayer.setMousePos(event.getX(), event.getY()));
+
+        // Get main player's score and health bar
+        HealthBar mainHealthBar = playerHealthBars.get(mainPlayer);
+        Score mainScore = playerScores.get(mainPlayer);
 
         // Create the bounds for obstacles to detect and get removed
         bounds = createBounds(canvas);
@@ -95,9 +99,9 @@ public class Game implements UI {
             removeMenu(pauseMenu);
         });
 
-        // Add canvas, score, and health bar
+        // Add canvas, main score, and main health bar
         VBox vBox = new VBox();
-        vBox.getChildren().addAll(score.getRoot(),healthBar.getRoot());
+        vBox.getChildren().addAll(mainScore.getRoot(), mainHealthBar.getRoot());
         rootStackPane.setBackground(Background.fill(Color.BLACK));
         rootStackPane.getChildren().addAll(vBox, canvas);
     }
@@ -111,6 +115,16 @@ public class Game implements UI {
 
         // Add to players
         players.put(playerNum, player);
+
+        // Create new health bar and score (dummy for now) for the player
+        HealthBar healthBar = new HealthBar();
+        Score score = new Score();
+
+        // Add them to maps
+        playerHealthBars.put(player, healthBar);
+        playerScores.put(player, score);
+
+        // TODO Add them to layout?
 
         // Return
         return player;
@@ -159,6 +173,10 @@ public class Game implements UI {
         if(player.isInvincible()) {
             return;
         }
+        // Get score and health bar of player
+        HealthBar playerHealthBar = playerHealthBars.get(player);
+        Score playerScore = playerScores.get(player);
+
         // Check if collision was with a flying obstacle
         if (collisionTranscript.getLinkedTranscript().getHead() instanceof FlyingObstacle flyingObstacle) {
             // Get the color of the specific edge that the collision originated from
@@ -169,7 +187,7 @@ public class Game implements UI {
                 // Get obstacle creation time
                 if(obstacleCreationTimes.containsKey(flyingObstacle)) {
                     // Update score
-                    score.hit((double) System.currentTimeMillis() - obstacleCreationTimes.get(flyingObstacle));
+                    playerScore.hit((double) System.currentTimeMillis() - obstacleCreationTimes.get(flyingObstacle));
                     obstacleCreationTimes.remove(flyingObstacle);
                 }
 
@@ -178,7 +196,7 @@ public class Game implements UI {
 
             } else {
                 // Take damage
-                healthBar.takeDamage();
+                playerHealthBar.takeDamage();
 
                 // Turn on invincibility for player
                 player.getHit();
@@ -186,7 +204,7 @@ public class Game implements UI {
                 // Get obstacle creation time
                 if(obstacleCreationTimes.containsKey(flyingObstacle)) {
                     // Update score
-                    score.miss((double) System.currentTimeMillis() - obstacleCreationTimes.get(flyingObstacle));
+                    playerScore.miss((double) System.currentTimeMillis() - obstacleCreationTimes.get(flyingObstacle));
                     obstacleCreationTimes.remove(flyingObstacle);
                 }
             }
@@ -195,8 +213,8 @@ public class Game implements UI {
             gameLoop.removeSprite(flyingObstacle);
 
         }
-        // Check loss condition
-        if(healthBar.getHealth() == 0){
+        // Check loss condition (TODO only for main player now)
+        if(playerHealthBar.getHealth() == 0 && player == players.get(0)){
             gameLoop.stop();
             showMenu(loseMenu);
         }
@@ -210,8 +228,8 @@ public class Game implements UI {
             gameLoop.removeSprite(flyingObstacle);
 
             if(obstacleCreationTimes.containsKey(flyingObstacle)) {
-                // Add miss
-                score.miss((double) System.currentTimeMillis() - obstacleCreationTimes.get(flyingObstacle));
+                // Add miss (TODO only for main player for now)
+                playerScores.get(players.get(0)).miss((double) System.currentTimeMillis() - obstacleCreationTimes.get(flyingObstacle));
                 // Remove from map
                 obstacleCreationTimes.remove(flyingObstacle); }
         }
@@ -259,10 +277,6 @@ public class Game implements UI {
         removeMenu(loseMenu);
         removeMenu(pauseMenu);
 
-        // Reset health and score
-        healthBar.startANewLife();
-        score.reset();
-
         // Create a new game loop
         gameLoop = new GameLoop(60, canvas);
 
@@ -270,6 +284,9 @@ public class Game implements UI {
         gameLoop.getCollidables().add(bounds);
         for (Player player: players.values()) {
             gameLoop.addSprite(player);
+            // Reset health and score for each player
+            playerHealthBars.get(player).startANewLife();
+            playerScores.get(player).reset();
         }
 
         // Get a flying obstacle factory based on the shape settings

@@ -8,9 +8,11 @@ package org.ics.flying_stars.network;
 // POS{0-9 your player number}{mouse x in %3.1f format}{mouse y in %3.1f format}
 // Desc: Your current mouse pos
 
+// COL{0-9 your player number}{0-9 integer color ordinal}
+// Desc: Your current color
+
 // DEAD{0-9 your player number}
 // Desc: Send this if you die
-
 
 // Clients should handle these packets in ASCII:
 // GAME{2-9 number of players}
@@ -25,8 +27,12 @@ package org.ics.flying_stars.network;
 // POS{0-9 player number}{mouse x in %3.1f format}{mouse y in %3.1f format}
 // Desc: Current mouse pos of player num
 
+// COL{0-9  player number}{0-9 integer color ordinal}
+// Desc: Player num current color
+
 // DEAD{0-9 player number}
 // Desc: Player num died
+
 
 import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.geometry.Vector2D;
@@ -34,6 +40,7 @@ import org.ics.flying_stars.engine.geometry.Vector2D;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
@@ -73,6 +80,15 @@ public class NetworkGameClient extends Thread {
         return clientState;
     }
 
+    public Colour getCurrentColor() {
+        return currentColor;
+    }
+
+    public void setCurrentColor(Colour currentColor) {
+        this.currentColor = currentColor;
+    }
+
+
     public enum State {
         NOT_JOINED,
         JOINING,
@@ -84,13 +100,19 @@ public class NetworkGameClient extends Thread {
     private State clientState;
     private final DatagramSocket clientSocket;
 
+    private final AtomicBoolean stop = new AtomicBoolean(false);
+    public void stopClient(){stop.set(true);}
+    public boolean checkStop() {return stop.get();}
+
     private final AtomicInteger playerNum = new AtomicInteger(0);
     private final AtomicBoolean dead = new AtomicBoolean(false);
     private volatile Vector2D currentPos = null;
+    private volatile Colour currentColor = null;
 
     public record ObstacleCreationInfo(double angle, Colour[] colors){}
 
     public final ConcurrentHashMap<Integer, Vector2D> playerPositionsMap;
+    public final ConcurrentHashMap<Integer, Colour> playerColoursMap;
     public final ConcurrentLinkedQueue<ObstacleCreationInfo> obstacleCreationInfoQueue;
 
     public NetworkGameClient(SocketAddress serverAddress) throws SocketException {
@@ -106,44 +128,66 @@ public class NetworkGameClient extends Thread {
         // Create concurrent queues
         obstacleCreationInfoQueue = new ConcurrentLinkedQueue<>();
         playerPositionsMap = new ConcurrentHashMap<>();
+        playerColoursMap = new ConcurrentHashMap<>();
     }
 
     private void sendToServer(String string, int length) throws IOException {
-        byte[] bytes = string.getBytes(StandardCharsets.US_ASCII);
+        byte[] bytes = Arrays.copyOf(string.getBytes(StandardCharsets.US_ASCII), length);
         clientSocket.send(
                 new DatagramPacket(bytes, length, serverAddress)
         );
     }
 
     private void sendPos() throws IOException {
-        sendToServer("POS%d%3.1f%3.1f".formatted(getPlayerNum(), getCurrentPos().getX(), getCurrentPos().getY()), 16);
+        if (getCurrentPos() == null) {
+            return;
+        }
+        sendToServer("POS%d%3.1f%3.1f".formatted(getPlayerNum(), getCurrentPos().getX(), getCurrentPos().getY()), 18);
+    }
+
+    private void sendCol() throws IOException {
+        if (getCurrentColor() == null) {
+            return;
+        }
+        sendToServer("COL%d%d".formatted(getPlayerNum(),getCurrentColor().ordinal()), 18);
     }
 
     private void sendDead() throws IOException {
-        sendToServer("DEAD" + getPlayerNum(), 16);
+        sendToServer("DEAD" + getPlayerNum(), 18);
     }
 
     private boolean joinGame() throws IOException {
         // Set state
         clientState = State.JOINING;
 
-        // Set join timeout to 30 secs
-        clientSocket.setSoTimeout(30 * 1000);
+        // Set join timeout to 2 sec
+        clientSocket.setSoTimeout(2 * 1000);
 
-        // Send join
-        sendToServer("JOIN", 4);
+        // Send joins requests for 15*2 seconds
+        for (int i=0; i<15;  i++) {
+            if (checkStop()) {
+                break;
+            }
+            sendToServer("JOIN", 4);
 
-        // Wait for player num
-        DatagramPacket playerNumPacket = new DatagramPacket(new byte[4], 4);
-        clientSocket.receive(playerNumPacket);
+            // Wait for player num
+            DatagramPacket playerNumPacket = new DatagramPacket(new byte[4], 4);
 
-        // Set player num
-        setPlayerNum(playerNumPacket.getData()[3]);
+            try {
+                clientSocket.receive(playerNumPacket);
 
-        // Set state
-        clientState = State.JOINED;
+            } catch (SocketTimeoutException ignoredTimeout) {
+                // Retry by sending join
+                continue;
+            }
 
-        return true;
+            // Set player num
+            setPlayerNum(Character.getNumericValue(playerNumPacket.getData()[3]));
+
+            return true;
+        }
+
+        return false;
     }
 
     private void handlePos(String posInfo) {
@@ -156,6 +200,18 @@ public class NetworkGameClient extends Thread {
         double mouseY = Double.parseDouble(posInfo.substring(9, 14));
 
         playerPositionsMap.put(playerNum, new Vector2D(mouseX, mouseY));
+    }
+
+    private void handleCol(String colInfo) {
+        // COL{0-9  player number}{0-9 integer color ordinal}
+        int playerNum = Integer.parseInt(colInfo.substring(3,4));
+        if (playerNum == getPlayerNum()) {
+            return;
+        }
+        int colorOrdinal = Integer.parseInt(colInfo.substring(4,5));
+        Colour color = Colour.values()[colorOrdinal];
+
+        playerColoursMap.put(playerNum, color);
     }
 
     private void handleObs(String obsInfo) {
@@ -184,6 +240,9 @@ public class NetworkGameClient extends Thread {
             return;
         }
 
+        // Set state
+        clientState = State.JOINED;
+
         // Wait for game to start TODO
         // Set wait  timeout to 30 secs
         try {
@@ -210,6 +269,7 @@ public class NetworkGameClient extends Thread {
                 // Send updates
                 try {
                     sendPos();
+                    sendCol();
                     if (getDead()) {
                         sendDead();
                     }
@@ -219,10 +279,13 @@ public class NetworkGameClient extends Thread {
         }, 100/3, 100/3);
 
         // Loop forever, receiving POS/DEAD/OBS packets and handling
-        DatagramPacket playerInfoPacket = new DatagramPacket(new byte[16], 16);
+        DatagramPacket playerInfoPacket = new DatagramPacket(new byte[18], 18);
         String gameInfo;
         boolean gameFin = false;
         while (!gameFin) {
+            if (checkStop()) {
+                break;
+            }
             try {
                 clientSocket.receive(playerInfoPacket);
                 gameInfo = new String(playerInfoPacket.getData(), StandardCharsets.US_ASCII);
@@ -235,6 +298,9 @@ public class NetworkGameClient extends Thread {
 
                 } else if (gameInfo.contains("POS")) {
                     handlePos(gameInfo);
+
+                } else if (gameInfo.contains("COL")) {
+                    handleCol(gameInfo);
                 }
             } catch (IOException ignored) {
             }

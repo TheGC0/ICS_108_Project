@@ -7,7 +7,10 @@ import javafx.stage.Stage;
 import org.ics.flying_stars.game.Game;
 import org.ics.flying_stars.settings.Settings;
 import org.ics.flying_stars.ui.MainMenu;
+import org.ics.flying_stars.ui.NetworkGameMenu;
 import org.ics.flying_stars.ui.SettingsMenu;
+
+import java.net.SocketException;
 
 public class MainApp extends Application {
 
@@ -24,6 +27,7 @@ public class MainApp extends Application {
         // Creating the menus
         MainMenu menuUI = new MainMenu();
         SettingsMenu settingsUI = new SettingsMenu(settings);
+        NetworkGameMenu networkGameUI = new NetworkGameMenu();
 
         // Creating the Game object
         Game game = new Game(settings, canvas);
@@ -37,7 +41,7 @@ public class MainApp extends Application {
         stage.setHeight(850);
 
         // Booleans for each menu, so that only 1 scene is created for each menu (switches to true once a scene for the menu is created)
-        final boolean[] seen = {false, false};
+        final boolean[] seen = {false, false, false, false, false};
 
         // Let the "play" button start the game and switch the scene to the game
         menuUI.playButton().setOnAction(event -> {
@@ -59,8 +63,59 @@ public class MainApp extends Application {
             if(!seen[1]){
                 stage.setScene(new Scene(settingsUI.getRoot()));
                 seen[1] = true;
+            } else {
+                stage.setScene(settingsUI.getRoot().getScene());
             }
-            stage.setScene(settingsUI.getRoot().getScene());
+        });
+
+        // Let the "network game" button switch to the network game menu
+        menuUI.networkGameButton().setOnAction(event -> {
+            // Switch scene (create scene if not created for the menu
+            if(!seen[2]){
+                stage.setScene(new Scene(networkGameUI.getRoot()));
+                seen[2] = true;
+            } else {
+                stage.setScene(networkGameUI.getRoot().getScene());
+            }
+        });
+
+        networkGameUI.hostGameButton().setOnAction(event -> {
+            try {
+                networkGameUI.hostGame();
+                networkGameUI.joinGame("");
+            } catch (SocketException e) {
+                return;
+            }
+            // Switch scene (create scene if not created for the menu
+            if(!seen[3]){
+                stage.setScene(new Scene(networkGameUI.getHostGameMenu().getRoot()));
+                seen[3] = true;
+            } else {
+                stage.setScene(networkGameUI.getHostGameMenu().getRoot().getScene());
+            }
+
+        });
+
+        networkGameUI.joinGameButton().setOnAction(event -> {
+            // TODO Get server address from popup
+            try {
+                networkGameUI.joinGame("");
+            } catch (SocketException e) {
+                return;
+            }
+            // Switch scene (create scene if not created for the menu
+            if(!seen[4]){
+                stage.setScene(new Scene(networkGameUI.getJoinGameMenu().getRoot()));
+                seen[4] = true;
+            } else {
+                stage.setScene(networkGameUI.getJoinGameMenu().getRoot().getScene());
+            }
+
+        });
+
+        networkGameUI.getShowNetworkGameHiddenButton().setOnAction(event -> {
+            stage.setScene(new Scene(networkGameUI.getNetworkGame().getRoot()));
+            networkGameUI.getNetworkGame().backToMainMenuLoseButton().setOnAction(e -> menuUI.getRoot().getScene());
         });
 
         // Let the "exit" button exit the application
@@ -69,8 +124,32 @@ public class MainApp extends Application {
         // Let the settings "menu" button return to the main menu
         settingsUI.menuButton().setOnAction(event -> stage.setScene((menuUI.getRoot()).getScene()));
 
+        // Let the network "menu" button return to the main menu
+        networkGameUI.menuButton().setOnAction(event -> stage.setScene((menuUI.getRoot()).getScene()));
+
+        // Let the host game "back" button return to the network menu
+        networkGameUI.getHostGameMenu().getBackToMainMenuButton().setOnAction(event -> {
+            networkGameUI.getNetworkGameServer().stopServer();
+            stage.setScene(networkGameUI.getRoot().getScene());
+        });
+
+        // Let the join game "back" button return to the network menu
+        networkGameUI.getJoinGameMenu().getBackToMainMenuButton().setOnAction(event -> {
+            networkGameUI.getNetworkGame().stopNetworkGame();
+            stage.setScene(networkGameUI.getRoot().getScene());
+        });
+
         // Show the stage
         stage.show();
+
+        stage.setOnCloseRequest(event -> {
+            if (networkGameUI.getNetworkGameServer() != null) {
+                networkGameUI.getNetworkGameServer().stopServer();
+            }
+            if (networkGameUI.getNetworkGame() != null) {
+                networkGameUI.getNetworkGame().stopNetworkGame();
+            }
+        });
     }
 
     public static void main(String[] args) {

@@ -6,9 +6,7 @@ import org.ics.flying_stars.settings.Settings;
 import java.io.IOException;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 // Clients should send these packets in ASCII:
@@ -17,6 +15,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 // POS{0-9 your player number}{mouse x in %3.1f format}{mouse y in %3.1f format}
 // Desc: Your current mouse pos
+
+// COL{0-9 your player number}{0-9 integer color ordinal}
+// Desc: Your current color
 
 // DEAD{0-9 your player number}
 // Desc: Send this if you die
@@ -33,6 +34,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 // POS{0-9 player number}{mouse x in %3.1f format}{mouse y in %3.1f format}
 // Desc: Current mouse pos of player num
+
+// COL{0-9  player number}{0-9 integer color ordinal}
+// Desc: Player num current color
 
 // DEAD{0-9 player number}
 // Desc: Player num died
@@ -63,7 +67,12 @@ public class NetworkGameServer extends Thread {
     private State serverState;
     private final Settings settings;
     private final DatagramSocket gameServerSocket;
-    private ArrayList<SocketAddress> playerAddresses;
+    private Map<SocketAddress, Integer> playerAddresses;
+
+
+    private final AtomicBoolean stop = new AtomicBoolean(false);
+    public void stopServer(){stop.set(true);}
+    public boolean checkStop() {return stop.get();}
 
     public NetworkGameServer(Settings settings) throws SocketException {
         this.settings = settings;
@@ -84,7 +93,7 @@ public class NetworkGameServer extends Thread {
         serverState = State.WAITING_FOR_PLAYERS;
 
         // Initialize player addresses
-        playerAddresses = new ArrayList<>();
+        playerAddresses = new HashMap<>();
 
         // Set wait timeout for waiting for players to connect
         gameServerSocket.setSoTimeout(2000);
@@ -93,6 +102,9 @@ public class NetworkGameServer extends Thread {
         DatagramPacket playerJoinGame = new DatagramPacket(new byte[4], 4);
 
         while (waitForPlayers()) {
+            if (checkStop()) {
+                break;
+            }
             try {
                 gameServerSocket.receive(playerJoinGame);
                 // Check if the received packet says JOIN
@@ -102,13 +114,16 @@ public class NetworkGameServer extends Thread {
                 }
 
                 // Register player address
-                playerAddresses.add(playerJoinGame.getSocketAddress());
+                playerAddresses.putIfAbsent(playerJoinGame.getSocketAddress(), playerCount() + 1);
+                System.out.println("Player joined:");
+                System.out.println(playerJoinGame.getSocketAddress());
+                System.out.println("SERVER ADDRESS: " + gameServerSocket.getLocalSocketAddress());
 
                 // Send player num back as an ack
-                String playerID = "NUM" + playerCount();
+                String playerID = "NUM" + playerAddresses.get(playerJoinGame.getSocketAddress());
                 byte[] bytes = playerID.getBytes(StandardCharsets.US_ASCII);
                 gameServerSocket.send(
-                        new DatagramPacket(bytes, bytes.length, playerJoinGame.getSocketAddress())
+                        new DatagramPacket(bytes, 4, playerJoinGame.getSocketAddress())
                 );
 
 
@@ -121,8 +136,9 @@ public class NetworkGameServer extends Thread {
     }
 
     private void sendToAllPlayers(String string, int length) throws IOException {
-        byte[] bytes = string.getBytes(StandardCharsets.US_ASCII);
-        for (SocketAddress playerAddress: playerAddresses) {
+        byte[] bytes = Arrays.copyOf(string.getBytes(StandardCharsets.US_ASCII), length);
+
+        for (SocketAddress playerAddress: playerAddresses.keySet()) {
             gameServerSocket.send(
                     new DatagramPacket(bytes, length, playerAddress)
             );
@@ -158,7 +174,7 @@ public class NetworkGameServer extends Thread {
                     }
 
                     // Send info to all players
-                    sendToAllPlayers(infoBuilder.toString(), 16);
+                    sendToAllPlayers(infoBuilder.toString(), 18);
 
                 } catch (IOException ignored) {
                 }
@@ -170,17 +186,22 @@ public class NetworkGameServer extends Thread {
     public void run() {
         try {
             waitForPlayerConnections();
-            startGame();
+            if (!checkStop()) {
+                startGame();
+            }
         } catch (IOException e) {
             // TODO better handling
             throw new RuntimeException(e);
         }
 
-        // Loop forever, receiving POS/DEAD packets and relaying to all players
-        DatagramPacket playerInfoPacket = new DatagramPacket(new byte[16], 16);
+        // Loop forever, receiving POS/COL/DEAD packets and relaying to all players
+        DatagramPacket playerInfoPacket = new DatagramPacket(new byte[18], 18);
         String playerInfo;
         boolean gameFin = false;
         while (!gameFin) {
+            if (checkStop()) {
+                break;
+            }
             try {
                 gameServerSocket.receive(playerInfoPacket);
                 playerInfo = new String(playerInfoPacket.getData(), StandardCharsets.US_ASCII);
@@ -190,7 +211,7 @@ public class NetworkGameServer extends Thread {
                     gameFin = true;
                 }
                 // Relay info to all other players
-                sendToAllPlayers(playerInfo, 16);
+                sendToAllPlayers(playerInfo, 18);
             } catch (IOException ignored) {
             }
         }

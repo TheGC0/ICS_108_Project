@@ -4,7 +4,9 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.input.MouseEvent;
 import javafx.util.Duration;
+import org.ics.flying_stars.engine.canvas.Colour;
 import org.ics.flying_stars.engine.geometry.Vector2D;
 import org.ics.flying_stars.game.Game;
 import org.ics.flying_stars.game.entities.FlyingObstacle;
@@ -24,23 +26,38 @@ public class NetworkGame extends Game {
 
         networkGameClient = new NetworkGameClient(new InetSocketAddress(host, NetworkGameServer.PORT));
         networkGameClient.start();
+
+        canvas.addEventHandler(MouseEvent.ANY, event -> networkGameClient.setCurrentPos(new Vector2D(event.getX(), event.getY())));
     }
 
     public NetworkGameClient.State state() {
         return networkGameClient.getClientState();
     }
 
+    public int getPlayerNum() {
+        return networkGameClient.getPlayerNum();
+    }
+
     private Timeline createPlayerUpdateLoop() {
         Timeline updatePlayers = new Timeline(
                 // Repeat 30 times each second
                 new KeyFrame(Duration.seconds(1/30.0), event -> {
+                    // Update current color
+                    networkGameClient.setCurrentColor(players.get(0).getColor());
+
                     for (int playerNum: networkGameClient.playerPositionsMap.keySet()) {
                         Player player = players.get(playerNum);
                         if (player == null) {
                             player = createPlayer(playerNum);
+                            gameLoop.addSprite(player);
                         }
+                        // Update player pos
                         Vector2D pos = networkGameClient.playerPositionsMap.get(playerNum);
                         player.setMousePos(pos.getX(), pos.getY());
+
+                        // Update player color
+                        Colour color = networkGameClient.playerColoursMap.get(playerNum);
+                        player.setColor(color);
                     }
                 }));
 
@@ -78,8 +95,14 @@ public class NetworkGame extends Game {
 
     @Override
     public void start() {
-        gameLoop.getAttachedLoops().add(createPlayerUpdateLoop());
         super.start();
+        gameLoop.pause();
+        gameLoop.getAttachedLoops().add(createPlayerUpdateLoop());
+        gameLoop.start();
+    }
+
+    public void stopNetworkGame() {
+        networkGameClient.stopClient();
     }
 
 }
